@@ -23,17 +23,17 @@ index b00b759893..eca060b262 100644
    struct op_code_struct * opcode;
 +  const char *prev_name = "";
  
-   opcode_hash_control = hash_new ();
+   opcode_hash_control = str_htab_create ();
  
    /* Insert unique names into hash table.  */
 -  for (opcode = opcodes; opcode->name; opcode ++)
--    hash_insert (opcode_hash_control, opcode->name, (char *) opcode);
+-    str_hash_insert (opcode_hash_control, opcode->name, opcode, 0);
 +  for (opcode = (struct opcodes *)opcodes; opcode->name; opcode ++)
 +    {
 +      if (strcmp (prev_name, opcode->name))
 +	{
 +	  prev_name = (char *) opcode->name;
-+          hash_insert (opcode_hash_control, opcode->name, (char *) opcode);
++          str_hash_insert (opcode_hash_control, opcode->name, opcode, 0);
 +        }
 +    }
 +}
@@ -153,7 +153,7 @@ index b00b759893..eca060b262 100644
    inst = opcode->bit_sequence;
    isize = 4;
  
-@@ -1480,6 +1574,51 @@ md_assemble (char * str)
+@@ -1484,6 +1578,51 @@ md_assemble (char * str)
        inst |= (immed << IMM_LOW) & IMM15_MASK;
        break;
  

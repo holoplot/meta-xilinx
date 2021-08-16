@@ -57,7 +57,7 @@ index e565b2a99d..c6ca913f8b 100644
    {"weakext", microblaze_s_weakext, 0},
    {"rodata", microblaze_s_rdata, 0},
    {"sdata2", microblaze_s_rdata, 1},
-@@ -3448,7 +3459,6 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
+@@ -3454,7 +3465,6 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
      case OPTION_M64:
        //if (arg != NULL && strcmp (arg, "64") == 0)
        microblaze_arch_size = 64;

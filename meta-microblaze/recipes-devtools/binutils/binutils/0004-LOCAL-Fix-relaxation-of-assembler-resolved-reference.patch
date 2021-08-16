@@ -31,7 +31,7 @@ diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
 index 35ef4d755b..1bd19a2b63 100644
 --- a/bfd/bfd-in2.h
 +++ b/bfd/bfd-in2.h
-@@ -5428,6 +5428,11 @@ value relative to the read-write small data area anchor  */
+@@ -5439,6 +5439,11 @@ value relative to the read-write small data area anchor  */
  expressions of the form "Symbol Op Symbol"  */
    BFD_RELOC_MICROBLAZE_32_SYM_OP_SYM,
  
@@ -47,7 +47,7 @@ diff --git a/bfd/elf32-microblaze.c b/bfd/elf32-microblaze.c
 index 693fc71f73..e9715eae6a 100644
 --- a/bfd/elf32-microblaze.c
 +++ b/bfd/elf32-microblaze.c
-@@ -177,6 +177,20 @@ static reloc_howto_type microblaze_elf_howto_raw[] =
+@@ -175,6 +175,20 @@ static reloc_howto_type microblaze_elf_howto_raw[] =
  	  FALSE),		/* PC relative offset?  */
  
     /* This reloc does nothing.	Used for relaxation.  */
@@ -68,7 +68,7 @@ index 693fc71f73..e9715eae6a 100644
     HOWTO (R_MICROBLAZE_64_NONE,	/* Type.  */
  	  0,			/* Rightshift.  */
  	  3,			/* Size (0 = byte, 1 = short, 2 = long).  */
-@@ -562,7 +576,10 @@ microblaze_elf_reloc_type_lookup (bfd * abfd ATTRIBUTE_UNUSED,
+@@ -560,7 +574,10 @@ microblaze_elf_reloc_type_lookup (bfd * abfd ATTRIBUTE_UNUSED,
      case BFD_RELOC_NONE:
        microblaze_reloc = R_MICROBLAZE_NONE;
        break;
@@ -80,7 +80,7 @@ index 693fc71f73..e9715eae6a 100644
        microblaze_reloc = R_MICROBLAZE_64_NONE;
        break;
      case BFD_RELOC_32:
-@@ -1914,18 +1931,26 @@ microblaze_elf_relax_section (bfd *abfd,
+@@ -1910,18 +1927,26 @@ microblaze_elf_relax_section (bfd *abfd,
  		}
  	      break;
  	    case R_MICROBLAZE_NONE:
@@ -111,7 +111,7 @@ index 693fc71f73..e9715eae6a 100644
  	      }
  	      break;
  	    case R_MICROBLAZE_64_NONE:
-@@ -1969,30 +1994,73 @@ microblaze_elf_relax_section (bfd *abfd,
+@@ -1965,30 +1990,73 @@ microblaze_elf_relax_section (bfd *abfd,
  	  irelscanend = irelocs + o->reloc_count;
  	  for (irelscan = irelocs; irelscan < irelscanend; irelscan++)
  	    {
@@ -208,7 +208,7 @@ index 693fc71f73..e9715eae6a 100644
  							     o->rawsize))
  				goto error_return;
  			      elf_section_data (o)->this_hdr.contents = ocontents;
-@@ -2028,7 +2096,7 @@ microblaze_elf_relax_section (bfd *abfd,
+@@ -2024,7 +2092,7 @@ microblaze_elf_relax_section (bfd *abfd,
  			      elf_section_data (o)->this_hdr.contents = ocontents;
  			    }
  			}
@@ -221,7 +221,7 @@ diff --git a/bfd/libbfd.h b/bfd/libbfd.h
 index b97534fc9f..c1551b9240 100644
 --- a/bfd/libbfd.h
 +++ b/bfd/libbfd.h
-@@ -2967,6 +2967,7 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
+@@ -2971,6 +2971,7 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
    "BFD_RELOC_MICROBLAZE_32_ROSDA",
    "BFD_RELOC_MICROBLAZE_32_RWSDA",
    "BFD_RELOC_MICROBLAZE_32_SYM_OP_SYM",
@@ -233,7 +233,7 @@ diff --git a/bfd/reloc.c b/bfd/reloc.c
 index 9aba84ca81..9b39b41941 100644
 --- a/bfd/reloc.c
 +++ b/bfd/reloc.c
-@@ -6858,6 +6858,12 @@ ENUM
+@@ -6892,6 +6892,12 @@ ENUM
  ENUMDOC
    This is a 32 bit reloc for the microblaze to handle
    expressions of the form "Symbol Op Symbol"
@@ -250,7 +250,7 @@ diff --git a/binutils/readelf.c b/binutils/readelf.c
 index 6057515a89..2b797ef2db 100644
 --- a/binutils/readelf.c
 +++ b/binutils/readelf.c
-@@ -13187,6 +13187,10 @@ is_8bit_abs_reloc (Filedata * filedata, unsigned int reloc_type)
+@@ -13634,6 +13634,10 @@ is_8bit_abs_reloc (Filedata * filedata, unsigned int reloc_type)
        return reloc_type == 1;  /* R_Z80_8.  */
      default:
        return FALSE;
@@ -265,7 +265,7 @@ diff --git a/gas/config/tc-microblaze.c b/gas/config/tc-microblaze.c
 index 34eeb97235..74a63abeb0 100644
 --- a/gas/config/tc-microblaze.c
 +++ b/gas/config/tc-microblaze.c
-@@ -2198,9 +2198,12 @@ md_apply_fix (fixS *   fixP,
+@@ -2212,9 +2212,12 @@ md_apply_fix (fixS *   fixP,
  	 moves code around due to relaxing.  */
        if (fixP->fx_r_type == BFD_RELOC_64_PCREL)
  	fixP->fx_r_type = BFD_RELOC_MICROBLAZE_64_NONE;
@@ -278,7 +278,7 @@ index 34eeb97235..74a63abeb0 100644
      }
    return;
  }
-@@ -2421,6 +2424,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
+@@ -2435,6 +2438,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
    switch (fixp->fx_r_type)
      {
      case BFD_RELOC_NONE:

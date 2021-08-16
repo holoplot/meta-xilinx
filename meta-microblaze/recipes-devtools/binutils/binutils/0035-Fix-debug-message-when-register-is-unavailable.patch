@@ -12,7 +12,7 @@ diff --git a/gdb/frame.c b/gdb/frame.c
 index ff27b9f00e..bf931b370c 100644
 --- a/gdb/frame.c
 +++ b/gdb/frame.c
-@@ -1263,12 +1263,19 @@ frame_unwind_register_value (frame_info *next_frame, int regnum)
+@@ -1303,12 +1303,19 @@ frame_unwind_register_value (frame_info *next_frame, int regnum)
  	  else
  	    {
  	      int i;

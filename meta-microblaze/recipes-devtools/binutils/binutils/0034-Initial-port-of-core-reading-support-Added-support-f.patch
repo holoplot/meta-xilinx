@@ -19,7 +19,7 @@ diff --git a/bfd/elf32-microblaze.c b/bfd/elf32-microblaze.c
 index d77710b1f3..7a27e50111 100644
 --- a/bfd/elf32-microblaze.c
 +++ b/bfd/elf32-microblaze.c
-@@ -767,6 +767,87 @@ microblaze_elf_is_local_label_name (bfd *abfd, const char *name)
+@@ -765,6 +765,87 @@ microblaze_elf_is_local_label_name (bfd *abfd, const char *name)
    return _bfd_elf_is_local_label_name (abfd, name);
  }
  
@@ -107,7 +107,7 @@ index d77710b1f3..7a27e50111 100644
  /* ELF linker hash entry.  */
  
  struct elf32_mb_link_hash_entry
-@@ -3576,4 +3657,7 @@ microblaze_elf_add_symbol_hook (bfd *abfd,
+@@ -3572,4 +3653,7 @@ microblaze_elf_add_symbol_hook (bfd *abfd,
  #define elf_backend_size_dynamic_sections	microblaze_elf_size_dynamic_sections
  #define elf_backend_add_symbol_hook		microblaze_elf_add_symbol_hook
  
@@ -119,7 +119,7 @@ diff --git a/gdb/configure.tgt b/gdb/configure.tgt
 index d66f01bb9f..2938fddfe8 100644
 --- a/gdb/configure.tgt
 +++ b/gdb/configure.tgt
-@@ -389,7 +389,7 @@ mep-*-*)
+@@ -401,7 +401,7 @@ mep-*-*)
  
  microblaze*-linux-*|microblaze*-*-linux*)
  	# Target: Xilinx MicroBlaze running Linux
@@ -184,7 +184,7 @@ index fb8241884b..2725ce1789 100644
 +                                microblaze_linux_collect_core_gregset);
 +  tdep->sizeof_gregset = 200;
 +
-   linux_init_abi (info, gdbarch);
+   linux_init_abi (info, gdbarch, 0);
  
    set_gdbarch_memory_remove_breakpoint (gdbarch,
 @@ -153,6 +196,20 @@ microblaze_linux_init_abi (struct gdbarch_info info,
@@ -241,7 +241,7 @@ index 443adfb364..1b5cf38e45 100644
  {
    &microblaze_frame_unwind,
 @@ -677,6 +691,71 @@ microblaze_register_g_packet_guesses (struct gdbarch *gdbarch)
-                                   tdesc_microblaze_with_stack_protect);
+ 				  tdesc_microblaze_with_stack_protect);
  }
  
 +void
@@ -312,7 +312,7 @@ index 443adfb364..1b5cf38e45 100644
  static struct gdbarch *
  microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
  {
-@@ -733,6 +812,10 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+@@ -730,6 +809,10 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
    tdep = XCNEW (struct gdbarch_tdep);
    gdbarch = gdbarch_alloc (&info, tdep);
  
@@ -323,10 +323,10 @@ index 443adfb364..1b5cf38e45 100644
    set_gdbarch_long_double_bit (gdbarch, 128);
  
    set_gdbarch_num_regs (gdbarch, MICROBLAZE_NUM_REGS);
-@@ -781,6 +864,13 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+@@ -778,6 +861,13 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
    frame_base_append_sniffer (gdbarch, dwarf2_frame_base_sniffer);
    if (tdesc_data != NULL)
-     tdesc_use_registers (gdbarch, tdesc, tdesc_data);
+     tdesc_use_registers (gdbarch, tdesc, std::move (tdesc_data));
 +  //frame_base_append_sniffer (gdbarch, microblaze_frame_sniffer);
 +
 +  /* If we have register sets, enable the generic core file support.  */

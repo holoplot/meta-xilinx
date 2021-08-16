@@ -18,7 +18,7 @@ diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
 index 57ea4f6132..05fbeb9b3a 100644
 --- a/bfd/bfd-in2.h
 +++ b/bfd/bfd-in2.h
-@@ -5443,6 +5443,11 @@ done here - only used for relaxing  */
+@@ -5454,6 +5454,11 @@ done here - only used for relaxing  */
   *   +done here - only used for relaxing  */
      BFD_RELOC_MICROBLAZE_64,
  
@@ -95,7 +95,7 @@ index 48f306ef41..bfb3104720 100644
    {"weakext", microblaze_s_weakext, 0},
    {"rodata", microblaze_s_rdata, 0},
    {"sdata2", microblaze_s_rdata, 1},
-@@ -2475,18 +2474,74 @@ md_apply_fix (fixS *   fixP,
+@@ -2483,18 +2482,74 @@ md_apply_fix (fixS *   fixP,
      case BFD_RELOC_RVA:
      case BFD_RELOC_32_PCREL:
      case BFD_RELOC_MICROBLAZE_32_SYM_OP_SYM:
@@ -174,7 +174,7 @@ index 48f306ef41..bfb3104720 100644
  	      buf[3] |= ((val >> 24) & 0xff);
  	      buf[2] |= ((val >> 16) & 0xff);
  	      buf[1] |= ((val >> 8) & 0xff);
-@@ -2607,6 +2662,8 @@ md_apply_fix (fixS *   fixP,
+@@ -2615,6 +2670,8 @@ md_apply_fix (fixS *   fixP,
  	fixP->fx_r_type = BFD_RELOC_MICROBLAZE_64_NONE;
        else if (fixP->fx_r_type == BFD_RELOC_32)
  	fixP->fx_r_type = BFD_RELOC_MICROBLAZE_32_NONE;
@@ -183,7 +183,7 @@ index 48f306ef41..bfb3104720 100644
        else
  	fixP->fx_r_type = BFD_RELOC_NONE;
        fixP->fx_addsy = section_symbol (absolute_section);
-@@ -2878,6 +2935,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
+@@ -2886,6 +2943,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
      case BFD_RELOC_MICROBLAZE_32_SYM_OP_SYM:
      case BFD_RELOC_MICROBLAZE_64_GOTPC:
      case BFD_RELOC_MICROBLAZE_64_GPC:
@@ -191,7 +191,7 @@ index 48f306ef41..bfb3104720 100644
      case BFD_RELOC_MICROBLAZE_64:
      case BFD_RELOC_MICROBLAZE_64_PCREL:
      case BFD_RELOC_MICROBLAZE_64_GOT:
-@@ -3023,10 +3081,10 @@ cons_fix_new_microblaze (fragS * frag,
+@@ -3031,10 +3089,10 @@ cons_fix_new_microblaze (fragS * frag,
            r = BFD_RELOC_32;
            break;
          case 8:

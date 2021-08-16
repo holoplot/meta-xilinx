@@ -17,7 +17,7 @@ diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
 index a335182ba1..57ea4f6132 100644
 --- a/bfd/bfd-in2.h
 +++ b/bfd/bfd-in2.h
-@@ -5436,13 +5436,18 @@ done here - only used for relaxing  */
+@@ -5447,13 +5447,18 @@ done here - only used for relaxing  */
  /* This is a 64 bit reloc that stores the 32 bit pc relative
  value in two words (with an imm instruction).  No relocation is
  done here - only used for relaxing  */
@@ -42,7 +42,7 @@ diff --git a/bfd/libbfd.h b/bfd/libbfd.h
 index b4aace6a70..b4b7ee29a3 100644
 --- a/bfd/libbfd.h
 +++ b/bfd/libbfd.h
-@@ -2969,14 +2969,14 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
+@@ -2973,14 +2973,14 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
    "BFD_RELOC_MICROBLAZE_32_SYM_OP_SYM",
    "BFD_RELOC_MICROBLAZE_32_NONE",
    "BFD_RELOC_MICROBLAZE_64_NONE",
@@ -63,7 +63,7 @@ diff --git a/bfd/reloc.c b/bfd/reloc.c
 index 0e8a24e9cb..b5c97da3ff 100644
 --- a/bfd/reloc.c
 +++ b/bfd/reloc.c
-@@ -6866,24 +6866,12 @@ ENUMDOC
+@@ -6900,24 +6900,12 @@ ENUMDOC
    done here - only used for relaxing
  ENUM
    BFD_RELOC_MICROBLAZE_64_NONE
@@ -88,7 +88,7 @@ index 0e8a24e9cb..b5c97da3ff 100644
  ENUMDOC
    This is a 64 bit reloc that stores the 32 bit pc relative
    value in two words (with an imm instruction).  The relocation is
-@@ -6969,6 +6957,20 @@ ENUMDOC
+@@ -7003,6 +6991,20 @@ ENUMDOC
    value in two words (with an imm instruction).  The relocation is
    relative offset from start of TEXT.
  
@@ -110,7 +110,7 @@ index 0e8a24e9cb..b5c97da3ff 100644
    BFD_RELOC_AARCH64_RELOC_START
  ENUMDOC
 diff --git a/gas/config/tc-microblaze.c b/gas/config/tc-microblaze.c
-index 33eda2a4da..5e11a77e70 100644
+index 26e18d21ba..983e7223bb 100644
 --- a/gas/config/tc-microblaze.c
 +++ b/gas/config/tc-microblaze.c
 @@ -95,6 +95,7 @@ const char FLT_CHARS[] = "rRsSfFdDxXpP";
@@ -130,8 +130,8 @@ index 33eda2a4da..5e11a77e70 100644
 +  { 0x7fffffffffffffff, 0x8000000000000000, INST_WORD_SIZE*2, 0 }   /* 20: DEFINED_64_PC_OFFSET.  */
  };
  
- static struct hash_control * opcode_hash_control;	/* Opcode mnemonics.  */
-@@ -1180,33 +1182,6 @@ md_assemble (char * str)
+ static htab_t  opcode_hash_control;	/* Opcode mnemonics.  */
+@@ -1184,33 +1186,6 @@ md_assemble (char * str)
                inst |= (immed << IMM_LOW) & IMM_MASK;
              }
  	}
@@ -165,7 +165,7 @@ index 33eda2a4da..5e11a77e70 100644
        else
  	{
            temp = immed & 0xFFFF8000;
-@@ -1958,8 +1933,8 @@ md_assemble (char * str)
+@@ -1970,8 +1945,8 @@ md_assemble (char * str)
  
        if (exp.X_op != O_constant)
  	{
@@ -176,7 +176,7 @@ index 33eda2a4da..5e11a77e70 100644
  	  relax_substateT subtype;
  
  	  if (exp.X_md != 0)
-@@ -2218,13 +2193,19 @@ md_convert_frag (bfd * abfd ATTRIBUTE_UNUSED,
+@@ -2230,13 +2205,19 @@ md_convert_frag (bfd * abfd ATTRIBUTE_UNUSED,
        fragP->fr_fix += INST_WORD_SIZE * 2;
        fragP->fr_var = 0;
        break;
@@ -198,7 +198,7 @@ index 33eda2a4da..5e11a77e70 100644
        fragP->fr_fix += INST_WORD_SIZE * 2;
        fragP->fr_var = 0;
        break;
-@@ -2234,7 +2215,7 @@ md_convert_frag (bfd * abfd ATTRIBUTE_UNUSED,
+@@ -2246,7 +2227,7 @@ md_convert_frag (bfd * abfd ATTRIBUTE_UNUSED,
  	         fragP->fr_offset, TRUE, BFD_RELOC_MICROBLAZE_64_GOTPC);
        else
          fix_new (fragP, fragP->fr_fix, INST_WORD_SIZE * 2, fragP->fr_symbol,
@@ -207,7 +207,7 @@ index 33eda2a4da..5e11a77e70 100644
        fragP->fr_fix += INST_WORD_SIZE * 2;
        fragP->fr_var = 0;
        break;
-@@ -2453,14 +2434,17 @@ md_apply_fix (fixS *   fixP,
+@@ -2465,14 +2446,17 @@ md_apply_fix (fixS *   fixP,
  	    }
  	}
        break;
@@ -226,7 +226,7 @@ index 33eda2a4da..5e11a77e70 100644
          {
            /* Generate the imm instruction.  */
            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
-@@ -2473,6 +2457,10 @@ md_apply_fix (fixS *   fixP,
+@@ -2485,6 +2469,10 @@ md_apply_fix (fixS *   fixP,
             inst1 = opcode1->bit_sequence;
             if (fixP->fx_addsy == NULL || S_IS_DEFINED (fixP->fx_addsy))
  	     inst1 |= ((val & 0xFFFFFFFFFFFF0000L) >> 16) & IMML_MASK;
@@ -237,7 +237,7 @@ index 33eda2a4da..5e11a77e70 100644
           }
        else
          {
-@@ -2483,7 +2471,7 @@ md_apply_fix (fixS *   fixP,
+@@ -2495,7 +2483,7 @@ md_apply_fix (fixS *   fixP,
  	      as_bad (_("unknown opcode \"%s\""), "imm");
  	      return;
  	    }
@@ -246,7 +246,7 @@ index 33eda2a4da..5e11a77e70 100644
            inst1 = opcode1->bit_sequence;
            if (fixP->fx_addsy == NULL || S_IS_DEFINED (fixP->fx_addsy))
  	    inst1 |= ((val & 0xFFFF0000) >> 16) & IMM_MASK;
-@@ -2530,7 +2518,7 @@ md_apply_fix (fixS *   fixP,
+@@ -2542,7 +2530,7 @@ md_apply_fix (fixS *   fixP,
          opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
        if (opcode1 == NULL)
  	{
@@ -255,7 +255,7 @@ index 33eda2a4da..5e11a77e70 100644
  	    as_bad (_("unknown opcode \"%s\""), "imml");
            else
  	    as_bad (_("unknown opcode \"%s\""), "imm");
-@@ -2557,8 +2545,6 @@ md_apply_fix (fixS *   fixP,
+@@ -2569,8 +2557,6 @@ md_apply_fix (fixS *   fixP,
  	 moves code around due to relaxing.  */
        if (fixP->fx_r_type == BFD_RELOC_64_PCREL)
  	fixP->fx_r_type = BFD_RELOC_MICROBLAZE_64_NONE;
@@ -264,7 +264,7 @@ index 33eda2a4da..5e11a77e70 100644
        else if (fixP->fx_r_type == BFD_RELOC_32)
  	fixP->fx_r_type = BFD_RELOC_MICROBLAZE_32_NONE;
        else
-@@ -2609,33 +2595,24 @@ md_estimate_size_before_relax (fragS * fragP,
+@@ -2621,33 +2607,24 @@ md_estimate_size_before_relax (fragS * fragP,
  	     if(streq (fragP->fr_opcode, str_microblaze_64)) 
               {
                 /* Used as an absolute value.  */
@@ -302,7 +302,7 @@ index 33eda2a4da..5e11a77e70 100644
        else if (S_IS_DEFINED (fragP->fr_symbol)
  	       && (((S_GET_SEGMENT (fragP->fr_symbol))->flags & SEC_CODE) == 0))
          {
-@@ -2665,6 +2642,13 @@ md_estimate_size_before_relax (fragS * fragP,
+@@ -2677,6 +2654,13 @@ md_estimate_size_before_relax (fragS * fragP,
  	      /* Variable part does not change.  */
  	      fragP->fr_var = INST_WORD_SIZE*2;
  	    }
@@ -316,7 +316,7 @@ index 33eda2a4da..5e11a77e70 100644
  	  else if (streq (fragP->fr_opcode, str_microblaze_ro_anchor))
  	    {
                /* It is accessed using the small data read only anchor.  */
-@@ -2739,6 +2723,7 @@ md_estimate_size_before_relax (fragS * fragP,
+@@ -2751,6 +2735,7 @@ md_estimate_size_before_relax (fragS * fragP,
      case TLSTPREL_OFFSET:
      case TLSDTPREL_OFFSET:
      case DEFINED_64_OFFSET:
@@ -324,7 +324,7 @@ index 33eda2a4da..5e11a77e70 100644
        fragP->fr_var = INST_WORD_SIZE*2;
        break;
      case DEFINED_RO_SEGMENT:
-@@ -2792,7 +2777,7 @@ md_pcrel_from_section (fixS * fixp, segT sec ATTRIBUTE_UNUSED)
+@@ -2804,7 +2789,7 @@ md_pcrel_from_section (fixS * fixp, segT sec ATTRIBUTE_UNUSED)
    else
      {
        /* The case where we are going to resolve things... */
@@ -333,7 +333,7 @@ index 33eda2a4da..5e11a77e70 100644
          return  fixp->fx_where + fixp->fx_frag->fr_address + INST_WORD_SIZE;
        else
          return  fixp->fx_where + fixp->fx_frag->fr_address;
-@@ -2827,6 +2812,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
+@@ -2839,6 +2824,7 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
      case BFD_RELOC_MICROBLAZE_64_GOTPC:
      case BFD_RELOC_MICROBLAZE_64_GPC:
      case BFD_RELOC_MICROBLAZE_64:

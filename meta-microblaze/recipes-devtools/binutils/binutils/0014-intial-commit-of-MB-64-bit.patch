@@ -21,7 +21,6 @@ Conflicts:
  bfd/targets.c                      |    6 +
  gas/config/tc-microblaze.c         |  274 ++-
  gas/config/tc-microblaze.h         |    4 +-
- include/elf/common.h               |    1 +
  ld/Makefile.am                     |    4 +
  ld/Makefile.in                     |    6 +
  ld/configure.tgt                   |    3 +
@@ -30,7 +29,7 @@ Conflicts:
  opcodes/microblaze-dis.c           |   35 +-
  opcodes/microblaze-opc.h           |  162 +-
  opcodes/microblaze-opcm.h          |   20 +-
- 19 files changed, 4197 insertions(+), 40 deletions(-)
+ 18 files changed, 4196 insertions(+), 40 deletions(-)
  create mode 100644 bfd/elf64-microblaze.c
  create mode 100644 ld/emulparams/elf64microblaze.sh
  create mode 100644 ld/emulparams/elf64microblazeel.sh
@@ -39,7 +38,7 @@ diff --git a/bfd/Makefile.am b/bfd/Makefile.am
 index c88c448000..d86f1c5697 100644
 --- a/bfd/Makefile.am
 +++ b/bfd/Makefile.am
-@@ -562,6 +562,7 @@ BFD64_BACKENDS = \
+@@ -558,6 +558,7 @@ BFD64_BACKENDS = \
  	elf64-riscv.lo \
  	elfxx-riscv.lo \
  	elf64-s390.lo \
@@ -47,7 +46,7 @@ index c88c448000..d86f1c5697 100644
  	elf64-sparc.lo \
  	elf64-tilegx.lo \
  	elf64-x86-64.lo \
-@@ -596,6 +597,7 @@ BFD64_BACKENDS_CFILES = \
+@@ -592,6 +593,7 @@ BFD64_BACKENDS_CFILES = \
  	elf64-nfp.c \
  	elf64-ppc.c \
  	elf64-s390.c \
@@ -59,7 +58,7 @@ diff --git a/bfd/Makefile.in b/bfd/Makefile.in
 index d0d14c6ab3..a54abeca48 100644
 --- a/bfd/Makefile.in
 +++ b/bfd/Makefile.in
-@@ -988,6 +988,7 @@ BFD64_BACKENDS = \
+@@ -985,6 +985,7 @@ BFD64_BACKENDS = \
  	elf64-riscv.lo \
  	elfxx-riscv.lo \
  	elf64-s390.lo \
@@ -67,7 +66,7 @@ index d0d14c6ab3..a54abeca48 100644
  	elf64-sparc.lo \
  	elf64-tilegx.lo \
  	elf64-x86-64.lo \
-@@ -1022,6 +1023,7 @@ BFD64_BACKENDS_CFILES = \
+@@ -1019,6 +1020,7 @@ BFD64_BACKENDS_CFILES = \
  	elf64-nfp.c \
  	elf64-ppc.c \
  	elf64-s390.c \
@@ -75,7 +74,7 @@ index d0d14c6ab3..a54abeca48 100644
  	elf64-sparc.c \
  	elf64-tilegx.c \
  	elf64-x86-64.c \
-@@ -1501,6 +1503,7 @@ distclean-compile:
+@@ -1498,6 +1500,7 @@ distclean-compile:
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elf64-ppc.Plo@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elf64-riscv.Plo@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elf64-s390.Plo@am__quote@
@@ -87,7 +86,7 @@ diff --git a/bfd/config.bfd b/bfd/config.bfd
 index 14523caf0c..437c03bb9d 100644
 --- a/bfd/config.bfd
 +++ b/bfd/config.bfd
-@@ -825,11 +825,15 @@ case "${targ}" in
+@@ -827,11 +827,15 @@ case "${targ}" in
    microblazeel*-*)
      targ_defvec=microblaze_elf32_le_vec
      targ_selvecs=microblaze_elf32_vec
@@ -107,7 +106,7 @@ diff --git a/bfd/configure b/bfd/configure
 index 0340ed541b..ff5ae4706c 100755
 --- a/bfd/configure
 +++ b/bfd/configure
-@@ -14903,6 +14903,8 @@ do
+@@ -15578,6 +15578,8 @@ do
      s390_elf64_vec)		 tb="$tb elf64-s390.lo elf64.lo $elf"; target_size=64 ;;
      score_elf32_be_vec)		 tb="$tb elf32-score.lo elf32-score7.lo elf32.lo elf64.lo $elf"; want64=true; target_size=64 ;;
      score_elf32_le_vec)		 tb="$tb elf32-score.lo elf32-score7.lo elf32.lo elf64.lo $elf"; want64=true; target_size=64 ;;
@@ -3818,7 +3817,7 @@ diff --git a/bfd/targets.c b/bfd/targets.c
 index 0732c5e429..1ec226b2f4 100644
 --- a/bfd/targets.c
 +++ b/bfd/targets.c
-@@ -782,6 +782,8 @@ extern const bfd_target mep_elf32_le_vec;
+@@ -796,6 +796,8 @@ extern const bfd_target mep_elf32_le_vec;
  extern const bfd_target metag_elf32_vec;
  extern const bfd_target microblaze_elf32_vec;
  extern const bfd_target microblaze_elf32_le_vec;
@@ -3827,7 +3826,7 @@ index 0732c5e429..1ec226b2f4 100644
  extern const bfd_target mips_ecoff_be_vec;
  extern const bfd_target mips_ecoff_le_vec;
  extern const bfd_target mips_ecoff_bele_vec;
-@@ -1150,6 +1152,10 @@ static const bfd_target * const _bfd_target_vector[] =
+@@ -1163,6 +1165,10 @@ static const bfd_target * const _bfd_target_vector[] =
  
  	&metag_elf32_vec,
  
@@ -3939,7 +3938,7 @@ index 5810a74a5f..ffbb843d33 100644
  
    /* Drop leading whitespace.  */
    while (ISSPACE (* str))
-@@ -1129,7 +1201,7 @@ md_assemble (char * str)
+@@ -1135,7 +1207,7 @@ md_assemble (char * str)
  	}
        break;
  
@@ -3948,7 +3947,7 @@ index 5810a74a5f..ffbb843d33 100644
        if (strcmp (op_end, ""))
          op_end = parse_reg (op_end + 1, &reg1);  /* Get rd.  */
        else
-@@ -1163,16 +1235,22 @@ md_assemble (char * str)
+@@ -1169,16 +1241,22 @@ md_assemble (char * str)
            immed = exp.X_add_number;
          }
  
@@ -3974,7 +3973,7 @@ index 5810a74a5f..ffbb843d33 100644
        if (strcmp (op_end, ""))
          op_end = parse_reg (op_end + 1, &reg1);  /* Get rd.  */
        else
-@@ -1196,7 +1274,7 @@ md_assemble (char * str)
+@@ -1202,7 +1280,7 @@ md_assemble (char * str)
  
        /* Width immediate value.  */
        if (strcmp (op_end, ""))
@@ -3983,7 +3982,7 @@ index 5810a74a5f..ffbb843d33 100644
        else
          as_fatal (_("Error in statement syntax"));
        if (exp.X_op != O_constant)
-@@ -1208,6 +1286,8 @@ md_assemble (char * str)
+@@ -1214,6 +1292,8 @@ md_assemble (char * str)
          immed = exp.X_add_number;
        if (opcode->instr == bsefi && immed > 31)
          as_fatal (_("Width value must be less than 32"));
@@ -3992,7 +3991,7 @@ index 5810a74a5f..ffbb843d33 100644
  
        /* Shift immediate value.  */
        if (strcmp (op_end, ""))
-@@ -1215,32 +1295,40 @@ md_assemble (char * str)
+@@ -1221,32 +1301,40 @@ md_assemble (char * str)
        else
          as_fatal (_("Error in statement syntax"));
        if (exp.X_op != O_constant)
@@ -4044,7 +4043,7 @@ index 5810a74a5f..ffbb843d33 100644
        break;
      case INST_TYPE_R1_R2:
        if (strcmp (op_end, ""))
-@@ -1808,6 +1896,142 @@ md_assemble (char * str)
+@@ -1820,6 +1908,142 @@ md_assemble (char * str)
        }
        inst |= (immed << IMM_MBAR);
        break;
@@ -4187,7 +4186,7 @@ index 5810a74a5f..ffbb843d33 100644
  
      default:
        as_fatal (_("unimplemented opcode \"%s\""), name);
-@@ -1915,6 +2139,7 @@ struct option md_longopts[] =
+@@ -1927,6 +2151,7 @@ struct option md_longopts[] =
    {"EL", no_argument, NULL, OPTION_EL},
    {"mlittle-endian", no_argument, NULL, OPTION_LITTLE},
    {"mbig-endian", no_argument, NULL, OPTION_BIG},
@@ -4195,7 +4194,7 @@ index 5810a74a5f..ffbb843d33 100644
    { NULL,          no_argument, NULL, 0}
  };
  
-@@ -2565,6 +2790,18 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
+@@ -2579,6 +2804,18 @@ tc_gen_reloc (asection * section ATTRIBUTE_UNUSED, fixS * fixp)
    return rel;
  }
  
@@ -4214,7 +4213,7 @@ index 5810a74a5f..ffbb843d33 100644
  int
  md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
  {
-@@ -2578,6 +2815,10 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
+@@ -2592,6 +2829,10 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
      case OPTION_LITTLE:
        target_big_endian = 0;
        break;
@@ -4225,7 +4224,7 @@ index 5810a74a5f..ffbb843d33 100644
      default:
        return 0;
      }
-@@ -2593,6 +2834,7 @@ md_show_usage (FILE * stream ATTRIBUTE_UNUSED)
+@@ -2607,6 +2848,7 @@ md_show_usage (FILE * stream ATTRIBUTE_UNUSED)
    fprintf (stream, _(" MicroBlaze specific assembler options:\n"));
    fprintf (stream, "  -%-23s%s\n", "mbig-endian", N_("assemble for a big endian cpu"));
    fprintf (stream, "  -%-23s%s\n", "mlittle-endian", N_("assemble for a little endian cpu"));
@@ -4248,23 +4247,11 @@ index 01cb3e894f..7435a70ef5 100644
  
  #define ELF_TC_SPECIAL_SECTIONS \
    { ".sdata",		SHT_PROGBITS,	SHF_ALLOC + SHF_WRITE }, \
-diff --git a/include/elf/common.h b/include/elf/common.h
-index 4d94c4fd5b..f709a01816 100644
---- a/include/elf/common.h
-+++ b/include/elf/common.h
-@@ -340,6 +340,7 @@
- #define EM_RISCV 	243 	/* RISC-V */
- #define EM_LANAI	244	/* Lanai 32-bit processor.  */
- #define EM_BPF		247	/* Linux BPF – in-kernel virtual machine.  */
-+#define EM_MB_64	248	/* Xilinx MicroBlaze 32-bit RISC soft processor core */
- #define EM_NFP		250	/* Netronome Flow Processor.  */
- #define EM_CSKY		252	/* C-SKY processor family.  */
- 
 diff --git a/ld/Makefile.am b/ld/Makefile.am
-index 02c4fc1639..d063e2d32c 100644
+index 539a809365..61a1c78d59 100644
 --- a/ld/Makefile.am
 +++ b/ld/Makefile.am
-@@ -416,6 +416,8 @@ ALL_64_EMULATION_SOURCES = \
+@@ -417,6 +417,8 @@ ALL_64_EMULATION_SOURCES = \
  	eelf32ltsmipn32.c \
  	eelf32ltsmipn32_fbsd.c \
  	eelf32mipswindiss.c \
@@ -4273,7 +4260,7 @@ index 02c4fc1639..d063e2d32c 100644
  	eelf64_aix.c \
  	eelf64bpf.c \
  	eelf64_ia64.c \
-@@ -898,6 +900,8 @@ $(ALL_EMULATION_SOURCES) $(ALL_64_EMULATION_SOURCES): $(GEN_DEPENDS)
+@@ -904,6 +906,8 @@ $(ALL_EMULATION_SOURCES) $(ALL_64_EMULATION_SOURCES): $(GEN_DEPENDS)
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ltsmipn32.Pc@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ltsmipn32_fbsd.Pc@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32mipswindiss.Pc@am__quote@
@@ -4286,7 +4273,7 @@ diff --git a/ld/Makefile.in b/ld/Makefile.in
 index 2fe12e14f6..797212859f 100644
 --- a/ld/Makefile.in
 +++ b/ld/Makefile.in
-@@ -898,6 +898,8 @@ ALL_64_EMULATION_SOURCES = \
+@@ -905,6 +905,8 @@ ALL_64_EMULATION_SOURCES = \
  	eelf32ltsmipn32.c \
  	eelf32ltsmipn32_fbsd.c \
  	eelf32mipswindiss.c \
@@ -4295,7 +4282,7 @@ index 2fe12e14f6..797212859f 100644
  	eelf64_aix.c \
  	eelf64bpf.c \
  	eelf64_ia64.c \
-@@ -1338,6 +1340,8 @@ distclean-compile:
+@@ -1399,6 +1401,8 @@ distclean-compile:
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32xstormy16.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32xtensa.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32z80.Po@am__quote@
@@ -4304,7 +4291,7 @@ index 2fe12e14f6..797212859f 100644
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64_aix.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64_ia64.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf64_ia64_fbsd.Po@am__quote@
-@@ -2493,6 +2497,8 @@ $(ALL_EMULATION_SOURCES) $(ALL_64_EMULATION_SOURCES): $(GEN_DEPENDS)
+@@ -2562,6 +2566,8 @@ $(ALL_EMULATION_SOURCES) $(ALL_64_EMULATION_SOURCES): $(GEN_DEPENDS)
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ltsmipn32.Pc@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32ltsmipn32_fbsd.Pc@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eelf32mipswindiss.Pc@am__quote@

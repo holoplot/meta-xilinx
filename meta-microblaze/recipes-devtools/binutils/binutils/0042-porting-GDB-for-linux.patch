@@ -70,7 +70,7 @@ index a2e858d10f..a37c4c86f4 100644
  microblaze_linux_sigtramp_cache (struct frame_info *next_frame,
 @@ -248,8 +249,8 @@ microblaze_linux_init_abi (struct gdbarch_info info,
  
-   linux_init_abi (info, gdbarch);
+   linux_init_abi (info, gdbarch, 0);
  
 -  set_gdbarch_memory_remove_breakpoint (gdbarch,
 -					microblaze_linux_memory_remove_breakpoint);
@@ -126,7 +126,7 @@ diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
 index df354d636c..680f536c06 100644
 --- a/gdbserver/Makefile.in
 +++ b/gdbserver/Makefile.in
-@@ -559,6 +559,8 @@ target/%.o: ../gdb/target/%.c
+@@ -582,6 +582,8 @@ target/%.o: ../gdb/target/%.c
  
  %-generated.cc: ../gdb/regformats/rs6000/%.dat $(regdat_sh)
  	$(ECHO_REGDAT) $(SHELL) $(regdat_sh) $< $@
@@ -139,7 +139,7 @@ diff --git a/gdbserver/configure.srv b/gdbserver/configure.srv
 index 456f4b3349..ff9ada71b0 100644
 --- a/gdbserver/configure.srv
 +++ b/gdbserver/configure.srv
-@@ -155,8 +155,9 @@ case "${gdbserver_host}" in
+@@ -178,8 +178,9 @@ case "${gdbserver_host}" in
  			srv_linux_usrregs=yes
  			srv_linux_thread_db=yes
  			;;

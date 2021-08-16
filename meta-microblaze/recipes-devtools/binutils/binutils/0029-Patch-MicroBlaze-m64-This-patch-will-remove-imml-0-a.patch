@@ -13,7 +13,7 @@ diff --git a/gas/config/tc-microblaze.c b/gas/config/tc-microblaze.c
 index 647cfb6869..e565b2a99d 100644
 --- a/gas/config/tc-microblaze.c
 +++ b/gas/config/tc-microblaze.c
-@@ -2150,9 +2150,7 @@ md_assemble (char * str)
+@@ -2156,9 +2156,7 @@ md_assemble (char * str)
        if (exp.X_op != O_constant)
  	{
  	  char *opc;
@@ -24,7 +24,7 @@ index 647cfb6869..e565b2a99d 100644
              opc = str_microblaze_64;
  	  else
              opc = NULL;
-@@ -2916,7 +2914,7 @@ md_apply_fix (fixS *   fixP,
+@@ -2922,7 +2920,7 @@ md_apply_fix (fixS *   fixP,
      case BFD_RELOC_MICROBLAZE_64:
      case BFD_RELOC_MICROBLAZE_64_PCREL:
        if (fixP->fx_r_type == BFD_RELOC_MICROBLAZE_64

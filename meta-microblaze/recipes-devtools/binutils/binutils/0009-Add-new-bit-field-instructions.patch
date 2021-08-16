@@ -35,7 +35,7 @@ index 74a63abeb0..765abfb388 100644
    expressionS exp;
    char name[20];
  
-@@ -1172,7 +1172,76 @@ md_assemble (char * str)
+@@ -1178,7 +1178,76 @@ md_assemble (char * str)
        inst |= (reg2 << RA_LOW) & RA_MASK;
        inst |= (immed << IMM_LOW) & IMM5_MASK;
        break;

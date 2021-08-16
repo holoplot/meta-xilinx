@@ -14,7 +14,7 @@ diff --git a/ld/ldlang.c b/ld/ldlang.c
 index 9977195074..a2c44cf719 100644
 --- a/ld/ldlang.c
 +++ b/ld/ldlang.c
-@@ -3657,10 +3657,16 @@ open_input_bfds (lang_statement_union_type *s, enum open_bfd_mode mode)
+@@ -3656,10 +3656,16 @@ open_input_bfds (lang_statement_union_type *s, enum open_bfd_mode mode)
  	    plugin_insert = NULL;
  #endif
  	  break;

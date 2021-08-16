@@ -5,8 +5,8 @@ Subject: [PATCH 47/52] bfd/elf64-microblaze.c: Fix build failures
 
 Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 ---
- bfd/elf64-microblaze.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ bfd/elf64-microblaze.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/bfd/elf64-microblaze.c b/bfd/elf64-microblaze.c
 index 338f16eeee..cf84e0db4e 100644

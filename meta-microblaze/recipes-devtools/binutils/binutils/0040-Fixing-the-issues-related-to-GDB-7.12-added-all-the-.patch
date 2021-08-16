@@ -138,7 +138,7 @@ diff --git a/gdbserver/configure.srv b/gdbserver/configure.srv
 index 7e81388850..456f4b3349 100644
 --- a/gdbserver/configure.srv
 +++ b/gdbserver/configure.srv
-@@ -156,8 +156,7 @@ case "${gdbserver_host}" in
+@@ -179,8 +179,7 @@ case "${gdbserver_host}" in
  			srv_linux_thread_db=yes
  			;;
    microblaze*-*-linux*)	srv_regobj=microblaze-linux.o

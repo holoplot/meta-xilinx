@@ -15,7 +15,7 @@ diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
 index 9d7687be53..df354d636c 100644
 --- a/gdbserver/Makefile.in
 +++ b/gdbserver/Makefile.in
-@@ -183,6 +183,7 @@ SFILES = \
+@@ -195,6 +195,7 @@ SFILES = \
  	$(srcdir)/linux-ia64-low.cc \
  	$(srcdir)/linux-low.cc \
  	$(srcdir)/linux-m68k-low.cc \
@@ -23,7 +23,7 @@ index 9d7687be53..df354d636c 100644
  	$(srcdir)/linux-mips-low.cc \
  	$(srcdir)/linux-nios2-low.cc \
  	$(srcdir)/linux-ppc-low.cc \
-@@ -217,6 +218,7 @@ SFILES = \
+@@ -235,6 +236,7 @@ SFILES = \
  	$(srcdir)/../gdb/nat/linux-osdata.c \
  	$(srcdir)/../gdb/nat/linux-personality.c \
  	$(srcdir)/../gdb/nat/mips-linux-watch.c \

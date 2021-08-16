@@ -16,7 +16,7 @@ diff --git a/bfd/elf32-microblaze.c b/bfd/elf32-microblaze.c
 index e9715eae6a..9c4f809eaa 100644
 --- a/bfd/elf32-microblaze.c
 +++ b/bfd/elf32-microblaze.c
-@@ -1447,9 +1447,9 @@ microblaze_elf_relocate_section (bfd *output_bfd,
+@@ -1443,9 +1443,9 @@ microblaze_elf_relocate_section (bfd *output_bfd,
  	      relocation += addend;
  	      relocation -= dtprel_base(info);
  	      bfd_put_16 (input_bfd, (relocation >> 16) & 0xffff,

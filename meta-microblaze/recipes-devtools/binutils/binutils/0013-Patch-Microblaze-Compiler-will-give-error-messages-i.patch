@@ -12,7 +12,7 @@ diff --git a/ld/ldmain.c b/ld/ldmain.c
 index 08be9030cb..613d748fef 100644
 --- a/ld/ldmain.c
 +++ b/ld/ldmain.c
-@@ -1515,6 +1515,18 @@ reloc_overflow (struct bfd_link_info *info,
+@@ -1561,6 +1561,18 @@ reloc_overflow (struct bfd_link_info *info,
  	  break;
  	case bfd_link_hash_defined:
  	case bfd_link_hash_defweak:

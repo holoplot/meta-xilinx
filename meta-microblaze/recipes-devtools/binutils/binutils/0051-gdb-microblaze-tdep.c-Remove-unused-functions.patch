@@ -68,7 +68,7 @@ index 041ebf1fca..28f79f9ffc 100644
 -                                  tdesc_microblaze64);
 -
 -  register_remote_g_packet_guess (gdbarch,
--                                  4 * MICROBLAZE_NUM_REGS,
+-				  4 * MICROBLAZE_NUM_REGS,
 -                                  tdesc_microblaze64_with_stack_protect);
 -}
 -

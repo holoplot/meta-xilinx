@@ -13,7 +13,7 @@ diff --git a/sim/configure b/sim/configure
 index 72f95cd5c7..9e28cc7868 100755
 --- a/sim/configure
 +++ b/sim/configure
-@@ -3795,7 +3795,7 @@ subdirs="$subdirs aarch64"
+@@ -3803,7 +3803,7 @@ subdirs="$subdirs aarch64"
  
  
         ;;
@@ -26,7 +26,7 @@ diff --git a/sim/configure.tgt b/sim/configure.tgt
 index 8a8e03d96f..f6743fe8d4 100644
 --- a/sim/configure.tgt
 +++ b/sim/configure.tgt
-@@ -59,7 +59,7 @@ case "${target}" in
+@@ -62,7 +62,7 @@ case "${target}" in
     mcore-*-*)
         SIM_ARCH(mcore)
         ;;

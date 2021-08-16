@@ -12,7 +12,7 @@ diff --git a/gas/config/tc-microblaze.c b/gas/config/tc-microblaze.c
 index aef54ad83f..647cfb6869 100644
 --- a/gas/config/tc-microblaze.c
 +++ b/gas/config/tc-microblaze.c
-@@ -1639,12 +1639,56 @@ md_assemble (char * str)
+@@ -1643,12 +1643,56 @@ md_assemble (char * str)
                               exp.X_add_symbol,
                               exp.X_add_number,
                               (char *) opc);
@@ -70,7 +70,7 @@ index aef54ad83f..647cfb6869 100644
          }
        inst |= (reg1 << RD_LOW) & RD_MASK;
        inst |= (immed << IMM_LOW) & IMM16_MASK;
-@@ -2138,8 +2182,8 @@ md_assemble (char * str)
+@@ -2144,8 +2188,8 @@ md_assemble (char * str)
              streq (name, "breaid") || 
  	    streq (name, "brai") || streq (name, "braid")))
          {

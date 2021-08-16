@@ -35,7 +35,7 @@ index eca060b262..aef54ad83f 100644
        else
  	as_fatal (_("Error in statement syntax"));
  
-@@ -1288,24 +1293,51 @@ md_assemble (char * str)
+@@ -1292,24 +1297,51 @@ md_assemble (char * str)
  		|| streq (name, "lwi") || streq (name, "sbi")
                  || streq (name, "shi") || streq (name, "swi"))))
          {
@@ -45,11 +45,11 @@ index eca060b262..aef54ad83f 100644
 +          if (temp != 0 && temp != 0xFFFFFFFFFFFF8000)
              {
                /* Needs an immediate inst.  */
--              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-              opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
 -              if (opcode1 == NULL)
 +	   if (((long long)immed) > (long long)-549755813888 && ((long long)immed) < (long long)549755813887)
 +	     {
-+             opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++             opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
 +             if (opcode1 == NULL)
 +                {
 +                  as_bad (_("unknown opcode \"%s\""), "imml");
@@ -65,8 +65,8 @@ index eca060b262..aef54ad83f 100644
 +            }
 +	  else 
 +           {
-+           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
-+           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
 +              if (opcode1 == NULL || opcode2 == NULL)
                  {
                    as_bad (_("unknown opcode \"%s\""), "imml");
@@ -92,7 +92,7 @@ index eca060b262..aef54ad83f 100644
            inst |= (reg1 << RD_LOW) & RD_MASK;
            inst |= (reg2 << RA_LOW) & RA_MASK;
            inst |= (immed << IMM_LOW) & IMM_MASK;
-@@ -1316,14 +1348,13 @@ md_assemble (char * str)
+@@ -1320,14 +1352,13 @@ md_assemble (char * str)
             if ((temp != 0) && (temp != 0xFFFF8000))
  	     {
                 /* Needs an immediate inst.  */
@@ -109,7 +109,7 @@ index eca060b262..aef54ad83f 100644
                 inst1 |= ((immed & 0xFFFF0000) >> 16) & IMM_MASK;
                 output[0] = INST_BYTE0 (inst1);
                 output[1] = INST_BYTE1 (inst1);
-@@ -1564,7 +1595,7 @@ md_assemble (char * str)
+@@ -1568,7 +1599,7 @@ md_assemble (char * str)
          as_fatal (_("Cannot use special register with this instruction"));
  
        if (exp.X_op != O_constant)
@@ -118,18 +118,20 @@ index eca060b262..aef54ad83f 100644
        else
  	{
            output = frag_more (isize);
-@@ -1898,8 +1929,9 @@ md_assemble (char * str)
+@@ -1902,10 +1933,9 @@ md_assemble (char * str)
        temp = immed & 0xFFFF8000;
        if ((temp != 0) && (temp != 0xFFFF8000))
  	{
 +
            /* Needs an immediate inst.  */
--          opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
-+              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
+-	  opcode1
+-	    = (struct op_code_struct *) str_hash_find (opcode_hash_control,
+-						       "imm");
++              opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imm");
            if (opcode1 == NULL)
              {
                as_bad (_("unknown opcode \"%s\""), "imm");
-@@ -1928,7 +1960,12 @@ md_assemble (char * str)
+@@ -1934,7 +1964,12 @@ md_assemble (char * str)
            reg1 = 0;
          }
        if (strcmp (op_end, ""))
@@ -142,7 +144,7 @@ index eca060b262..aef54ad83f 100644
        else
          as_fatal (_("Error in statement syntax"));
  
-@@ -1967,30 +2004,55 @@ md_assemble (char * str)
+@@ -1973,30 +2008,55 @@ md_assemble (char * str)
          }
        if (streq (name, "brealid") || streq (name, "breaid") || streq (name, "breai"))
          {
@@ -203,7 +205,7 @@ index eca060b262..aef54ad83f 100644
        temp = immed & 0xFFFF8000;
        if ((temp != 0) && (temp != 0xFFFF8000))
  	{
-@@ -2076,25 +2138,50 @@ md_assemble (char * str)
+@@ -2084,25 +2144,50 @@ md_assemble (char * str)
              streq (name, "breaid") || 
  	    streq (name, "brai") || streq (name, "braid")))
          {
@@ -258,7 +260,7 @@ index eca060b262..aef54ad83f 100644
            inst |= (immed << IMM_LOW) & IMM_MASK;
  	}
        else
-@@ -2194,21 +2281,45 @@ md_assemble (char * str)
+@@ -2202,21 +2287,45 @@ md_assemble (char * str)
  	{
  	  output = frag_more (isize);
  	  immedl = exp.X_add_number;
@@ -319,7 +321,7 @@ index eca060b262..aef54ad83f 100644
          }
  
        inst |= (reg1 << RD_LOW) & RD_MASK;
-@@ -2257,21 +2368,46 @@ md_assemble (char * str)
+@@ -2265,21 +2374,46 @@ md_assemble (char * str)
  	{
            output = frag_more (isize);
            immedl = exp.X_add_number;
@@ -374,7 +376,7 @@ index eca060b262..aef54ad83f 100644
  
        inst |= (reg1 << RA_LOW) & RA_MASK;
        inst |= (immedl << IMM_LOW) & IMM_MASK;
-@@ -2551,8 +2687,8 @@ md_apply_fix (fixS *   fixP,
+@@ -2559,8 +2693,8 @@ md_apply_fix (fixS *   fixP,
    /* Note: use offsetT because it is signed, valueT is unsigned.  */
    offsetT      val  = (offsetT) * valp;
    int          i;
@@ -385,7 +387,7 @@ index eca060b262..aef54ad83f 100644
  
    symname = fixP->fx_addsy ? S_GET_NAME (fixP->fx_addsy) : _("<unknown>");
  
-@@ -2735,30 +2871,75 @@ md_apply_fix (fixS *   fixP,
+@@ -2743,30 +2877,75 @@ md_apply_fix (fixS *   fixP,
      case BFD_RELOC_MICROBLAZE_64_TEXTREL:
      case BFD_RELOC_MICROBLAZE_64:
      case BFD_RELOC_MICROBLAZE_64_PCREL:
@@ -471,7 +473,7 @@ index eca060b262..aef54ad83f 100644
            /* Generate the imm instruction.  */
            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
            if (opcode1 == NULL)
-@@ -2770,12 +2951,11 @@ md_apply_fix (fixS *   fixP,
+@@ -2778,12 +2957,11 @@ md_apply_fix (fixS *   fixP,
            inst1 = opcode1->bit_sequence;
            if (fixP->fx_addsy == NULL || S_IS_DEFINED (fixP->fx_addsy))
  	    inst1 |= ((val & 0xFFFF0000) >> 16) & IMM_MASK;
@@ -485,7 +487,7 @@ index eca060b262..aef54ad83f 100644
        /* Add the value only if the symbol is defined.  */
        if (fixP->fx_addsy == NULL || S_IS_DEFINED (fixP->fx_addsy))
  	{
-@@ -2807,21 +2987,41 @@ md_apply_fix (fixS *   fixP,
+@@ -2815,21 +2993,41 @@ md_apply_fix (fixS *   fixP,
        /* Add an imm instruction.  First save the current instruction.  */
        for (i = 0; i < INST_WORD_SIZE; i++)
  	buf[i + INST_WORD_SIZE] = buf[i];

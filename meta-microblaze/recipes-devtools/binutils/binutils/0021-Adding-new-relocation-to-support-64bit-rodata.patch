@@ -83,7 +83,7 @@ index bfb3104720..532a26eaa5 100644
  	  else if (reg2 == REG_ROSDP)
  	    opc = str_microblaze_ro_anchor;
  	  else if (reg2 == REG_RWSDP)
-@@ -1182,7 +1189,10 @@ md_assemble (char * str)
+@@ -1186,7 +1193,10 @@ md_assemble (char * str)
                inst |= (immed << IMM_LOW) & IMM_MASK;
              }
  	}
@@ -95,7 +95,7 @@ index bfb3104720..532a26eaa5 100644
          {
            temp = immed & 0xFFFFFF8000;
            if (temp != 0 && temp != 0xFFFFFF8000)
-@@ -1794,6 +1804,11 @@ md_assemble (char * str)
+@@ -1800,6 +1810,11 @@ md_assemble (char * str)
  
  	  if (exp.X_md != 0)
  	    subtype = get_imm_otype(exp.X_md);
@@ -107,7 +107,7 @@ index bfb3104720..532a26eaa5 100644
  	  else
  	    subtype = opcode->inst_offset_type;
  
-@@ -1811,6 +1826,31 @@ md_assemble (char * str)
+@@ -1817,6 +1832,31 @@ md_assemble (char * str)
            output = frag_more (isize);
            immed = exp.X_add_number;
          }
@@ -139,7 +139,7 @@ index bfb3104720..532a26eaa5 100644
  
        temp = immed & 0xFFFF8000;
        if ((temp != 0) && (temp != 0xFFFF8000))
-@@ -1834,6 +1874,7 @@ md_assemble (char * str)
+@@ -1842,6 +1882,7 @@ md_assemble (char * str)
  
        inst |= (reg1 << RD_LOW) & RD_MASK;
        inst |= (immed << IMM_LOW) & IMM_MASK;
@@ -147,7 +147,7 @@ index bfb3104720..532a26eaa5 100644
        break;
  
      case INST_TYPE_R2:
-@@ -3081,10 +3122,10 @@ cons_fix_new_microblaze (fragS * frag,
+@@ -3089,10 +3130,10 @@ cons_fix_new_microblaze (fragS * frag,
            r = BFD_RELOC_32;
            break;
          case 8:

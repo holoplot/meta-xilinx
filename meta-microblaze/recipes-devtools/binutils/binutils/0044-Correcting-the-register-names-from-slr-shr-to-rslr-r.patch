@@ -49,13 +49,13 @@ index 609934e2b4..ab162fd258 100644
 @@ -72,8 +72,8 @@ initialize_tdesc_microblaze_with_stack_protect (void)
    tdesc_create_reg (feature, "rtlbhi", 56, 1, NULL, 32, "int");
  
-   feature = tdesc_create_feature (result, "org.gnu.gdb.microblaze.stack-protect");
+   feature = tdesc_create_feature (result.get (), "org.gnu.gdb.microblaze.stack-protect");
 -  tdesc_create_reg (feature, "slr", 57, 1, NULL, 32, "int");
 -  tdesc_create_reg (feature, "shr", 58, 1, NULL, 32, "int");
 +  tdesc_create_reg (feature, "rslr", 57, 1, NULL, 32, "int");
 +  tdesc_create_reg (feature, "rshr", 58, 1, NULL, 32, "int");
  
-   tdesc_microblaze_with_stack_protect = result;
+   tdesc_microblaze_with_stack_protect = result.release ();
  }
 diff --git a/gdb/features/microblaze.c b/gdb/features/microblaze.c
 index ceb98ca8b8..7919ac96e6 100644
@@ -70,7 +70,7 @@ index ceb98ca8b8..7919ac96e6 100644
 +  tdesc_create_reg (feature, "rslr", 57, 1, NULL, 64, "uint64");
 +  tdesc_create_reg (feature, "rshr", 58, 1, NULL, 64, "uint64");
  
-   tdesc_microblaze = result;
+   tdesc_microblaze = result.release ();
  }
 diff --git a/gdb/features/microblaze64-core.xml b/gdb/features/microblaze64-core.xml
 index 96e99e2fb2..b9adadfade 100644
@@ -132,7 +132,7 @@ diff --git a/gdb/microblaze-tdep.c b/gdb/microblaze-tdep.c
 index f4ea3cc342..041ebf1fca 100644
 --- a/gdb/microblaze-tdep.c
 +++ b/gdb/microblaze-tdep.c
-@@ -77,7 +77,7 @@ static const char *microblaze_register_names[] =
+@@ -77,7 +77,7 @@ static const char * const microblaze_register_names[] =
    "rpvr0", "rpvr1", "rpvr2", "rpvr3", "rpvr4", "rpvr5", "rpvr6",
    "rpvr7", "rpvr8", "rpvr9", "rpvr10", "rpvr11",
    "redr", "rpid", "rzpr", "rtlbx", "rtlbsx", "rtlblo", "rtlbhi",

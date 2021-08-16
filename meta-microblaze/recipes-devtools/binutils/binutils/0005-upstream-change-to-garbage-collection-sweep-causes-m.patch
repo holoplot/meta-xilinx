@@ -26,7 +26,7 @@ diff --git a/bfd/elflink.c b/bfd/elflink.c
 index 998b72f228..2daf8fdf6a 100644
 --- a/bfd/elflink.c
 +++ b/bfd/elflink.c
-@@ -6372,7 +6372,6 @@ elf_gc_sweep_symbol (struct elf_link_hash_entry *h, void *data)
+@@ -6427,7 +6427,6 @@ elf_gc_sweep_symbol (struct elf_link_hash_entry *h, void *data)
  
        inf = (struct elf_gc_sweep_symbol_info *) data;
        (*inf->hide_symbol) (inf->info, h, TRUE);

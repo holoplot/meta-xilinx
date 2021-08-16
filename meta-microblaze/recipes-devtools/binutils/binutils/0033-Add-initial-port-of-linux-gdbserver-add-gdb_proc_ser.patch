@@ -34,7 +34,7 @@ diff --git a/gdb/configure.host b/gdb/configure.host
 index ce52823729..cf1a08e8b2 100644
 --- a/gdb/configure.host
 +++ b/gdb/configure.host
-@@ -65,6 +65,7 @@ hppa*)			gdb_host_cpu=pa ;;
+@@ -66,6 +66,7 @@ hppa*)			gdb_host_cpu=pa ;;
  i[34567]86*)		gdb_host_cpu=i386 ;;
  m68*)			gdb_host_cpu=m68k ;;
  mips*)			gdb_host_cpu=mips ;;
@@ -42,7 +42,7 @@ index ce52823729..cf1a08e8b2 100644
  powerpc* | rs6000)	gdb_host_cpu=powerpc ;;
  sparcv9 | sparc64)	gdb_host_cpu=sparc ;;
  s390*)			gdb_host_cpu=s390 ;;
-@@ -133,6 +134,8 @@ mips*-*-netbsd* | mips*-*-knetbsd*-gnu)
+@@ -136,6 +137,8 @@ mips*-*-netbsd* | mips*-*-knetbsd*-gnu)
  mips*-*-freebsd*)	gdb_host=fbsd ;;
  mips64*-*-openbsd*)	gdb_host=obsd64 ;;
  
@@ -160,7 +160,7 @@ index 5c80413304..443adfb364 100644
  
  /* Allocate and initialize a frame cache.  */
  
-@@ -731,6 +762,7 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+@@ -728,6 +759,7 @@ microblaze_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
  				       microblaze_breakpoint::kind_from_pc);
    set_gdbarch_sw_breakpoint_from_kind (gdbarch,
  				       microblaze_breakpoint::bp_from_kind);

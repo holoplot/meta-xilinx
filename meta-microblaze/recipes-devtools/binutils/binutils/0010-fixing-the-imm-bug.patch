@@ -12,7 +12,7 @@ diff --git a/bfd/elf32-microblaze.c b/bfd/elf32-microblaze.c
 index 9c4f809eaa..c22130fd8c 100644
 --- a/bfd/elf32-microblaze.c
 +++ b/bfd/elf32-microblaze.c
-@@ -1865,8 +1865,7 @@ microblaze_elf_relax_section (bfd *abfd,
+@@ -1861,8 +1861,7 @@ microblaze_elf_relax_section (bfd *abfd,
        else
  	symval += irel->r_addend;
  

@@ -19,7 +19,7 @@ diff --git a/gdb/configure.tgt b/gdb/configure.tgt
 index 2938fddfe8..ac2d35a991 100644
 --- a/gdb/configure.tgt
 +++ b/gdb/configure.tgt
-@@ -397,6 +397,7 @@ microblaze*-*-*)
+@@ -409,6 +409,7 @@ microblaze*-*-*)
  	# Target: Xilinx MicroBlaze running standalone
  	gdb_target_obs="microblaze-tdep.o"
  	gdb_sim=../sim/microblaze/libsim.a

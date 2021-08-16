@@ -13,7 +13,7 @@ diff --git a/bfd/elf32-microblaze.c b/bfd/elf32-microblaze.c
 index 14bb6de052..d77710b1f3 100644
 --- a/bfd/elf32-microblaze.c
 +++ b/bfd/elf32-microblaze.c
-@@ -2019,8 +2019,8 @@ microblaze_elf_relax_section (bfd *abfd,
+@@ -2015,8 +2015,8 @@ microblaze_elf_relax_section (bfd *abfd,
  		sfix = calc_fixup (irel->r_offset + INST_WORD_SIZE, 0, sec);
  		efix = calc_fixup (target_address, 0, sec);
  		irel->r_addend -= (efix - sfix);

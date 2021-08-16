@@ -5,10 +5,10 @@ Subject: [PATCH 18/52] -Fixed MB-x relocation issues -Added imml for required
  MB-x instructions
 
 ---
- bfd/elf64-microblaze.c     |  68 ++++++++++++++---
- gas/config/tc-microblaze.c | 152 +++++++++++++++++++++++++++----------
+ bfd/elf64-microblaze.c     |  68 +++++++++++++---
+ gas/config/tc-microblaze.c | 156 ++++++++++++++++++++++++++-----------
  gas/tc.h                   |   2 +-
- 3 files changed, 167 insertions(+), 55 deletions(-)
+ 3 files changed, 167 insertions(+), 59 deletions(-)
 
 diff --git a/bfd/elf64-microblaze.c b/bfd/elf64-microblaze.c
 index 6b1f47d00d..6676d9f93d 100644
@@ -155,7 +155,7 @@ index 5e11a77e70..48f306ef41 100644
  	    opc = str_microblaze_ro_anchor;
  	  else if (reg2 == REG_RWSDP)
  	    opc = str_microblaze_rw_anchor;
-@@ -1182,31 +1183,55 @@ md_assemble (char * str)
+@@ -1186,33 +1187,55 @@ md_assemble (char * str)
                inst |= (immed << IMM_LOW) & IMM_MASK;
              }
  	}
@@ -170,8 +170,10 @@ index 5e11a77e70..48f306ef41 100644
 +          if (temp != 0 && temp != 0xFFFFFF8000)
 +            {
                /* Needs an immediate inst.  */
--              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
-+              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-	      opcode1
+-		= (struct op_code_struct *) str_hash_find (opcode_hash_control,
+-							   "imm");
++              opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
                if (opcode1 == NULL)
                  {
 -                  as_bad (_("unknown opcode \"%s\""), "imm");
@@ -225,7 +227,7 @@ index 5e11a77e70..48f306ef41 100644
        break;
  
      case INST_TYPE_RD_R1_IMMS:
-@@ -1832,12 +1857,20 @@ md_assemble (char * str)
+@@ -1842,12 +1865,20 @@ md_assemble (char * str)
      case INST_TYPE_IMM:
        if (streq (name, "imm"))
          as_fatal (_("An IMM instruction should not be present in the .s file"));
@@ -249,7 +251,7 @@ index 5e11a77e70..48f306ef41 100644
            relax_substateT subtype;
  
  	  if (exp.X_md != 0)
-@@ -1860,27 +1893,54 @@ md_assemble (char * str)
+@@ -1870,29 +1901,54 @@ md_assemble (char * str)
            immed = exp.X_add_number;
          }
  
@@ -272,7 +274,9 @@ index 5e11a77e70..48f306ef41 100644
 -      if ((temp != 0) && (temp != 0xFFFF8000))
 -	{
 -          /* Needs an immediate inst.  */
--          opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
+-          opcode1
+-	    = (struct op_code_struct *) str_hash_find (opcode_hash_control,
+-						       "imm");
 -          if (opcode1 == NULL)
 -            {
 -              as_bad (_("unknown opcode \"%s\""), "imm");
@@ -322,7 +326,7 @@ index 5e11a77e70..48f306ef41 100644
        break;
  
      case INST_TYPE_NONE:
-@@ -2456,7 +2516,7 @@ md_apply_fix (fixS *   fixP,
+@@ -2468,7 +2524,7 @@ md_apply_fix (fixS *   fixP,
  
             inst1 = opcode1->bit_sequence;
             if (fixP->fx_addsy == NULL || S_IS_DEFINED (fixP->fx_addsy))
@@ -331,7 +335,7 @@ index 5e11a77e70..48f306ef41 100644
             if (fixP->fx_r_type == BFD_RELOC_MICROBLAZE_64)
               fixP->fx_r_type = BFD_RELOC_64; 
             if (fixP->fx_r_type == BFD_RELOC_MICROBLAZE_64_PCREL)
-@@ -2624,7 +2684,14 @@ md_estimate_size_before_relax (fragS * fragP,
+@@ -2636,7 +2692,14 @@ md_estimate_size_before_relax (fragS * fragP,
          }
        else
  	{
@@ -347,7 +351,7 @@ index 5e11a77e70..48f306ef41 100644
  	  fragP->fr_var = INST_WORD_SIZE*2;
  	}
        break;
-@@ -2901,6 +2968,7 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
+@@ -2913,6 +2976,7 @@ md_parse_option (int c, const char * arg ATTRIBUTE_UNUSED)
      case OPTION_M64:
        //if (arg != NULL && strcmp (arg, "64") == 0)
        microblaze_arch_size = 64;
