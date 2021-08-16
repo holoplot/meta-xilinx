@@ -1,0 +1,189 @@
+From 540ea0dd96201202e46a329e4bd71eac14aa9330 Mon Sep 17 00:00:00 2001
+From: Adrian Fiergolski <adrian.fiergolski@fastree3d.com>
+Date: Mon, 16 Aug 2021 17:49:53 +0200
+Subject: [PATCH] Move to str_hash_find function.
+
+---
+ gas/config/tc-microblaze.c | 50 +++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
+
+diff --git a/gas/config/tc-microblaze.c b/gas/config/tc-microblaze.c
+index 70218199295..3dd1363458c 100644
+--- a/gas/config/tc-microblaze.c
++++ b/gas/config/tc-microblaze.c
+@@ -1368,7 +1368,7 @@ md_assemble (char * str)
+            if ((temp != 0) && (temp != 0xFFFF8000))
+ 	     {
+                /* Needs an immediate inst.  */
+-              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
++              opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imm");
+                if (opcode1 == NULL)
+                  {
+                    as_bad (_("unknown opcode \"%s\""), "imm");
+@@ -1671,7 +1671,7 @@ md_assemble (char * str)
+               /* Needs an immediate inst.  */
+            if (((long long)immed) > (long long)-549755813888 && ((long long)immed) < (long long)549755813887)
+ 	    {
+-            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++            opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -1686,8 +1686,8 @@ md_assemble (char * str)
+               output = frag_more (isize);
+             }
+           else {
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL || opcode2 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2074,7 +2074,7 @@ md_assemble (char * str)
+               /* Needs an immediate inst.  */
+            if (((long long)immed) > (long long)-549755813888 && ((long long)immed) < (long long)549755813887)
+ 	    {
+-            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++            opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2089,8 +2089,8 @@ md_assemble (char * str)
+               output = frag_more (isize);
+             }
+           else {
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL || opcode2 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2208,7 +2208,7 @@ md_assemble (char * str)
+               /* Needs an immediate inst.  */
+ 	  if (((long long)immed) > (long long)-549755813888 && ((long long)immed) < (long long)549755813887)
+ 	   {
+-            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++            opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2223,8 +2223,8 @@ md_assemble (char * str)
+               output = frag_more (isize);
+             }
+            else {
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+               if (opcode1 == NULL || opcode2 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2254,7 +2254,7 @@ md_assemble (char * str)
+           if ((temp != 0) && (temp != 0xFFFF8000))
+ 	    {
+               /* Needs an immediate inst.  */
+-              opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
++              opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imm");
+               if (opcode1 == NULL)
+                 {
+                   as_bad (_("unknown opcode \"%s\""), "imm");
+@@ -2347,7 +2347,7 @@ md_assemble (char * str)
+ 	  immedl = exp.X_add_number;
+ 	   if (((long long)immedl) > (long long)-549755813888 && ((long long)immedl) < (long long)549755813887)
+             {
+-             opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++             opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+           if (opcode1 == NULL)
+             {
+               as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2362,8 +2362,8 @@ md_assemble (char * str)
+           output = frag_more (isize);
+         }
+            else {
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+        if (opcode2 == NULL || opcode1 == NULL)
+             {
+               as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2434,7 +2434,7 @@ md_assemble (char * str)
+           immedl = exp.X_add_number;
+ 	   if (((long long)immedl) > (long long)-549755813888 && ((long long)immedl) < (long long)549755813887)
+              {
+-            opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++            opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+            if (opcode1 == NULL)
+             {
+               as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2449,8 +2449,8 @@ md_assemble (char * str)
+           output = frag_more (isize);
+           }
+            else {
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+        if (opcode2 == NULL || opcode1 == NULL)
+             {
+               as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2944,7 +2944,7 @@ md_apply_fix (fixS *   fixP,
+         /* Add an imm instruction.  First save the current instruction.  */
+         for (i = 0; i < INST_WORD_SIZE; i++)
+         buf[i + INST_WORD_SIZE] = buf[i];
+-          opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++          opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+           if (opcode1 == NULL)
+             {
+               as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -2968,8 +2968,8 @@ md_apply_fix (fixS *   fixP,
+         for (i = 0; i < INST_WORD_SIZE; i++)
+         buf[i + INST_WORD_SIZE + 4] = buf[i];
+ 
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+ 	   if (opcode1 == NULL || opcode2 ==NULL)
+               {
+ 	      as_bad (_("unknown opcode \"%s\""), "imml");
+@@ -3005,7 +3005,7 @@ md_apply_fix (fixS *   fixP,
+         for (i = 0; i < INST_WORD_SIZE; i++)
+         buf[i + INST_WORD_SIZE] = buf[i];
+           /* Generate the imm instruction.  */
+-          opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
++          opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imm");
+           if (opcode1 == NULL)
+ 	    {
+ 	      as_bad (_("unknown opcode \"%s\""), "imm");
+@@ -3056,13 +3056,13 @@ md_apply_fix (fixS *   fixP,
+            {
+            for (i = 0; i < INST_WORD_SIZE; i++)
+             buf[i + INST_WORD_SIZE] = buf[i];
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+ 	   }
+            else {
+        for (i = 0; i < INST_WORD_SIZE; i++)
+         buf[i + INST_WORD_SIZE + 4] = buf[i]; 
+-           opcode2 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
+-           opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imml");
++           opcode2 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
++           opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imml");
+       inst2 = opcode2->bit_sequence;
+ 
+       /* We can fixup call to a defined non-global address
+@@ -3074,7 +3074,7 @@ md_apply_fix (fixS *   fixP,
+            }
+ 	}
+       else
+-        opcode1 = (struct op_code_struct *) hash_find (opcode_hash_control, "imm");
++        opcode1 = (struct op_code_struct *) str_hash_find (opcode_hash_control, "imm");
+       if (opcode1 == NULL)
+ 	{
+       for (i = 0; i < INST_WORD_SIZE; i++)
+-- 
+2.32.0
+
