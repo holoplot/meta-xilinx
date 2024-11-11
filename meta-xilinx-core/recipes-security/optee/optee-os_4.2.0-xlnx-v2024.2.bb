@@ -6,11 +6,11 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = "git://github.com/Xilinx/optee/optee_os.git;branch=master;protocol=https"
 
-SRCREV = "3504759bfff02f0c1e0a3c5273620833883e3a49"
+SRCREV = "72af0f51b5604abbf177e767cf8fef6d2a9ecb16"
 
 COMPATIBLE_MACHINE:versal2-generic = ".*"
 
-OPTEEMACHINE:versal-generic = "versal2"
+OPTEEMACHINE:versal2-generic = "versal2"
 
 OPTEE_ARCH ?= "arm64"
 
