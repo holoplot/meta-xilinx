@@ -9,8 +9,7 @@ SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2024.2/sdt/2024.2/2024.
 
 SRC_URI[sha256sum] = "bf7688694a27a0f81e7d59d16c2b819994aa5fb8adfb0d94656da4040e4bc279"
 
-COMPATIBLE_MACHINE:versal-vek280-sdt-seg = "${MACHINE}"
-COMPATIBLE_MACHINE:versal-vek280-sdt-seg-ospi = "${MACHINE}"
+COMPATIBLE_MACHINE = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
