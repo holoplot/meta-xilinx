@@ -9,8 +9,7 @@ SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2024.2/sdt/2024.2/2024.
 
 SRC_URI[sha256sum] = "c4457697a50ecf70f5008797932feb55db18d8afbd5592e3a7ed2cc9ee9fac31"
 
-
-COMPATIBLE_MACHINE:zynqmp-zcu104-sdt-full = "${MACHINE}"
+COMPATIBLE_MACHINE = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
