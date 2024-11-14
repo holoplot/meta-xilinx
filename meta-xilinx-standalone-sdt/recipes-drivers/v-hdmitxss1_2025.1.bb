@@ -5,7 +5,8 @@ REQUIRED_MACHINE_FEATURES = "v-hdmitxss1"
 
 inherit esw python3native
 
-DEPENDS += "xilstandalone v-hdmitx1 vtc tmrctr v-hdmi-common"
+DEPENDS += "xilstandalone v-hdmitx1 vtc v-hdmi-common"
+DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "tmrctr", "tmrctr", "",d)}"
 DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "hdcp1x", "hdcp1x", "",d)}"
 DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "hdcp22-tx", "hdcp22-tx", "",d)}"
 
