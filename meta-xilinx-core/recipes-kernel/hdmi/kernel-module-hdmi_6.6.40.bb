@@ -8,9 +8,9 @@ PV .= "+git"
 
 S = "${WORKDIR}/git"
 
-BRANCH ?= "xlnx_rel_v2024.2"
+BRANCH ?= "master"
 REPO   ?= "git://github.com/Xilinx/hdmi-modules.git;protocol=https"
-SRCREV = "4bb89eb3f3062eac8de1aa2b7e64d7f861e18caa"
+SRCREV = "811e217f868e5e85c8c796e9a1242dccab7fe135"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
