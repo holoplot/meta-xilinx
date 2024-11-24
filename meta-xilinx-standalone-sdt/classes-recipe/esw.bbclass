@@ -8,8 +8,6 @@ OECMAKE_ARGS:remove = "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON"
 
 SRCREV_FORMAT = "src_decouple"
 
-S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
 OECMAKE_SOURCEPATH = "${S}/${ESW_COMPONENT_SRC}"
 LICFILENAME = "license.txt"
 
@@ -142,6 +140,15 @@ python do_generate_driver_data() {
         bb.error("Couldn't find source dir %s" % d.getVar('OECMAKE_SOURCEPATH'))
 
     os.chdir(d.getVar('B'))
-    command = ["lopper"] + ["-f"] + ["-O"] + [src_dir[0]] + [system_dt[0]] + ["--"] + ["baremetalconfig_xlnx.py"] + [machine] + [src_dir[0]]
+    command = ["lopper"]
+    command += ["-f"]
+    command += ["-O"]
+    command += [src_dir[0]]
+    command += [system_dt[0]]
+    command += ["--"]
+    command += ["baremetalconfig_xlnx.py"]
+    command += [machine]
+    command += [src_dir[0]]
     subprocess.run(command, check = True)
 }
+addtask do_generate_driver_data after do_copy_shared_src do_patch
