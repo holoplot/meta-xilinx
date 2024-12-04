@@ -63,6 +63,8 @@ XLNX_CMAKE_MACHINE:zynqmp = "ZynqMP"
 XLNX_CMAKE_MACHINE:versal = "Versal"
 XLNX_CMAKE_MACHINE:versal-net = "VersalNet"
 
+XLNX_CMAKE_SUBMACHINE = "undefined"
+
 XLNX_CMAKE_PROCESSOR = "${@get_xlnx_cmake_processor(d.getVar('DEFAULTTUNE'), d.getVar('ESW_MACHINE'), d)}"
 XLNX_CMAKE_SYSTEM_NAME ?= "Generic"
 XLNX_CMAKE_BSP_VARS ?= ""
@@ -74,6 +76,7 @@ cmake_do_generate_toolchain_file:append() {
     CMAKE_FORCE_CXX_COMPILER("${OECMAKE_CXX_COMPILER}" GNU)
     set( CMAKE_SYSTEM_PROCESSOR "${XLNX_CMAKE_PROCESSOR}" )
     set( CMAKE_MACHINE "${XLNX_CMAKE_MACHINE}" )
+    set( CMAKE_SUBMACHINE "${XLNX_CMAKE_SUBMACHINE}" )
     # Will need this in the future to make cmake understand esw variables
     # set( CMAKE_SYSTEM_NAME `echo elf | sed -e 's/^./\u&/' -e 's/^\(Linux\).*/\1/'` )
     set( CMAKE_SYSTEM_NAME "${XLNX_CMAKE_SYSTEM_NAME}" )
