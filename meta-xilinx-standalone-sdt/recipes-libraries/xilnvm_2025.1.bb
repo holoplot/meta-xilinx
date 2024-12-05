@@ -7,4 +7,9 @@ PACKAGECONFIG ??= "client server"
 PACKAGECONFIG[client]  ="-DXILNVM_mode="client",,"
 PACKAGECONFIG[server]  ="-DXILNVM_mode="server",,"
 
-DEPENDS += "libxil xiltimer ${@'xilplmi' if d.getVar('ESW_MACHINE') == 'psv_pmc_0' else 'xilmailbox'}"
+DEPENDS += "\
+    libxil \
+    xiltimer \
+    ${@'xilplmi' if d.getVar('ESW_MACHINE') == 'psv_pmc_0' \
+        or d.getVar('ESW_MACHINE') == 'pmc_0' else 'xilmailbox'} \
+    "
