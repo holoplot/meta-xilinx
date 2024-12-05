@@ -24,11 +24,32 @@ BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 IMGRCVRY_BIFFILE ?= "${B}/imgrcvry.bif"
 
 
+def write_zynqmp_bif(bifpartition, attrflags, attrimage, ids, d):
+    biffile_str = 'the_imgrcvry_image:\n'
+    biffile_str += '{\n'
+    import os
+    for attr in bifpartition:
+        attr_path = d.expand(attrimage[attr])
+        attr_flag = d.expand(attrflags[attr])
+        if not os.path.exists(attr_path):
+            bb.fatal("Expected file %s, specified from the bif file does not exists!" %(attr_path))
+        if attr in attrflags:
+            biffile_str += "\t [%s] %s\n" % (attr_flag, attr_path)
+        else:
+            biffile_str += "\t %s\n" % (attr_path)
+    biffile_str += '}\n'
+
+    return biffile_str
+
+
 def write_versal_bif(bifpartition, attrflags, attrimage, ids, d):
     idcode_dict = {}
+    import os
     for attr in bifpartition:
         attr_path = d.expand(attrimage[attr])
         attr_flags = d.expand(attrflags[attr])
+        if not os.path.exists(attr_path):
+            bb.fatal("Expected file %s, specified from the bif file does not exists!" %(attr_path))
         if attr and attr_flags:
             bifstr = "\t { %s, file=%s }\n" % (attr_flags, attr_path)
             try:
@@ -64,9 +85,10 @@ python do_imgrcvry_bif () {
     biffile_str = ''
     if soc_family in ('versal'):
         biffile_str = write_versal_bif(bifpartition, attrflags, attrimage, ids, d)
+    elif soc_family in ('zynqmp'):
+        biffile_str = write_zynqmp_bif(bifpartition, attrflags, attrimage, ids, d)
     else:
         pass
-    import os
     with open(d.getVar('IMGRCVRY_BIFFILE'), 'w') as f:
         f.write(biffile_str)
     f.close()
@@ -85,8 +107,8 @@ addtask do_imgrcvry_bif after do_image before do_image_imagercvry
 
 do_imgrcvry_bif[vardeps] += "IMGRCVRY_ATTR IMGRCVRY_BIFFILE IMGRCVRY_KERNEL_ATTR BIF_PARTITION_IMAGE BIF_COMMON_ATTR BIF_PARTITION_ID"
 
-IMGRCVRY_ATTR_DEP = "${@(d.getVar('IMGRCVRY_ATTR') or "").replace('arm-trusted-firmware', 'virtual/arm-trusted-firmware')}"
-do_image_imagercvry[depends] += "${@' '.join('%s:do_populate_sysroot' % r for r in d.getVar('IMGRCVRY_ATTR_DEP').split())}"
-do_image_imagercvry[depends] += "bootgen-native:do_populate_sysroot virtual/kernel:do_deploy u-boot-xlnx-scr:do_deploy"
+IMGRCVRY_ATTR_DEP = "${@(d.getVar('IMGRCVRY_ATTR') or "").replace('arm-trusted-firmware', 'virtual/arm-trusted-firmware').replace('bitstream', 'virtual/bitstream')}"
+do_imgrcvry_bif[depends] += "${@' '.join('%s:do_populate_sysroot' % r for r in d.getVar('IMGRCVRY_ATTR_DEP').split())}"
+do_imgrcvry_bif[depends] += "bootgen-native:do_populate_sysroot virtual/kernel:do_deploy"
 
 IMAGE_TYPEDEP:imagercvry = "cpio.gz.u-boot"
