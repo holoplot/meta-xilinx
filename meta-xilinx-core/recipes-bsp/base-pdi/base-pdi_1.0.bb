@@ -11,6 +11,8 @@ COMPATIBLE_MACHINE:microblaze = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
 
+COMPATIBLE_HOST = ".*"
+
 PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 
 do_compile[noexec] = "1"

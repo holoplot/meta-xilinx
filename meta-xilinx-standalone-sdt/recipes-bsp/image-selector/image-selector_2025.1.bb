@@ -2,7 +2,7 @@ inherit esw python3native esw_apps_common deploy
 
 IMGSEL_DEPENDS ?= ""
 IMGSEL_DEPENDS:zynqmp ?= "libxil xiltimer bootgen-native"
-IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs ${SYSTEM_DTFILE_DEPENDS} bootgen-native"
+IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs ${SYSTEM_DTFILE_DEPENDS} bootgen-native base-pdi"
 
 DEPENDS += "${IMGSEL_DEPENDS}"
 
@@ -47,10 +47,16 @@ do_compile:append:versal () {
 		bberror "Unable to find lpd_data.cdo file in ${SYSTEM_DTFILE_DIR} to generate image-selector.bin file"
 		exit 1
 	fi
+	base_idcode="0x14ca8093"
+	if [ -f ${RECIPE_SYSROOT}/boot/base-design.pdi ]; then
+		base_idcode=$(bootgen -arch versal -read ${RECIPE_SYSROOT}/boot/base-design.pdi iht | grep -w id_code | cut -d ':' -f2 | xargs | cut -d ' ' -f1)
+	else
+		bbwarn "Unable to find the pdi file ${RECIPE_SYSROOT}/boot/base-design.pdi to get ID_CODE, using ${base_idcode} as id_code."
+	fi
 cat > ${WORKDIR}/${PN}.bif << EOF
     the_ROM_image:
     {
-	id_code = 0x14ca8093
+	id_code = ${base_idcode}
 	extended_id_code = 0x01
 	id = 0x2
 	image {
