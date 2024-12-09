@@ -31,7 +31,8 @@ def write_zynqmp_bif(bifpartition, attrflags, attrimage, ids, d):
     for attr in bifpartition:
         attr_path = d.expand(attrimage[attr])
         attr_flag = d.expand(attrflags[attr])
-        if not os.path.exists(attr_path):
+        # IMAGE_TYPEDEP will run after the do_imgrcvry_bif so skip rootfs file check
+        if not os.path.exists(attr_path) and attr != 'rootfs':
             bb.fatal("Expected file %s, specified from the bif file does not exists!" %(attr_path))
         if attr in attrflags:
             biffile_str += "\t [%s] %s\n" % (attr_flag, attr_path)
@@ -48,7 +49,8 @@ def write_versal_bif(bifpartition, attrflags, attrimage, ids, d):
     for attr in bifpartition:
         attr_path = d.expand(attrimage[attr])
         attr_flags = d.expand(attrflags[attr])
-        if not os.path.exists(attr_path):
+        # IMAGE_TYPEDEP will run after the do_imgrcvry_bif so skip rootfs file check
+        if not os.path.exists(attr_path) and attr != 'rootfs':
             bb.fatal("Expected file %s, specified from the bif file does not exists!" %(attr_path))
         if attr and attr_flags:
             bifstr = "\t { %s, file=%s }\n" % (attr_flags, attr_path)

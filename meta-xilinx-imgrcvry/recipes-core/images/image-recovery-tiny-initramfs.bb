@@ -3,6 +3,8 @@ LICENSE = "MIT"
 
 require recipes-core/images/core-image-tiny-initramfs.bb
 
+IMAGE_CLASSES += "image-types-imgrcvry"
+
 INITRAMFS_FSTYPES += "cpio.gz.u-boot imagercvry"
 
 PACKAGE_INSTALL = "imgrcvry-initramfs-live-boot-tiny packagegroup-core-boot dropbear \
