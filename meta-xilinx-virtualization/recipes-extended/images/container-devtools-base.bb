@@ -9,8 +9,15 @@ CORE_DEV_IMAGE_EXTRA_INSTALL ?= ""
 include container-base.bb
 inherit core-image
 
+CORE_DEV_IMAGE_EDITOR ?= "vim-tiny"
+# base-utils is required for post-install scriptlets in most packages,
+# coreutils or busybox can do the job
+CORE_DEV_IMAGE_CORE_UTILS ?= "${VIRTUAL-RUNTIME_base-utils}"
+
 IMAGE_INSTALL += " \
    ${CORE_DEV_IMAGE_EXTRA_INSTALL} \
+   ${CORE_DEV_IMAGE_CORE_UTILS} \
+   ${CORE_DEV_IMAGE_EDITOR} \
    "
 
 OCI_IMAGE_ENTRYPOINT = ""

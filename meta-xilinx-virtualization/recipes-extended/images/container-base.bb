@@ -46,3 +46,7 @@ rootfs_fixup_var_volatile () {
     install -m 1777 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/tmp
     install -m 755 -d ${IMAGE_ROOTFS}/${localstatedir}/volatile/log
 }
+
+# This :remove is required, because it comes along and deletes our /var/volatile/
+# fixups!
+ROOTFS_POSTPROCESS_COMMAND:remove = "empty_var_volatile"
