@@ -1,6 +1,7 @@
 require openamp-fw.inc
 
 PROVIDES:append:armv7r = " openamp-fw-rpc-demo "
+PROVIDES:append:armv8r = " openamp-fw-rpc-demo "
 
 OPENAMP_FW_SRC_NAME = "rpc_demo.out"
 OPENAMP_FW_NAME = "image_rpc_demo"
