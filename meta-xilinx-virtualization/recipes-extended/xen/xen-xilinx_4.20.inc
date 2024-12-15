@@ -8,5 +8,5 @@ DEFAULT_PREFERENCE = "+1"
 
 SRC_URI = " \
     ${XEN_URI};branch=${XEN_BRANCH} \
-    file://0001-python-pygrub-pass-DISTUTILS-xen-4.18.patch \
+    file://0001-python-pygrub-pass-DISTUTILS-xen-4.19.patch \
     "
