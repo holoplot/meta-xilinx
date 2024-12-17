@@ -51,7 +51,7 @@ BOOTGEN_EXTRA_ARGS ?= ""
 QEMU_FLASH_TYPE ?= "qspi"
 BOOTSCR_DEP = ''
 BOOTSCR_DEP:versal = '${UBOOT_BOOT_SCRIPT}:do_deploy'
-BOOTSCR_DEP:versal-net = 'u-boot-xlnx-scr:do_deploy'
+BOOTSCR_DEP:versal-net = '${UBOOT_BOOT_SCRIPT}:do_deploy'
 
 BIF_BITSTREAM_ATTR ?= "${@bb.utils.contains('MACHINE_FEATURES', 'fpga-overlay', '', 'bitstream', d)}"
 
