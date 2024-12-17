@@ -8,6 +8,7 @@ LICFILENAME = "license.txt"
 SPECFILE_PATH:arm = "${S}/scripts/specs/arm/Xilinx.spec"
 SPECFILE_PATH:aarch64 = "${S}/scripts/specs/arm/Xilinx.spec"
 SPECFILE_PATH:microblaze = "${S}/scripts/specs/microblaze/Xilinx.spec"
+SPECFILE_PATH:microblaze_riscv = "${S}/scripts/specs/microblaze_riscv/Xilinx.spec"
 
 ESW_MACHINE ?= "${MACHINE}"
 
@@ -37,6 +38,8 @@ def get_xlnx_cmake_processor(tune, machine, d):
             cmake_processor = 'plm_microblaze'
         else:
             cmake_processor = 'microblaze'
+    elif tune == 'microblaze_riscv':
+        cmake_processor = 'microblaze_riscv'
     elif (tune in [ 'cortexr5', 'cortexr5hf' ]):
         cmake_processor = 'cortexr5'
     elif (tune in [ 'cortexr52', 'cortexr52hf' ]):
