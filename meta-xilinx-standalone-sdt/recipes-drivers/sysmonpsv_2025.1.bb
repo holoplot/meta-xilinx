@@ -7,7 +7,8 @@ inherit esw python3native
 DEPENDS += " \
     xilstandalone ${@'scugic' if d.getVar('ESW_MACHINE') != 'psv_pmc_0' \
         and d.getVar('ESW_MACHINE') != 'psv_psm_0' \
-        and d.getVar('ESW_MACHINE') != 'pmc_0' else ''} \
+        and d.getVar('ESW_MACHINE') != 'pmc_0' \
+        and d.getVar('ESW_MACHINE') != 'asu' else ''} \
     "
 
 ESW_COMPONENT_SRC = "/XilinxProcessorIPLib/drivers/sysmonpsv/src/"
