@@ -6,7 +6,7 @@ ESW_COMPONENT_NAME = "libxilloader.a"
 DEPENDS += " \
     xilstandalone \
     libxil \
-    xilpm \
+    ${@'xilpm-ng' if d.getVar('ESW_MACHINE') == 'pmc_0' else 'xilpm'} \
     xilpdi \
     xilffs \
     xilsecure \
