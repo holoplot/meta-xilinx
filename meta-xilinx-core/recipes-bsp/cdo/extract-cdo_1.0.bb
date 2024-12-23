@@ -20,14 +20,17 @@ PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 B = "${WORKDIR}/build"
 
 BOOTGEN_CMD ?= "bootgen"
-BOOTGEN_ARGS ?= "-arch versal"
+BOOTGEN_ARCH_DEFAULT = "undefined"
+BOOTGEN_ARCH_DEFAULT:versal = "versal"
+BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
+BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_OUTFILE ?= "${DEPLOY_DIR_IMAGE}/boot.bin"
 
 # bootgen extracts the pmc_cdo file from the boot.bin.  By default this
 # happens in the same directory as the boot.bin.  We need to move it to
 # this directory, as do_compile should never write into a deploy dir
 do_compile() {
-    ${BOOTGEN_CMD} ${BOOTGEN_ARGS} -dump_dir ${B} -dump ${BOOTGEN_OUTFILE} pmc_cdo
+    ${BOOTGEN_CMD} -arch ${BOOTGEN_ARCH} -dump_dir ${B} -dump ${BOOTGEN_OUTFILE} pmc_cdo
 }
 
 do_install[noexec] = '1'
