@@ -23,6 +23,7 @@ BOOTGEN_CMD ?= "bootgen"
 BOOTGEN_ARCH_DEFAULT = "undefined"
 BOOTGEN_ARCH_DEFAULT:versal = "versal"
 BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
+BOOTGEN_ARCH_DEFAULT:versal2 = "versal_2ve_2vm"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_OUTFILE ?= "${DEPLOY_DIR_IMAGE}/boot.bin"
 
