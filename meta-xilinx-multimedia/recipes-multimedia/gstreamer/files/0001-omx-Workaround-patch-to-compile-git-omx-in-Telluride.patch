@@ -1,0 +1,58 @@
+From c1d18cf1e3366d798b996ed85a57a298f568a18e Mon Sep 17 00:00:00 2001
+From: Yash Ladani <yash.ladani@amd.com>
+Date: Mon, 23 Dec 2024 02:32:44 -0800
+Subject: [PATCH] omx: Workaround patch to compile git-omx in Telluride VNC
+ Yocto
+
+Corresponding vcu2-omx-il changes are to be merged in next VCU2 delivery,
+meanwhile only compile this code for ZynqUS+ family to unblock the
+gst-omx compilation errors for telluride.
+
+Signed-off-by: Yash Ladani <yash.ladani@amd.com>
+
+Upstream-Status: Pending
+
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+---
+ subprojects/gst-omx/omx/gstomxh265enc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/subprojects/gst-omx/omx/gstomxh265enc.c b/subprojects/gst-omx/omx/gstomxh265enc.c
+index 954a0c6e32..90fe5b3aa8 100644
+--- a/subprojects/gst-omx/omx/gstomxh265enc.c
++++ b/subprojects/gst-omx/omx/gstomxh265enc.c
+@@ -887,6 +887,7 @@ gst_omx_h265_enc_get_caps (GstOMXVideoEnc * enc, GstOMXPort * port,
+         tier = "main";
+         level = "6.2";
+         break;
++#if defined(USE_OMX_TARGET_ZYNQ_USCALE_PLUS)
+       case OMX_VIDEO_HEVCMainTierLevel63:
+         tier = "main";
+         level = "6.3";
+@@ -903,6 +904,7 @@ gst_omx_h265_enc_get_caps (GstOMXVideoEnc * enc, GstOMXPort * port,
+         tier = "main";
+         level = "7.2";
+         break;
++#endif
+       case OMX_VIDEO_HEVCHighTierLevel4:
+         tier = "high";
+         level = "4";
+@@ -935,6 +937,7 @@ gst_omx_h265_enc_get_caps (GstOMXVideoEnc * enc, GstOMXPort * port,
+         tier = "high";
+         level = "6.2";
+         break;
++#if defined(USE_OMX_TARGET_ZYNQ_USCALE_PLUS)
+       case OMX_VIDEO_HEVCHighTierLevel63:
+         tier = "high";
+         level = "6.3";
+@@ -951,6 +954,7 @@ gst_omx_h265_enc_get_caps (GstOMXVideoEnc * enc, GstOMXPort * port,
+         tier = "high";
+         level = "7.2";
+         break;
++#endif
+       default:
+         g_assert_not_reached ();
+         gst_caps_unref (caps);
+-- 
+2.34.1
+
