@@ -2,12 +2,6 @@ require gstreamer-xilinx-1.22.%.inc
 
 S = "${WORKDIR}/git/subprojects/gst-omx"
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-
-SRC_URI += "\
-    file://0001-omx-Workaround-patch-to-compile-git-omx-in-Telluride.patch;patchdir=./../../ \
-    "
-
 RDEPENDS:${PN} .= "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' libvcu-omxil', '', d)}"
 DEPENDS .= "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' libvcu-omxil', '', d)}"
 
