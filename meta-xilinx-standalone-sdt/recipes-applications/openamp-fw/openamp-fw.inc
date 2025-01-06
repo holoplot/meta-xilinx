@@ -3,10 +3,12 @@ LICENSE = "CLOSED"
 
 inherit fw-package
 
+OPENAMP_XLNX_RECIPE ?= "open-amp-xlnx-echo"
+
 TARGET_MC:zynqmp = "cortexr5-0-baremetal"
 TARGET_MC:versal = "cortexr5-0-baremetal"
 TARGET_MC:versal-net = "cortexr52-0-baremetal"
-FW_MCDEPENDS = "mc::${MACHINE}-${TARGET_MC}:open-amp-xlnx:do_deploy"
+FW_MCDEPENDS = "mc::${MACHINE}-${TARGET_MC}:${OPENAMP_XLNX_RECIPE}:do_deploy"
 FW_DEPLOY_DIR ?= "${TMPDIR}-${MACHINE}-${TARGET_MC}/deploy/images/${MACHINE}"
 
 DESTDIR = "${nonarch_base_libdir}/firmware"
