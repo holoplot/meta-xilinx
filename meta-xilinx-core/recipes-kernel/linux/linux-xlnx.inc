@@ -12,6 +12,10 @@ YOCTO_META ?= "git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=met
 SRC_URI = "${KERNELURI};${SRCBRANCHARG} ${YOCTO_META}"
 SRC_URI += "file://linux-xlnx-kmeta;type=kmeta;name=linux-xlnx-kmeta;destsuffix=linux-xlnx-kmeta"
 
+SRC_URI:append:versal2 = "\
+    ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://linux-optee.cfg', '', d)}\
+    "
+
 SRCREV_machine ?= "${SRCREV}"
 SRCREV_meta ?= "eeb5d0c9dd5e2928835c633644426ee357fbce12"
 SRCREV_FORMAT = "machine"
