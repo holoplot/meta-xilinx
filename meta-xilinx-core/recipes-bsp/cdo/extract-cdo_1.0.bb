@@ -42,4 +42,8 @@ do_deploy() {
     ln -sf CDO/pmc_cdo.bin ${DEPLOYDIR}/pmc_cdo.bin
 }
 
+do_deploy:append:versal2() {
+    install -m 0644 ${B}/HashBlock0.bin ${DEPLOYDIR}/HashBlock0.bin
+}
+
 addtask deploy before do_build after do_install
