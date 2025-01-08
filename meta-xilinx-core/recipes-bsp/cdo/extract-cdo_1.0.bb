@@ -34,7 +34,7 @@ do_install[noexec] = '1'
 do_deploy() {
     install -d ${DEPLOYDIR}/CDO
     install -m 0644 ${B}/pmc_cdo.bin ${DEPLOYDIR}/CDO/pmc_cdo.bin
-    install -m 0644 ${B}/pmc_cdo.bin ${DEPLOYDIR}/pmc_cdo.bin
+    ln -sf CDO/pmc_cdo.bin ${DEPLOYDIR}/pmc_cdo.bin
 }
 
 addtask deploy before do_build after do_install
