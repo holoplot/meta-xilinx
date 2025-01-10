@@ -23,7 +23,7 @@ PMU_FIRMWARE_DEPLOY_DIR ??= "${DEPLOY_DIR_IMAGE}"
 PMU_FIRMWARE_DEPLOY_DIR[vardepsexclude] += "TOPDIR"
 PMU_FIRMWARE_IMAGE_NAME ??= "pmu-firmware-${MACHINE}"
 
-# Default is for the multilib case (without the extension .elf/.bin)
+# Default is for the multilib case (without the extension .elf)
 PMU_FILE ??= "${PMU_FIRMWARE_DEPLOY_DIR}/${PMU_FIRMWARE_IMAGE_NAME}"
 PMU_FILE[vardepsexclude] = "PMU_FIRMWARE_DEPLOY_DIR"
 
@@ -46,7 +46,6 @@ SHOULD_DEPLOY = "${@'false' if (d.getVar('PMU_FILE')).startswith(d.getVar('DEPLO
 do_deploy() {
     if ${SHOULD_DEPLOY}; then
         install -Dm 0644 ${PMU_FILE}.elf ${DEPLOYDIR}/${PMU_FIRMWARE_IMAGE_NAME}.elf
-        install -Dm 0644 ${PMU_FILE}.bin ${DEPLOYDIR}/${PMU_FIRMWARE_IMAGE_NAME}.bin
     fi
 }
 
@@ -68,21 +67,15 @@ def check_pmu_vars(d):
         d.setVar('BB_DONT_CACHE', '1')
 
         msg = ""
-        fail = False
         if not os.path.exists(d.getVar('PMU_FILE') + ".elf"):
             msg = msg + "The expected file %s.elf is not available.  " % d.getVar('PMU_FILE')
-            fail = True
-        if not os.path.exists(d.getVar('PMU_FILE') + ".bin"):
-            msg = msg + "The expected file %s.bin is not available.  " % d.getVar('PMU_FILE')
-            fail = True
-        if fail:
             if not d.getVar('WITHIN_EXT_SDK'):
                 raise bb.parse.SkipRecipe("%s  See the meta-xilinx-core README." % msg)
         else:
             # We found the file, so be sure to track it
-            d.setVar('SRC_URI', 'file://${PMU_FILE}.elf file://${PMU_FILE}.bin')
+            d.setVar('SRC_URI', 'file://${PMU_FILE}.elf')
             d.setVarFlag('do_install', 'file-checksums', '${PMU_FILE}.elf:True')
-            d.setVarFlag('do_deploy', 'file-checksums', '${PMU_FILE}.elf:True ${PMU_FILE}.bin:True')
+            d.setVarFlag('do_deploy', 'file-checksums', '${PMU_FILE}.elf:True')
 
 
 python() {
