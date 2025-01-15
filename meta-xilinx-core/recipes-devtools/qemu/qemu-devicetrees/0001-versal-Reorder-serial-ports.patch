@@ -9,6 +9,7 @@ while the standard serial pors were 2 & 3.  Reverse this order to
 ensure that the first two serial ports are the ones used by Linux.
 
 Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+Upstream-Status: Pending
 ---
  board-versal-pmc-virt-alt.dts  | 230 ++++++++++++++++
  board-versal-ps-vck190-alt.dts |  58 ++++
