@@ -13,8 +13,6 @@ SRC_URI = " \
 
 LIC_FILES_CHKSUM = "file://lop-microblaze-yocto.dts;endline=10;md5=27139f9b862dc6fe466c7157aba7ed9c"
 
-S = "${WORKDIR}"
-
 inherit python3-dir
 
 do_configure[noexec] = '1'
@@ -22,9 +20,9 @@ do_compile[noexec] = '1'
 
 do_install() {
 	mkdir -p ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops
-	cp ${S}/lop-microblaze-yocto.dts ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
-	cp ${S}/lop-xilinx-id-cpus.dts   ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
-	cp ${S}/lop-machine-name.dts     ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
+	cp ${UNPACKDIR}/lop-microblaze-yocto.dts ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
+	cp ${UNPACKDIR}/lop-xilinx-id-cpus.dts   ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
+	cp ${UNPACKDIR}/lop-machine-name.dts     ${D}/${PYTHON_SITEPACKAGES_DIR}/lopper/lops/.
 }
 
 FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}/lopper/lops"

@@ -7,8 +7,6 @@ SRC_URI = "\
     file://99-aie-device.rules \
 "
 
-S = "${WORKDIR}"
-
 inherit useradd
 
 COMPATIBLE_MACHINE ?= "^$"
@@ -23,7 +21,7 @@ do_compile[noexec] = '1'
 
 do_install () {
     install -d ${D}${sysconfdir}/udev/rules.d
-    for rule in $(find ${WORKDIR} -maxdepth 1 -type f -name "*.rules"); do
+    for rule in $(find ${UNPACKDIR} -maxdepth 1 -type f -name "*.rules"); do
         install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
     done
 }

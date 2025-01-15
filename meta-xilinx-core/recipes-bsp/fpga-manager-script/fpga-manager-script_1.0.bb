@@ -6,8 +6,6 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/fpgautil.c;beginline=1;endline=24;md5=0dbf
 SRC_URI = "\
 	file://fpgautil.c \
 	"
-S = "${WORKDIR}"
-
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 do_compile() {
@@ -15,7 +13,7 @@ do_compile() {
 }
 
 do_install() {
-        install -Dm 0755 ${S}/fpgautil ${D}${bindir}/fpgautil
+        install -Dm 0755 ${UNPACKDIR}/fpgautil ${D}${bindir}/fpgautil
 }
 
 FILES:${PN} = "\

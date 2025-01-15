@@ -268,36 +268,36 @@ do_compile() {
         -e 's:@@KERNEL_ROOT_RAMDISK@@:${KERNEL_ROOT_RAMDISK}:' \
         -e 's:@@KERNEL_COMMAND_APPEND@@:${KERNEL_COMMAND_APPEND}:' \
         ${SCRIPT_SED_ADDENDUM} \
-        "${WORKDIR}/boot.cmd.${BOOTMODE}${BOOTFILE_EXT}" > "${WORKDIR}/boot.cmd"
+        "${UNPACKDIR}/boot.cmd.${BOOTMODE}${BOOTFILE_EXT}" > "${WORKDIR}/boot.cmd"
 
-    mkimage -A arm -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
+    mkimage -A arm -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" ${WORKDIR}/boot.scr
 
     sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
         -e 's/@@DEVICE_TREE_NAME@@/${DEVICE_TREE_NAME}/' \
         -e 's/@@RAMDISK_IMAGE@@/${PXERAMDISK_IMAGE}/' \
-        "${WORKDIR}/pxeboot.pxe" > "pxeboot.pxe"
+        "${UNPACKDIR}/pxeboot.pxe" > "pxeboot.pxe"
 }
 
 do_install() {
     install -d ${D}/boot
-    install -m 0644 boot.scr ${D}/boot/${UBOOTSCR_BASE_NAME}.scr
-    install -m 0644 boot.scr ${D}/boot/
+    install -m 0644 ${WORKDIR}/boot.scr ${D}/boot/${UBOOTSCR_BASE_NAME}.scr
+    install -m 0644 ${WORKDIR}/boot.scr ${D}/boot/
     install -d ${D}/boot/pxeboot/${UBOOTPXE_CONFIG_NAME}
-    install -m 0644 pxeboot.pxe ${D}/boot/pxeboot/${UBOOTPXE_CONFIG_NAME}/default
+    install -m 0644 ${UNPACKDIR}/pxeboot.pxe ${D}/boot/pxeboot/${UBOOTPXE_CONFIG_NAME}/default
     install -d ${D}/boot/${UBOOTPXE_CONFIG}/
-    install -m 0644 pxeboot.pxe ${D}/boot/${UBOOTPXE_CONFIG}/default
+    install -m 0644 ${UNPACKDIR}/pxeboot.pxe ${D}/boot/${UBOOTPXE_CONFIG}/default
 }
 
 FILES:${PN} = "/boot/*"
 
 do_deploy() {
     install -d ${DEPLOYDIR}
-    install -m 0644 boot.scr ${DEPLOYDIR}/${UBOOTSCR_BASE_NAME}.scr
-    install -m 0644 boot.scr ${DEPLOYDIR}/
+    install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/${UBOOTSCR_BASE_NAME}.scr
+    install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/
     install -d ${DEPLOYDIR}/pxeboot/${UBOOTPXE_CONFIG_NAME}
-    install -m 0644 pxeboot.pxe ${DEPLOYDIR}/pxeboot/${UBOOTPXE_CONFIG_NAME}/default
+    install -m 0644 ${UNPACKDIR}/pxeboot.pxe ${DEPLOYDIR}/pxeboot/${UBOOTPXE_CONFIG_NAME}/default
     install -d ${DEPLOYDIR}/${UBOOTPXE_CONFIG}/
-    install -m 0644 pxeboot.pxe ${DEPLOYDIR}/${UBOOTPXE_CONFIG}/default
+    install -m 0644 ${UNPACKDIR}/pxeboot.pxe ${DEPLOYDIR}/${UBOOTPXE_CONFIG}/default
 }
 
 addtask do_deploy after do_compile before do_build
