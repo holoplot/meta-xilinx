@@ -18,12 +18,16 @@ S = "${WORKDIR}/git/src"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ??= "aie"
+PREFERRED_PROVIDER_virtual/opencl-icd ??= "opencl-icd-loader"
+
+PACKAGECONFIG ??= "aie ${PREFERRED_PROVIDER_virtual/opencl-icd}"
 PACKAGECONFIG[aie] = ",,libxaiengine aiefal,libxaiengine aiefal"
+PACKAGECONFIG[ocl-icd] = ",,ocl-icd,ocl-icd"
+PACKAGECONFIG[opencl-icd-loader] = ",,opencl-icd-loader,opencl-icd-loader"
 
 # util-linux is for libuuid-dev.
-DEPENDS = "libdrm opencl-headers ocl-icd opencl-clhpp boost util-linux git-replacement-native protobuf-native protobuf elfutils libffi rapidjson systemtap libdfx"
-RDEPENDS:${PN} = "bash ocl-icd boost-system boost-filesystem zocl (= ${PV})"
+DEPENDS = "libdrm opencl-headers virtual/opencl-icd opencl-clhpp boost util-linux git-replacement-native protobuf-native protobuf elfutils libffi rapidjson systemtap libdfx"
+RDEPENDS:${PN} = "bash boost-system boost-filesystem zocl (= ${PV})"
 
 EXTRA_OECMAKE += " \
 		-DCMAKE_BUILD_TYPE=Release \
@@ -33,6 +37,8 @@ EXTRA_OECMAKE += " \
 
 EXTRA_OECMAKE .= "${@bb.utils.contains('PACKAGECONFIG', 'aie', ' -DXRT_AIE_BUILD=true', '', d)}"
 TARGET_CXXFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'aie', ' -DXRT_ENABLE_AIE -DFAL_LINUX=on', '', d)}"
+
+TARGET_CXXFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'opencl-icd-loader', ' -DOPENCL_ICD_LOADER=on', '', d)}"
 
 # Systems with AIE also require libmetal, this is implemented in the dynamic-layers
 # See: meta-xilinx-core/dynamic-layers/openamp-layer/recipes-xrt/xrt_gt.bbappend
