@@ -66,4 +66,26 @@ python() {
         bb.build.addtask('do_copy_shared_src', 'do_configure do_populate_lic do_deploy_source_date_epoch', 'do_patch', d)
 
         d.appendVarFlag('do_copy_shared_src', 'depends', ' embeddedsw-source-${ESW_VER}:do_patch')
+
+        d.appendVarFlag('do_deploy_source_date_epoch', 'depends', ' embeddedsw-source-${ESW_VER}:do_deploy_source_date_epoch')
+}
+
+do_deploy_source_date_epoch () {
+    if [ "${BPN}" = "embeddedsw-source" ]; then
+        # Stock behavior from classes-global/base.bbclass
+        mkdir -p ${SDE_DEPLOYDIR}
+        if [ -e ${SDE_FILE} ]; then
+            echo "Deploying SDE from ${SDE_FILE} -> ${SDE_DEPLOYDIR}."
+            cp -p ${SDE_FILE} ${SDE_DEPLOYDIR}/__source_date_epoch.txt
+        else
+            echo "${SDE_FILE} not found!"
+        fi
+    else
+        # Shared workspace specific version, based on gcc-shared-source.inc
+        sde_file=${SDE_FILE}
+        sde_file=${sde_file#${WORKDIR}/}
+        mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
+        cp -p $(dirname ${SHARED_S})/$sde_file ${SDE_DEPLOYDIR}
+        cp -p $(dirname ${SHARED_S})/$sde_file ${SDE_FILE}
+    fi
 }
