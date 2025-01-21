@@ -1,7 +1,7 @@
 BPN = "qemu-xilinx"
 
 require qemu-system-native-alt.inc
-require qemu-xilinx-native-8.1.inc
+require qemu-xilinx-native-8.2.inc
 
 # As some of the files installed by qemu-native and qemu-system-native
 # are the same, we depend on qemu-native to get the full installation set

@@ -1,7 +1,7 @@
 BBCLASSEXTEND = "nativesdk"
 
-require qemu-8.1.inc
-require qemu-xilinx-8.1.inc
+require qemu-8.2.inc
+require qemu-xilinx-8.2.inc
 require qemu-alt.inc
 
 DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"

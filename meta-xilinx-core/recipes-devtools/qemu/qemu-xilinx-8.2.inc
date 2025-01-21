@@ -8,13 +8,13 @@ COMPATIBLE_HOST:arm = "null"
 # x86_64 is needed to build nativesdks
 QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 x86_64"
 
-BRANCH = "xlnx_rel_v2024.2"
-SRCREV = "01482fa113dcbfa785feb7d513df50d15ec4c5df"
+BRANCH = "master"
+SRCREV = "77b39fce5476733454b39cf83d7b3952aa282466"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/qemu-xilinx-8.1.0:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/qemu-xilinx:"
 
 PV .= "+git"
 REPO ?= "gitsm://github.com/Xilinx/qemu.git;protocol=https"
@@ -24,7 +24,7 @@ SRC_URI = "${REPO};${BRANCHARG};name=qemu"
 SRCREV_qemu = "${SRCREV}"
 SRCREV_FORMAT = "qemu"
 
-FILESEXTRAPATHS:append := ":${THISDIR}/qemu-8.1"
+FILESEXTRAPATHS:append := ":${THISDIR}/qemu"
 
 # Deal with the broken --disable-download
 SRCREV_berkeley-softfloat-3 = "b64af41c3276f97f0e181920400ee056b9c88037"
@@ -65,19 +65,30 @@ SRC_URI += "\
            file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
            file://fixedmeson.patch \
            file://no-pip.patch \
+           file://4a8579ad8629b57a43daa62e46cc7af6e1078116.patch \
+           file://0002-linux-user-loongarch64-Remove-TARGET_FORCE_SHMLBA.patch \
+           file://0003-linux-user-Add-strace-for-shmat.patch \
+           file://0004-linux-user-Rewrite-target_shmat.patch \
+           file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-self-.patch \
            file://qemu-guest-agent.init \
            file://qemu-guest-agent.udev \
+           file://CVE-2024-4467-0001.patch \
+           file://CVE-2024-4467-0002.patch \
+           file://CVE-2024-4467-0003.patch \
+           file://CVE-2024-7409-0001.patch \
+           file://CVE-2024-7409-0002.patch \
+           file://CVE-2024-7409-0003.patch \
+           file://CVE-2024-7409-0004.patch \
+           file://0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch \
+           file://0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch \
+           file://0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch \
            "
 
-# Patch doesn't apply to 8.1.0
-#           file://fixmips.patch 
-
-# Additional patches to match Scarthgap, which requires a slightly newer qmp interface
-SRC_URI += "\
-           file://0001-python-rename-QEMUMonitorProtocol.cmd-to-cmd_raw.patch \
-           file://0002-python-qemu-rename-command-to-cmd.patch \
-           "
-
+# The following items are applicable to upstream qemu 8.2.3 as integrated
+# by the Yocto Project, but these do NOT apply to this qemu-xilinx version.
+#           file://CVE-2024-4467-0004.patch \
+#           file://CVE-2024-4467-0005.patch \
+#
 
 S = "${WORKDIR}/git"
 

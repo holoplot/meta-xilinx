@@ -10,7 +10,7 @@ DEPENDS += "bison-native meson-native ninja-native"
 
 RDEPENDS:${PN}-ptest = "bash"
 
-require qemu-targets-8.1.inc
+require qemu-targets-8.2.inc
 # https://gitlab.com/qemu-project/qemu/-/commit/81e2b198a8cb4ee5fdf108bd438f44b193ee3a36 means
 # we need a full python3-native setup
 inherit pkgconfig ptest update-rc.d systemd python3native
@@ -32,20 +32,43 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
            file://0010-hw-pvrdma-Protect-against-buggy-or-malicious-guest-d.patch \
            file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
            file://fixedmeson.patch \
-           file://fixmips.patch \
            file://no-pip.patch \
+           file://4a8579ad8629b57a43daa62e46cc7af6e1078116.patch \
+           file://0002-linux-user-loongarch64-Remove-TARGET_FORCE_SHMLBA.patch \
+           file://0003-linux-user-Add-strace-for-shmat.patch \
+           file://0004-linux-user-Rewrite-target_shmat.patch \
+           file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-self-.patch \
            file://qemu-guest-agent.init \
            file://qemu-guest-agent.udev \
+           file://CVE-2024-4467-0001.patch \
+           file://CVE-2024-4467-0002.patch \
+           file://CVE-2024-4467-0003.patch \
+           file://CVE-2024-4467-0004.patch \
+           file://CVE-2024-4467-0005.patch \
+           file://CVE-2024-7409-0001.patch \
+           file://CVE-2024-7409-0002.patch \
+           file://CVE-2024-7409-0003.patch \
+           file://CVE-2024-7409-0004.patch \
+           file://0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch \
+           file://0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch \
+           file://0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch \
            "
 UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
 
+# SDK_OLDEST_KERNEL is set below 4.17, which is the minimum version required by QEMU >= 8.1
+# This is due to two MMAP flags being used at certain points
+#SRC_URI:append:class-nativesdk = " \
+#	file://0011-linux-user-workaround-for-missing-MAP_FIXED_NOREPLAC.patch \
+#	file://0012-linux-user-workaround-for-missing-MAP_SHARED_VALIDAT.patch \
+#        "
 
-SRC_URI[sha256sum] = "541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087"
+# Support building and using native version on pre 4.17 kernels
+#SRC_URI:append:class-native = " \
+#	file://0011-linux-user-workaround-for-missing-MAP_FIXED_NOREPLAC.patch \
+#	file://0012-linux-user-workaround-for-missing-MAP_SHARED_VALIDAT.patch \
+#        "
 
-SRC_URI:append:class-target = " file://cross.patch"
-SRC_URI:append:class-nativesdk = " file://cross.patch"
-
-CVE_STATUS[CVE-2017-5957] = "cpe-incorrect: Applies against virglrender < 0.6.0 and not qemu itself"
+SRC_URI[sha256sum] = "dc747fb366809455317601c4876bd1f6829a32a23e83fb76e45ab12c2a569964"
 
 CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
 
@@ -58,6 +81,14 @@ CVE_STATUS[CVE-2023-0664] = "not-applicable-platform: Issue only applies on Wind
 
 # As per https://bugzilla.redhat.com/show_bug.cgi?id=2203387
 CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
+
+CVE_STATUS[CVE-2023-3019] = "cpe-incorrect: Applies only against versions before 8.2.0"
+
+CVE_STATUS[CVE-2023-5088] = "cpe-incorrect: Applies only against version 8.2.0 and earlier"
+
+CVE_STATUS[CVE-2023-6683] = "cpe-incorrect: Applies only against version 8.2.1 and earlier"
+
+CVE_STATUS[CVE-2023-6693] = "cpe-incorrect: Applies only against version 8.2.0 and earlier"
 
 COMPATIBLE_HOST:mipsarchn32 = "null"
 COMPATIBLE_HOST:mipsarchn64 = "null"
@@ -117,6 +148,7 @@ EXTRA_OECONF = " \
     --disable-download \
     --disable-docs \
     --host-cc='${BUILD_CC}' \
+    --disable-af-xdp \
     ${PACKAGECONFIG_CONFARGS} \
     "
 
