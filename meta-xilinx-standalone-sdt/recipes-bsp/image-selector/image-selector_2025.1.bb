@@ -2,7 +2,11 @@ inherit esw python3native esw_apps_common deploy
 
 IMGSEL_DEPENDS ?= ""
 IMGSEL_DEPENDS:zynqmp ?= "libxil xiltimer bootgen-native"
-IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs ${SYSTEM_DTFILE_DEPENDS} bootgen-native base-pdi"
+IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs bootgen-native base-pdi"
+
+BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
+BOOTGEN_ARCH_DEFAULT:versal = "versal"
+BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 DEPENDS += "${IMGSEL_DEPENDS}"
 
@@ -35,21 +39,27 @@ cat > ${WORKDIR}/${PN}.bif << EOF
 EOF
 }
 
-do_compile:append:versal () {
+PMC_DATA_CDO ?= "${DEPLOY_DIR_IMAGE}/CDO/pmc_data.cdo"
+LPD_DATA_CDO ?= "${DEPLOY_DIR_IMAGE}/CDO/lpd_data.cdo"
+
+CDO_DEPENDS ?= ""
+CDO_DEPENDS:versal ?= "cdo-deploy:do_deploy"
+
+do_compile[depends] += "${CDO_DEPENDS}"
+
+gen_imgsel_bif () {
 	# Generate .bif for versal platforms
-	pmc_data_cdo=$(find ${SYSTEM_DTFILE_DIR}/extracted/*/pdi_files/gen_files/ -name pmc_data.cdo | head -1)
-	if [ ! -e $pmc_data_cdo ]; then
+	if [ ! -e ${PMC_DATA_CDO} ]; then
 		bberror "Unable to find pmc_data.cdo file in ${SYSTEM_DTFILE_DIR} to generate image-selector.bin file"
 		exit 1
 	fi
-	lpd_data_cdo=$(find ${SYSTEM_DTFILE_DIR}/extracted/*/pdi_files/gen_files/ -name lpd_data.cdo | head -1)
-	if [ ! -e $lpd_data_cdo ]; then
+	if [ ! -e ${LPD_DATA_CDO} ]; then
 		bberror "Unable to find lpd_data.cdo file in ${SYSTEM_DTFILE_DIR} to generate image-selector.bin file"
 		exit 1
 	fi
 	base_idcode="0x14ca8093"
 	if [ -f ${RECIPE_SYSROOT}/boot/base-design.pdi ]; then
-		base_idcode=$(bootgen -arch versal -read ${RECIPE_SYSROOT}/boot/base-design.pdi iht | grep -w id_code | cut -d ':' -f2 | xargs | cut -d ' ' -f1)
+		base_idcode=$(bootgen -arch ${BOOTGEN_ARCH} -read ${RECIPE_SYSROOT}/boot/base-design.pdi iht | grep -w id_code | cut -d ':' -f2 | xargs | cut -d ' ' -f1)
 	else
 		bbwarn "Unable to find the pdi file ${RECIPE_SYSROOT}/boot/base-design.pdi to get ID_CODE, using ${base_idcode} as id_code."
 	fi
@@ -65,20 +75,24 @@ cat > ${WORKDIR}/${PN}.bif << EOF
 		partition
 		{ id=0x01, type=bootloader, file=${B}/${ESW_EXECUTABLE_NAME}.elf }
 		partition
-		{ id=0x09, type=pmcdata, load=0xf2000000, file=${pmc_data_cdo} }
+		{ id=0x09, type=pmcdata, load=0xf2000000, file=${PMC_DATA_CDO} }
 	}
 	image {
 		name = lpd
 		id = 0x4210002
 		partition
-		{ id=0x0C, type=cdo, file=${lpd_data_cdo} }
+		{ id=0x0C, type=cdo, file=${LPD_DATA_CDO} }
 	}
     }
 EOF
 }
 
+do_compile:append:versal () {
+    gen_imgsel_bif
+}
+
 do_compile:append () {
-    bootgen -image ${WORKDIR}/${PN}.bif -arch ${SOC_FAMILY} -w -o ${B}/${PN}.bin
+    bootgen -image ${WORKDIR}/${PN}.bif -arch ${BOOTGEN_ARCH} -w -o ${B}/${PN}.bin
 
     printf "* ${PN}\nSRCREV: ${SRCREV}\nBRANCH: ${BRANCH}\n\n" > ${S}/${PN}.manifest
 }
