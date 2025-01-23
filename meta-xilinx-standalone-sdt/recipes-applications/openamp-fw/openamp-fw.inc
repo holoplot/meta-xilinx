@@ -5,9 +5,11 @@ inherit fw-package
 
 OPENAMP_XLNX_RECIPE ?= "open-amp-xlnx-echo"
 
-TARGET_MC:zynqmp = "cortexr5-0-baremetal"
-TARGET_MC:versal = "cortexr5-0-baremetal"
-TARGET_MC:versal-net = "cortexr52-0-baremetal"
+FW_OS ?= "baremetal"
+
+TARGET_MC:zynqmp = "cortexr5-0-${FW_OS}"
+TARGET_MC:versal = "cortexr5-0-${FW_OS}"
+TARGET_MC:versal-net = "cortexr52-0-${FW_OS}"
 FW_MCDEPENDS = "mc::${MACHINE}-${TARGET_MC}:${OPENAMP_XLNX_RECIPE}:do_deploy"
 FW_DEPLOY_DIR ?= "${TMPDIR}-${MACHINE}-${TARGET_MC}/deploy/images/${MACHINE}"
 
