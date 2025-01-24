@@ -1,5 +1,5 @@
 SRCBRANCH ?= "2025"
-SRCREV = "7d905b01246601e3672a483bffbd7d26e63cbc45"
+SRCREV = "505efceba82056beaf34ddcbb507a2d0e4a99d95"
 BRANCH = "2025"
 LIC_FILES_CHKSUM ?= "file://LICENSE.md;md5=f4d5df0f12dcea1b1a0124219c0dbab4"
 PV .= "+git"
