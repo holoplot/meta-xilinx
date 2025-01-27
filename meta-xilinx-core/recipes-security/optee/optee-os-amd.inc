@@ -8,9 +8,9 @@ REPO ?= "git://github.com/Xilinx/optee_os.git;protocol=https"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-COMPATIBLE_MACHINE:versal2-generic = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
 
-OPTEEMACHINE:versal2-generic = "versal2"
+OPTEEMACHINE:versal2 = "versal2"
 
 OPTEE_ARCH ?= "arm64"
 

@@ -10,4 +10,4 @@ EXTRA_OEMAKE:append = "${@bb.utils.contains('MACHINE_FEATURES', 'optee-spmc-test
 RDEPENDS:${PN} += "${@bb.utils.contains('MACHINE_FEATURES', 'optee-spmc-test', \
                                               ' arm-ffa-user', '' , d)}"
 
-COMPATIBLE_MACHINE:versal2-generic = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
