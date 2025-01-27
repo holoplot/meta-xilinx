@@ -1,7 +1,7 @@
 SUMMARY = "Control Software for VDU"
 DESCRIPTION = "Control software libraries, test applications and headers provider for VDU deconder software API"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=002a0a92906100955ea6ed02dcd2c2cd"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ac7c6b649ce8caa4f4c517aaa77c8b17"
 
 # Recipe has been renamed
 PROVIDES += "libvdu-ctrlsw"
@@ -10,7 +10,7 @@ PV .= "+git"
 
 BRANCH ?= "master"
 REPO   ?= "git://github.com/Xilinx/vdu-ctrl-sw.git;protocol=https"
-SRCREV ?= "361a822a223dc430ca44641be148fe1cbc13dd10"
+SRCREV ?= "e313a093849b3127c5f4c6167450ebe772f42a97"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
