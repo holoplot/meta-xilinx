@@ -5,7 +5,7 @@ inherit fw-package
 
 OPENAMP_XLNX_RECIPE ?= "open-amp-xlnx-echo"
 
-FW_OS ?= "baremetal"
+FW_OS ?= "freertos"
 
 TARGET_MC:zynqmp = "cortexr5-0-${FW_OS}"
 TARGET_MC:versal = "cortexr5-0-${FW_OS}"
