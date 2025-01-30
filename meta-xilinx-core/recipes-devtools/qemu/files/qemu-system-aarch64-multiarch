@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 
-# Xilinx QEMU wrapper to launch both PMU and APU instances (multiarch)
+# Copyright (C) 2017-2022, Xilinx, Inc.  All rights reserved.
+# Copyright (C) 2022-2025, Advanced Micro Devices, Inc.  All rights reserved.
+#
+#
+# SPDX-License-Identifier: MIT
+
+# AMD QEMU wrapper to launch both PMU and APU instances (multiarch)
+
 import os
 import subprocess
 import sys
@@ -9,13 +16,13 @@ import re
 import shutil
 
 binpath = os.path.dirname(os.path.abspath(__file__))
-mach_path = tempfile.mkdtemp()
 
 # Separate PMU and APU arguments
 APU_args = sys.argv[1:]
 PMU_args = []
 PLM_args = []
 bootbin_arg = None
+mach_path_arg = None
 
 if '-pmu-args' in APU_args:
     pmu_args_idx = APU_args.index('-pmu-args')
@@ -32,12 +39,25 @@ if '-bootbin' in APU_args:
     bootbin_arg = APU_args[bootbin_args_idx+1]
     del APU_args[bootbin_args_idx:bootbin_args_idx+2]
 
+if '-machine-path' in APU_args:
+    mach_path_args_idx = APU_args.index('-machine-path')
+    mach_path_arg = APU_args[mach_path_args_idx+1]
+    del APU_args[mach_path_args_idx:mach_path_args_idx+2]
+
+if mach_path_arg:
+    if not os.path.isdir(mach_path_arg):
+        sys.exit(f'\nERROR: Missing machine path for qemu: {mach_path_arg}')
+    else:
+        mach_path = os.path.realpath(mach_path_arg)
+else:
+    mach_path = tempfile.mkdtemp()
+
 if PMU_args and PLM_args:
     sys.exit("\nError: -pmu-args can not be used with -plm-args\n")
 
 help_options = ['-h', '-help', '--help']
 def help(status):
-    print("AMD FPGA QEMU multiarch wrapper\nVersion 2024.2\n\nUsage:")
+    print("AMD FPGA QEMU multiarch wrapper\nVersion 2025.1\n\nUsage:")
     print(f"  {sys.argv[0]} <APU options> [-pmu-args <pmu options>]")
     print(f"  {sys.argv[0]} <APU options> [-plm-args <plm options>]\n")
     if status == 0:
@@ -147,5 +167,7 @@ if apu_cmd and process_apu.wait():
     if mb_cmd and process_mb.wait():
         error_msg += '\nQEMU MB instance failed:\n%s' % process_mb.stderr.read().decode()
 
-shutil.rmtree(mach_path)
+if not mach_path_arg:
+    shutil.rmtree(mach_path)
+
 sys.exit(error_msg)
