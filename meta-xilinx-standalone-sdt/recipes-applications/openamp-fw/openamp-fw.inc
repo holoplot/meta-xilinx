@@ -5,18 +5,19 @@ inherit fw-package
 
 OPENAMP_XLNX_RECIPE ?= "open-amp-xlnx-echo"
 
-FW_OS ?= "freertos"
+FW_OS ?= "${MCNAME}"
 
 TARGET_MC:zynqmp = "cortexr5-0-${FW_OS}"
 TARGET_MC:versal = "cortexr5-0-${FW_OS}"
 TARGET_MC:versal-net = "cortexr52-0-${FW_OS}"
-FW_MCDEPENDS = "mc::${MACHINE}-${TARGET_MC}:${OPENAMP_XLNX_RECIPE}:do_deploy"
+FW_MCDEPENDS = "mc::${MACHINE}-${TARGET_MC}:${OPENAMP_XLNX_RECIPE}-${FW_OS}:do_deploy"
 FW_DEPLOY_DIR ?= "${TMPDIR}-${MACHINE}-${TARGET_MC}/deploy/images/${MACHINE}"
 
 DESTDIR = "${nonarch_base_libdir}/firmware"
 
-OPENAMP_FW_SRC_NAME ?= "rpmsg-echo.out"
 OPENAMP_FW_NAME ?= "image_echo_test"
+
+OPENAMP_FW_SRC_NAME ?= "${OPENAMP_XLNX_RECIPE}-${FW_OS}.elf"
 FW_NAME ?= "${OPENAMP_FW_SRC_NAME}"
 FW_FILE ?= "${FW_DEPLOY_DIR}/${OPENAMP_FW_SRC_NAME}"
 FW_IMAGE_NAME ?= "${OPENAMP_FW_NAME}"
@@ -39,4 +40,11 @@ do_deploy() {
     if ${SHOULD_DEPLOY}; then
         install -Dm 0644 ${FW_FILE} ${DEPLOYDIR}/${FW_IMAGE_NAME}
     fi
+}
+
+SUPPORTED_OS_LIST = "baremetal freertos"
+BBCLASSEXTEND = "${@' '.join(['mcextend:'+x for x in d.getVar('SUPPORTED_OS_LIST').split()])}"
+python () {
+    if not d.getVar("MCNAME"):
+        raise bb.parse.SkipRecipe("No class extension set, %s is supported" % d.getVar('SUPPORTED_OS_LIST'))
 }
