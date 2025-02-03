@@ -19,7 +19,23 @@ SRC_URI += "file://0001-versal-net-Reorder-serial-port.patch"
 
 S = "${WORKDIR}/git"
 
-do_install[noexec] = '1'
+# Don't do anything for target or native
+do_install() {
+	:
+}
+
+# Nativesdk bundle the device trees for the SDK
+do_install:class-nativesdk() {
+	# single-arch dtbs
+	for DTS_FILE in ${S}/LATEST/SINGLE_ARCH/*.dtb; do
+		install -Dm 0644 $DTS_FILE ${D}/${base_prefix}/qemu-hw-devicetrees/$(basename $DTS_FILE .dtb).dtb
+	done
+
+	# multi-arch dtbs
+	for DTS_FILE in ${S}/LATEST/MULTI_ARCH/*.dtb; do
+		install -Dm 0644 $DTS_FILE ${D}/${base_prefix}/qemu-hw-devicetrees/multiarch/$(basename $DTS_FILE .dtb).dtb
+	done
+}
 
 do_deploy() {
 	# single-arch dtbs
@@ -32,6 +48,8 @@ do_deploy() {
 		install -Dm 0644 $DTS_FILE ${DEPLOYDIR}/qemu-hw-devicetrees/multiarch/$(basename $DTS_FILE .dtb).dtb
 	done
 }
+
+FILES:${PN}:class-nativesdk = "${base_prefix}/qemu-hw-devicetrees"
 
 addtask deploy after do_install before do_build
 
