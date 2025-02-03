@@ -3,25 +3,13 @@
 OVERRIDES .= ":qemuboot-xilinx"
 
 # Default machine targets for Xilinx QEMU (FDT Generic)
-# Allow QB_MACHINE to be overridden by a BSP config
-QB_MACHINE ?= "${QB_MACHINE_XILINX}"
 QB_RNG=""
-QB_MACHINE_XILINX:aarch64 = "-machine arm-generic-fdt"
-QB_MACHINE_XILINX:arm = "-M arm-generic-fdt-7series"
-QB_MACHINE_XILINX:microblaze = "-M microblaze-fdt-plnx"
 
 QB_SYSTEM_NAME ?= "${@qemu_target_binary(d)}"
 QB_DEFAULT_FSTYPE ?= "${@qemu_rootfs_params(d,'fstype')}"
 QB_ROOTFS ?= "${@qemu_rootfs_params(d,'rootfs')}"
 QB_ROOTFS_OPT ?= "${@qemu_rootfs_params(d,'rootfs-opt')}"
 QB_DTB ?= "${@qemu_default_dtb(d)}"
-
-# defaults
-QB_DEFAULT_KERNEL ?= "none"
-QB_DEFAULT_KERNEL:zynq ?= "${@'zImage' if \
-		d.getVar('INITRAMFS_IMAGE_BUNDLE') != '1' else 'zImage-initramfs-${MACHINE}.bin'}"
-QB_DEFAULT_KERNEL:microblaze ?= "${@'simpleImage.mb' if \
-		d.getVar('INITRAMFS_IMAGE_BUNDLE') != '1' else 'simpleImage.mb-initramfs-${MACHINE}.bin'}"
 
 # https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Boot-Mode-Pin-Settings
 # https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Boot-Modes
