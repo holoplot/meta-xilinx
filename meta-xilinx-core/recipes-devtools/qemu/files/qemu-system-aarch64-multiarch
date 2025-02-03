@@ -58,8 +58,8 @@ if PMU_args and PLM_args:
 help_options = ['-h', '-help', '--help']
 def help(status):
     print("AMD FPGA QEMU multiarch wrapper\nVersion 2025.1\n\nUsage:")
-    print(f"  {sys.argv[0]} <APU options> [-pmu-args <pmu options>]")
-    print(f"  {sys.argv[0]} <APU options> [-plm-args <plm options>]\n")
+    print(f"  {sys.argv[0]} <APU options> [-pmu-args <pmu options>] [-machine-path <path>]")
+    print(f"  {sys.argv[0]} <APU options> [-plm-args <plm options>] [-machine-path <path>]\n")
     if status == 0:
         print(f"\n")
         if set(PMU_args).intersection(set(help_options)):
@@ -77,6 +77,8 @@ def help(status):
             print(f"    -bootbin <boot.bin> - Use a boot.bin instead of individual firmware, device trees and bootloader\n")
             apu_args_s = ' '.join(APU_args)
             help_cmd = f'{binpath}/qemu-system-aarch64 {apu_args_s}'
+
+        print(f"    -machine-path <path> - Optional path to use for multiarch files. This path must be less then about 100 characters.\n     Note: if specified caller is responsible for cleaning up the directory on exist\n")
 
         print(f"{help_cmd}\n")
         process = subprocess.Popen(help_cmd, shell=True, stderr=subprocess.PIPE)
