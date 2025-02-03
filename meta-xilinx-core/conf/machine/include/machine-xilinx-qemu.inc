@@ -18,8 +18,8 @@ IMAGE_CLASSES += "qemuboot-xilinx"
 # runqemu may add additional null entries or simply skip further setup.
 #
 # To help us be able to adjust for this behavior add a special
-# QB_XILINX_SERIAL that will allow us to define serial ports for qemu
+# QEMU_HW_SERIAL that will allow us to define serial ports for qemu
 # emulated boards that may not match the standard Linux behavior.
 #
-QB_XILINX_SERIAL ??= ""
-QB_OPT_APPEND += "${QB_XILINX_SERIAL} -nodefaults"
+QEMU_HW_SERIAL ??= ""
+QB_OPT_APPEND += "${QEMU_HW_SERIAL} -nodefaults"
