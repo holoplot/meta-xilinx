@@ -9,7 +9,7 @@ COMPATIBLE_HOST:arm = "null"
 QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 x86_64"
 
 BRANCH = "master"
-SRCREV = "77b39fce5476733454b39cf83d7b3952aa282466"
+SRCREV = "ad1d38d9c446b299011cd6cc7de4b4a1c15c247b"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
@@ -72,23 +72,7 @@ SRC_URI += "\
            file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-self-.patch \
            file://qemu-guest-agent.init \
            file://qemu-guest-agent.udev \
-           file://CVE-2024-4467-0001.patch \
-           file://CVE-2024-4467-0002.patch \
-           file://CVE-2024-4467-0003.patch \
-           file://CVE-2024-7409-0001.patch \
-           file://CVE-2024-7409-0002.patch \
-           file://CVE-2024-7409-0003.patch \
-           file://CVE-2024-7409-0004.patch \
-           file://0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch \
-           file://0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch \
-           file://0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch \
            "
-
-# The following items are applicable to upstream qemu 8.2.3 as integrated
-# by the Yocto Project, but these do NOT apply to this qemu-xilinx version.
-#           file://CVE-2024-4467-0004.patch \
-#           file://CVE-2024-4467-0005.patch \
-#
 
 S = "${WORKDIR}/git"
 
