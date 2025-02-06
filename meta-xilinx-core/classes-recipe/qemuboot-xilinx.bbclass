@@ -14,7 +14,7 @@ QB_DTB ?= "${@qemu_default_dtb(d)}"
 # https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Boot-Mode-Pin-Settings
 # https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Boot-Modes
 # https://docs.amd.com/r/en-US/ug1304-versal-acap-ssdg/Boot-Device-Modes
-QEMU_HW_BOOT_MODE ?= "-boot mode=5"
+QEMU_HW_BOOT_MODE ?= "5"
 
 
 # ZynqMP or Versal SD and eMMC drive index.
@@ -71,10 +71,10 @@ def qemu_add_extra_args(data):
             qb_extra_args = ' -device loader,file=%s,addr=%s,force-raw=on' % (kernel_image, kernel_loadaddr)
             qb_extra_args += ' -device loader,file=%s,addr=%s,force-raw=on' % (bootscr_image, bootscr_loadaddr)
         if soc_family in ('versal', 'versal-net'):
-            qb_extra_args += ' %s' % boot_mode
+            qb_extra_args += ' -boot mode=%s' % boot_mode
     else:
         if soc_family in ('zynqmp', 'versal', 'versal-net'):
-            qb_extra_args = ' %s' % boot_mode
+            qb_extra_args = ' -boot mode=%s' % boot_mode
     return qb_extra_args
 
 def qemu_rootfs_params(data, param):
