@@ -48,7 +48,13 @@ BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_EXTRA_ARGS ?= ""
 
-QEMU_FLASH_TYPE ?= "qspi"
+QEMU_FLASH_TYPE_DEFAULT = "undefined"
+QEMU_FLASH_TYPE_DEFAULT:zynq = "qspi"
+QEMU_FLASH_TYPE_DEFAULT:zynqmp = "qspi"
+QEMU_FLASH_TYPE_DEFAULT:versal = "${@'ospi' if d.getVar("QEMU_HW_BOOT_MODE") == '8' else 'qspi'}"
+QEMU_FLASH_TYPE_DEFAULT:versal-net = "${@'ospi' if d.getVar("QEMU_HW_BOOT_MODE") == '8' else 'qspi'}"
+QEMU_FLASH_TYPE ?= "${QEMU_FLASH_TYPE_DEFAULT}"
+
 BOOTSCR_DEP = ''
 BOOTSCR_DEP:versal = '${UBOOT_BOOT_SCRIPT}:do_deploy'
 BOOTSCR_DEP:versal-net = '${UBOOT_BOOT_SCRIPT}:do_deploy'
