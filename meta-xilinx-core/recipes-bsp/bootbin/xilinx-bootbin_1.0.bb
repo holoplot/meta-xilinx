@@ -282,3 +282,11 @@ FILES:${PN} += "/boot/BOOT.bin"
 SYSROOT_DIRS += "/boot"
 
 addtask do_deploy before do_build after do_compile
+
+# We want to deploy this into the build directory and copy it later
+IMGDEPLOYDIR ??= "${DEPLOYDIR}"
+IMAGE_LINK_NAME = "${BOOTBIN_LINK_NAME}"
+IMAGE_NAME = "${BOOTBIN_BASE_NAME}"
+
+inherit ${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'qemuboot-xilinx', '', d)}
+do_deploy[postfuncs] += "${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'do_write_qemuboot_conf', '', d)}"
