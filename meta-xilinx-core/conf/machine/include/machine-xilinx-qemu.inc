@@ -23,3 +23,10 @@ IMAGE_CLASSES += "qemuboot-xilinx"
 #
 QEMU_HW_SERIAL ??= ""
 QB_OPT_APPEND += "${QEMU_HW_SERIAL} -nodefaults"
+
+# Workaround to trigger runqemu to use -dtb to send the APU DTB
+# This is done to ensure that we can easily change APU DTB at runtime via
+# standard runqemu options.  (only used on multiarch systems)
+# The file is not actually used, but it does have to exist.
+QB_DEFAULT_KERNEL:aarch64 = "BOOT-${MACHINE}.bin"
+QB_KERNEL_CMDLINE:aarch64 = "none"
