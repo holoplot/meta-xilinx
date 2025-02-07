@@ -5,7 +5,19 @@ LICENSE = "MIT"
 PLNX_ADD_VAI_SDK = ""
 
 TOOLCHAIN_TARGET_TASK = ""
-TOOLCHAIN_HOST_TASK = "nativesdk-sdk-provides-dummy meta-environment-${MACHINE} nativesdk-qemu-xilinx"
+TOOLCHAIN_HOST_TASK = "nativesdk-sdk-provides-dummy meta-environment-${MACHINE}"
+
+# QEMU specific items
+TOOLCHAIN_HOST_TASK += "nativesdk-qemu nativesdk-qemu-xilinx nativesdk-qemu-xilinx-common nativesdk-qemu-xilinx-multiarch-helper nativesdk-qemu-helper"
+
+# Optional bootgen to hand the '-bootbin' argument of the multiarch-helper
+TOOLCHAIN_HOST_TASK += "nativesdk-bootgen"
+
+# Optional qemu-devicetrees
+TOOLCHAIN_HOST_TASK += "nativesdk-qemu-devicetrees"
+
+# Tool to work on qemuboot.conf files
+TOOLCHAIN_HOST_TASK += "nativesdk-qemuboot-tool"
 
 MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
 PACKAGE_ARCH = "${SDK_ARCH}_${SDK_OS}"
@@ -55,9 +67,6 @@ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
                 . \$envfile
         done
 fi
-# We have to unset this else it can confuse oe-selftest and other tools
-# which may also use the overlapping namespace.
-unset OECORE_NATIVE_SYSROOT
 EOF
 
         if [ "${SDKMACHINE}" = "i686" ]; then
