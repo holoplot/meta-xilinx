@@ -47,4 +47,11 @@ BBCLASSEXTEND = "${@' '.join(['mcextend:'+x for x in d.getVar('SUPPORTED_OS_LIST
 python () {
     if not d.getVar("MCNAME"):
         raise bb.parse.SkipRecipe("No class extension set, %s is supported" % d.getVar('SUPPORTED_OS_LIST'))
+    else:
+        mc_dep = d.getVar("FW_MCDEPENDS")
+        if mc_dep:
+            mc = mc_dep.split(':')[2]
+            if not mc in (d.getVar('BBMULTICONFIG') or ""):
+                d.setVar('BB_DONT_CACHE', '1')
+                raise bb.parse.SkipRecipe("Requires multiconfig %s, which is not available." % d.getVar(mc))
 }
