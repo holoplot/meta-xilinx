@@ -141,6 +141,8 @@ def create_versal_bif(config, attrflags, attrimage, ids, common_attr, biffd, d):
     return
 
 python do_configure() {
+    import shutil
+
     fp = d.getVar("BIF_FILE_PATH")
     if fp == (d.getVar('B') + '/bootgen.bif'):
         biffd = open(fp, 'w')
@@ -149,8 +151,21 @@ python do_configure() {
 
         for opt_data in (d.getVar("BIF_OPTIONAL_DATA") or "").split(';'):
             if opt_data:
-                biffd.write("\toptionaldata { %s }\n" % opt_data)
+                # Format per UG1283:
+                # optionaldata {<filename>, id=<id>}
+                try:
+                    (fname, id) = opt_data.split(',')
+                    fname = d.expand(fname)
+                except:
+                    bb.error('BIF_OPTIONAL_DATA value "%s" not specified properly, expected: <filename>, id=<id>' % opt_data)
 
+                dest = os.path.join(d.getVar('B'), os.path.basename(fname))
+                print('Copy BIF_OPTIONALDATA element %s -> %s' % (fname, dest))
+                shutil.copyfile(fname, os.path.join(d.getVar('B'), os.path.basename(fname)))
+
+                biffd.write("\toptionaldata { %s, %s }\n" % (os.path.basename(fname), id))
+
+        # Common attributes are not allowed to point to files, the Partition attributes are used for that
         arch = d.getVar("SOC_FAMILY")
         bifattr = (d.getVar("BIF_COMMON_ATTR") or "").split()
         if bifattr:
@@ -162,17 +177,33 @@ python do_configure() {
             else:
                 create_bif(bifattr, attrflags,'','', 1, biffd, d)
 
+        # Partition Attributes are made up of Attribute and Image
+        # Image needs to be copied and filename sanitized
         bifpartition = (d.getVar("BIF_PARTITION_ATTR") or "").split()
         if bifpartition:
             attrflags = d.getVarFlags("BIF_PARTITION_ATTR") or {}
             attrimage = d.getVarFlags("BIF_PARTITION_IMAGE") or {}
             ids = d.getVarFlags("BIF_PARTITION_ID") or {}
+
+            local_attrimage = {}
+            for part in bifpartition:
+                try:
+                    fname = d.expand(attrimage[part])
+                except:
+                    bb.error('BIF_PARTITION_ATTR[%s] not defined, but referenced in BIF_PARTITION_ATTR', part)
+
+                dest = os.path.join(d.getVar('B'), os.path.basename(fname))
+                print('Copy BIF_PARTITION_IMAGE[%s] %s -> %s' % (part, fname, dest))
+                shutil.copyfile(fname, os.path.join(d.getVar('B'), os.path.basename(fname)))
+
+                local_attrimage[part] = os.path.basename(fname)
+
             if arch in ['zynq', 'zynqmp']:
-                create_zynq_bif(bifpartition, attrflags, attrimage, ids, 0, biffd, d)
+                create_zynq_bif(bifpartition, attrflags, local_attrimage, ids, 0, biffd, d)
             elif arch in ['versal', 'versal-net']:
-                create_versal_bif(bifpartition, attrflags, attrimage, ids, 0, biffd, d)
+                create_versal_bif(bifpartition, attrflags, local_attrimage, ids, 0, biffd, d)
             else:
-                create_bif(bifpartition, attrflags, attrimage, ids, 0, biffd, d)
+                create_bif(bifpartition, attrflags, local_attrimage, ids, 0, biffd, d)
 
         biffd.write("}")
         biffd.close()
@@ -184,7 +215,6 @@ do_configure[vardeps] += "BIF_PARTITION_ATTR BIF_PARTITION_IMAGE BIF_COMMON_ATTR
 do_configure[vardeps] += "BIF_FSBL_ATTR BIF_BITSTREAM_ATTR BIF_ATF_ATTR BIF_DEVICETREE_ATTR BIF_SSBL_ATTR"
 
 do_compile() {
-    cd ${WORKDIR}
     rm -f ${B}/BOOT.bin
     if [ "${BIF_FILE_PATH}" != "${B}/bootgen.bif" ];then
         BIF_FILE_PATH="${WORKDIR}${BIF_FILE_PATH}"
@@ -216,13 +246,18 @@ inherit image-artifact-names
 
 QEMU_FLASH_IMAGE_NAME ?= "qemu-${QEMU_FLASH_TYPE}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 
+BOOTBIN_LINK_NAME ?= "BOOT-${MACHINE}"
 BOOTBIN_BASE_NAME ?= "BOOT-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 
 do_deploy() {
     install -d ${DEPLOYDIR}
     install -m 0644 ${B}/BOOT.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}.bin
-    ln -sf ${BOOTBIN_BASE_NAME}.bin ${DEPLOYDIR}/BOOT-${MACHINE}.bin
+    ln -sf ${BOOTBIN_BASE_NAME}.bin ${DEPLOYDIR}/${BOOTBIN_LINK_NAME}.bin
     ln -sf ${BOOTBIN_BASE_NAME}.bin ${DEPLOYDIR}/boot.bin
+
+    install -d ${DEPLOYDIR}/boot.bin-extracted
+    install -m 0644 ${B}/* ${DEPLOYDIR}/boot.bin-extracted/.
+    rm -f ${DEPLOYDIR}/boot.bin-extracted/BOOT.bin
 }
 
 do_deploy:append:versal () {
@@ -235,12 +270,12 @@ do_deploy:append:versal () {
 }
 
 do_deploy:append:versal-net () {
-
     install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
     ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
 
     install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
     ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
+
 }
 
 FILES:${PN} += "/boot/BOOT.bin"
