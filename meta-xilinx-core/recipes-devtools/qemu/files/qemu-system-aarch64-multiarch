@@ -23,6 +23,7 @@ PMU_args = []
 PLM_args = []
 bootbin_arg = None
 mach_path_arg = None
+dtb_arg = None
 
 if '-pmu-args' in APU_args:
     pmu_args_idx = APU_args.index('-pmu-args')
@@ -43,6 +44,22 @@ if '-machine-path' in APU_args:
     mach_path_args_idx = APU_args.index('-machine-path')
     mach_path_arg = APU_args[mach_path_args_idx+1]
     del APU_args[mach_path_args_idx:mach_path_args_idx+2]
+
+if '-dtb' in APU_args:
+    dtb_args_idx = APU_args.index('-dtb')
+    dtb_arg = APU_args[dtb_args_idx+1]
+    del APU_args[dtb_args_idx:dtb_args_idx+2]
+
+# Filter this out
+if '-kernel' in APU_args:
+    kernel_args_idx = APU_args.index('-kernel')
+    del APU_args[kernel_args_idx:kernel_args_idx+2]
+
+# The APU QEMU will hang if it does get get a -hw-dtb
+if dtb_arg and '-hw-dtb' in APU_args:
+    sys.exit(f'\nERROR: Arguments -dtb and -hw-dtb conflict, only one should be specified.')
+elif not dtb_arg and not '-hw-dtb' in APU_args:
+    sys.exit(f'\nERROR: You must specify at least a -dtb or -hw-dtb for the APU.')
 
 if mach_path_arg:
     if not os.path.isdir(mach_path_arg):
@@ -75,6 +92,8 @@ def help(status):
                 APU_args.append('-help')
             print(f"APU Options:\n")
             print(f"    -bootbin <boot.bin> - Use a boot.bin instead of individual firmware, device trees and bootloader\n")
+            print(f"    -dtb - Specify hardware dtb for the APU\n")
+            print(f"    -kernel - option is filtered out, but is available for compatibility\n")
             apu_args_s = ' '.join(APU_args)
             help_cmd = f'{binpath}/qemu-system-aarch64 {apu_args_s}'
 
@@ -130,6 +149,10 @@ if bootbin_arg:
     PLM_args.append(f"-device loader,file={mach_path}/pmc_cdo.bin,addr={pmc_load_addr},force-raw=on")
     PLM_args.append(f"-device loader,file={mach_path}/plm.bin,addr={plm_load_addr},force-raw=on")
     PLM_args.append(f"-device loader,addr={plm_load_addr},cpu-num=1")
+
+# We use the normal -dtb argument to specify the hw-dtb for the multiarch runner, as -dtb is not applicable.
+if dtb_arg:
+    APU_args.append(f"-hw-dtb {dtb_arg}")
 
 # We need to switch tcp serial arguments (if they exist, e.g. qemurunner) to get the output
 tcp_serial_ports = [i for i, s in enumerate(APU_args) if 'tcp:127.0.0.1:' in s]
