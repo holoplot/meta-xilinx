@@ -103,8 +103,7 @@ if PMU_args:
 
 if bootbin_arg:
     if not os.path.isfile(bootbin_arg):
-        print(f"\nERROR: bootbin file not found at {bootbin_arg}"
-            "       Please build and ospi_image or set QB_OSPI_BIN variable to prebuilt file\n")
+        print(f"\nERROR: bootbin file not found at {bootbin_arg}\n")
         sys.exit(1)
 
     shutil.copyfile(bootbin_arg, f'{mach_path}/boot.bin')
