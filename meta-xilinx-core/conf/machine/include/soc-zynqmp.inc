@@ -20,10 +20,6 @@ UBOOT_SUFFIX ?= "bin"
 
 XSERVER_EXT:zynqmp ?= "xf86-video-armsoc"
 
-# Default PMU ROM
-PMU_ROM ?= "${DEPLOY_DIR_IMAGE}/pmu-rom.elf"
-
-
 # Default expects the user to provide a specific pmu-firwmare in the deploy
 # directory, named "pmu-firmware-${MACHINE}.elf"
 PMU_DEPENDS ??= ""
