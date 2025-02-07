@@ -8,3 +8,6 @@ OPENAMP_XLNX_RECIPE = "open-amp-xlnx-proxy"
 OPENAMP_WITH_PROXY = "ON"
 
 # NOTE: BSP should have flag ESW_CFLAGS:append = " -DUNDEFINE_FILE_OPS=1 "
+
+RPROVIDES:${PN} += "openamp-fw-rpc-demo"
+
