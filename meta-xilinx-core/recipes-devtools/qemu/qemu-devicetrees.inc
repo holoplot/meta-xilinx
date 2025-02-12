@@ -37,7 +37,7 @@ do_install:class-nativesdk() {
 	done
 }
 
-do_deploy() {
+do_deploy:class-native() {
 	# single-arch dtbs
 	for DTS_FILE in ${S}/LATEST/SINGLE_ARCH/*.dtb; do
 		install -Dm 0644 $DTS_FILE ${DEPLOYDIR}/qemu-hw-devicetrees/$(basename $DTS_FILE .dtb).dtb
@@ -47,6 +47,11 @@ do_deploy() {
 	for DTS_FILE in ${S}/LATEST/MULTI_ARCH/*.dtb; do
 		install -Dm 0644 $DTS_FILE ${DEPLOYDIR}/qemu-hw-devicetrees/multiarch/$(basename $DTS_FILE .dtb).dtb
 	done
+}
+
+# Disable deploy in nativesdk!
+do_deploy() {
+	:
 }
 
 FILES:${PN}:class-nativesdk = "${base_prefix}/qemu-hw-devicetrees"
