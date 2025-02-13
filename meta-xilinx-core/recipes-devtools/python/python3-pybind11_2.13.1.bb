@@ -24,4 +24,4 @@ do_install:append() {
     cmake_do_install
 }
 
-BBCLASSEXTEND += "native"
+BBCLASSEXTEND += "native nativesdk"
