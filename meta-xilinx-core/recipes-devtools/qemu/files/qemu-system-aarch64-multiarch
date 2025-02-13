@@ -128,9 +128,7 @@ if bootbin_arg:
     shutil.copyfile(bootbin_arg, f'{mach_path}/boot.bin')
 
     bootgen_command = [f'{binpath}/bootgen', '-arch', 'versal', '-dump', 'boot.bin']
-    subprocess.run(bootgen_command + ['bh'], check=True, cwd=mach_path, stdout=subprocess.DEVNULL)
-    subprocess.run(bootgen_command + ['plm'], check=True, cwd=mach_path, stdout=subprocess.DEVNULL)
-    subprocess.run(bootgen_command + ['pmc_cdo'], check=True, cwd=mach_path, stdout=subprocess.DEVNULL)
+    subprocess.run(bootgen_command + ['boot_files'], check=True, cwd=mach_path, stdout=subprocess.DEVNULL)
 
     bootgen_command = f"{binpath}/bootgen -arch versal -read {bootbin_arg}"
     result = subprocess.check_output(bootgen_command.split())
@@ -144,6 +142,9 @@ if bootbin_arg:
 
     plm_load_addr = re.search(r"exec_addr_lo \(0x10\) : (0x\w*)\s*", plm_line).group(1)
     pmc_load_addr = re.search(r"pmccdo_load_addr \(0x20\) : (0x\w*)", pmc_line).group(1)
+    print(f"qemu-system-aarch64-multiarch: INFO: Using QSPI/OSPI bootbin file\n")
+    print(f"qemu-system-aarch64-multiarch: INFO: bootbin file dump PLM load addr: {plm_load_addr}\n")
+    print(f"qemu-system-aarch64-multiarch: INFO: bootbin file dump PMC load addr: {pmc_load_addr}\n")
 
     PLM_args.append(f"-device loader,file={mach_path}/boot_bh.bin,addr=0xF201E000,force-raw=on")
     PLM_args.append(f"-device loader,file={mach_path}/pmc_cdo.bin,addr={pmc_load_addr},force-raw=on")
