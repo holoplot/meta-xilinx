@@ -11,3 +11,9 @@ OPENAMP_WITH_PROXY = "ON"
 
 RPROVIDES:${PN} += "openamp-fw-rpc-demo"
 
+python() {
+    preferred = d.getVar('PREFERRED_PROVIDER_openamp-fw-rpc-demo')
+    if not preferred or preferred == d.getVar('PN'):
+        d.setVar('BB_DONT_CACHE', '1')
+        d.appendVar('PROVIDES', ' openamp-fw-rpc-demo')
+}
