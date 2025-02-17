@@ -20,8 +20,8 @@ REQUIRED_MACHINE_FEATURES = "vcu2"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-#RDEPENDS:${PN} = "kernel-module-vcu2"
-#RDEPENDS:libvcu2-ctrlsw = "kernel-module-vcu2"
+RDEPENDS:${PN} = "kernel-module-vcu2"
+RDEPENDS:libvcu2-ctrlsw = "kernel-module-vcu2"
 
 EXTRA_OEMAKE = "CC='${CC}' CXX='${CXX} ${CXXFLAGS}'"
 
