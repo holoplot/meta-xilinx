@@ -1,4 +1,4 @@
-SRCREV = "380b32a476e714275c53e51f6482b3b650aff6f8"
+SRCREV = "8ef2ac727e21fda3f88a0b4f19eafacdcbe3eedc"
 XEN_URI = "git://github.com/Xilinx/xen.git;protocol=https"
 XEN_BRANCH = "xlnx_rebase_4.20"
 
