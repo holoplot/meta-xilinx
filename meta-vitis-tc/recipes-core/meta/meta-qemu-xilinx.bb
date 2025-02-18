@@ -8,16 +8,21 @@ TOOLCHAIN_TARGET_TASK = ""
 TOOLCHAIN_HOST_TASK = "nativesdk-sdk-provides-dummy meta-environment-${MACHINE}"
 
 # QEMU specific items
-TOOLCHAIN_HOST_TASK += "nativesdk-qemu nativesdk-qemu-xilinx nativesdk-qemu-xilinx-common nativesdk-qemu-xilinx-multiarch-helper nativesdk-qemu-helper"
+QEMU_HOST_TASK = "nativesdk-qemu nativesdk-qemu-xilinx nativesdk-qemu-xilinx-common nativesdk-qemu-xilinx-multiarch-helper nativesdk-qemu-helper"
 
 # Optional bootgen to hand the '-bootbin' argument of the multiarch-helper
-TOOLCHAIN_HOST_TASK += "nativesdk-bootgen"
+QEMU_HOST_TASK += "nativesdk-bootgen"
 
 # Optional qemu-devicetrees
-TOOLCHAIN_HOST_TASK += "nativesdk-qemu-devicetrees"
+QEMU_HOST_TASK += "nativesdk-qemu-devicetrees"
 
 # Tool to work on qemuboot.conf files
-TOOLCHAIN_HOST_TASK += "nativesdk-qemuboot-tool"
+QEMU_HOST_TASK += "nativesdk-qemuboot-tool"
+
+# Not all helpers build or run on mingw32
+QEMU_HOST_TASK:sdkmingw32 = "nativesdk-qemu-xilinx nativesdk-qemu-xilinx-common"
+
+TOOLCHAIN_HOST_TASK += "${QEMU_HOST_TASK}"
 
 MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
 PACKAGE_ARCH = "${SDK_ARCH}_${SDK_OS}"
