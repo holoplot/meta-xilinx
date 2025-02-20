@@ -23,6 +23,17 @@ BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 IMGRCVRY_BIFFILE ?= "${B}/imgrcvry.bif"
 
+IMGRCVRY_VERSION ?= "1.0"
+IMGRCVRY_VERFILE ?= "${B}/imgrcvry-version.txt"
+IMGRCVRY_VERSION_STRING ?= "basecamp-${MACHINE}-imgrcvry-v${IMGRCVRY_VERSION}"
+
+IMGRCVRY_OPTIONAL_DATA ?= ""
+IMGRCVRY_OPTIONAL_DATA:versal ?= "${IMGRCVRY_VERFILE}, id=0x21;"
+
+def write_imgrcvry_version(d):
+    version_string = d.getVar('IMGRCVRY_VERSION_STRING')
+    with open(d.expand(d.getVar('IMGRCVRY_VERFILE')), 'w') as f:
+        f.write(version_string)
 
 def write_zynqmp_bif(bifpartition, attrflags, attrimage, ids, d):
     biffile_str = 'the_imgrcvry_image:\n'
@@ -65,6 +76,18 @@ def write_versal_bif(bifpartition, attrflags, attrimage, ids, d):
 
     biffile_str = 'the_imgrcvry_image:\n'
     biffile_str += '{\n'
+    for opt_data in (d.getVar("IMGRCVRY_OPTIONAL_DATA") or "").split(';'):
+        if not opt_data:
+            continue
+        try:
+            (fname, id) = opt_data.split(',')
+            fname = d.expand(fname)
+        except:
+            bb.error('IMGRCVRY_OPTIONAL_DATA value "%s" not specified properly, expected: <filename>, id=<id>' % opt_data)
+        if not os.path.exists(fname):
+            bb.warn('IMGRCVRY_OPTIONAL_DATA specified file doesnot exists: %s' % fname)
+        biffile_str += '\toptionaldata { %s, %s }\n' % (fname, id)
+
     for id, string in idcode_dict.items():
         biffile_str += '\timage {\n'
         if id != '0':
@@ -86,6 +109,7 @@ python do_imgrcvry_bif () {
     soc_family = d.getVar('SOC_FAMILY')
     biffile_str = ''
     if soc_family in ('versal'):
+        write_imgrcvry_version(d)
         biffile_str = write_versal_bif(bifpartition, attrflags, attrimage, ids, d)
     elif soc_family in ('zynqmp'):
         biffile_str = write_zynqmp_bif(bifpartition, attrflags, attrimage, ids, d)
@@ -107,7 +131,7 @@ IMAGE_CMD:imagercvry () {
 
 addtask do_imgrcvry_bif after do_image before do_image_imagercvry
 
-do_imgrcvry_bif[vardeps] += "IMGRCVRY_ATTR IMGRCVRY_BIFFILE IMGRCVRY_KERNEL_ATTR BIF_PARTITION_IMAGE BIF_COMMON_ATTR BIF_PARTITION_ID"
+do_imgrcvry_bif[vardeps] += "IMGRCVRY_OPTIONAL_DATA IMGRCVRY_ATTR IMGRCVRY_BIFFILE IMGRCVRY_KERNEL_ATTR BIF_PARTITION_IMAGE BIF_COMMON_ATTR BIF_PARTITION_ID"
 
 IMGRCVRY_ATTR_DEP = "${@(d.getVar('IMGRCVRY_ATTR') or "").replace('arm-trusted-firmware', 'virtual/arm-trusted-firmware').replace('bitstream', 'virtual/bitstream')}"
 do_imgrcvry_bif[depends] += "${@' '.join('%s:do_populate_sysroot' % r for r in d.getVar('IMGRCVRY_ATTR_DEP').split())}"

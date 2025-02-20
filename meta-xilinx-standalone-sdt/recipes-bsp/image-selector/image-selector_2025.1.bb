@@ -41,6 +41,7 @@ EOF
 
 PMC_DATA_CDO ?= "${DEPLOY_DIR_IMAGE}/CDO/pmc_data.cdo"
 LPD_DATA_CDO ?= "${DEPLOY_DIR_IMAGE}/CDO/lpd_data.cdo"
+IMGSEL_BIF_OPTIONAL_DATA ?= ""
 
 CDO_DEPENDS ?= ""
 CDO_DEPENDS:versal ?= "cdo-deploy:do_deploy"
@@ -66,6 +67,15 @@ gen_imgsel_bif () {
 cat > ${WORKDIR}/${PN}.bif << EOF
     the_ROM_image:
     {
+EOF
+
+	for opt_data in $(echo "${IMGSEL_BIF_OPTIONAL_DATA}" | tr ';' '\n'); do
+cat >> ${WORKDIR}/${PN}.bif << EOF
+	optionaldata { ${opt_data} }
+EOF
+	done
+
+cat >> ${WORKDIR}/${PN}.bif << EOF
 	id_code = ${base_idcode}
 	extended_id_code = 0x01
 	id = 0x2
