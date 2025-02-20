@@ -5,6 +5,8 @@ ESW_COMPONENT_NAME = "libxiltimer.a"
 
 DEPENDS += "libxil"
 
+EXTRA_OECMAKE:append:xilinx-freertos = " -DXILTIMER_en_interval_timer=ON"
+
 do_configure:prepend() {
     # This script should also not rely on relative paths and such
     (
