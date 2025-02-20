@@ -26,7 +26,8 @@ PACKAGECONFIG[ocl-icd] = ",,ocl-icd,ocl-icd"
 PACKAGECONFIG[opencl-icd-loader] = ",,opencl-icd-loader,opencl-icd-loader"
 
 # util-linux is for libuuid-dev.
-DEPENDS = "libdrm opencl-headers virtual/opencl-icd opencl-clhpp boost util-linux git-replacement-native protobuf-native protobuf elfutils libffi rapidjson systemtap libdfx"
+# coreutils-native is for base64, used by aiebu
+DEPENDS = "libdrm opencl-headers virtual/opencl-icd opencl-clhpp boost util-linux git-replacement-native protobuf-native coreutils-native protobuf elfutils libffi rapidjson systemtap libdfx"
 RDEPENDS:${PN} = "bash boost-system boost-filesystem zocl (= ${PV})"
 
 EXTRA_OECMAKE += " \

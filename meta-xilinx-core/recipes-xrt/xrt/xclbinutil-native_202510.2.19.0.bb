@@ -19,7 +19,8 @@ S = "${WORKDIR}/git/src"
 
 inherit cmake pkgconfig native
 
-DEPENDS = "libdrm-native opencl-headers-native ocl-icd-native boost-native rapidjson-native protobuf-native python3-pybind11-native systemtap-native"
+# coreutils-native is for base64, used by aiebu
+DEPENDS = "libdrm-native opencl-headers-native ocl-icd-native boost-native rapidjson-native protobuf-native python3-pybind11-native systemtap-native coreutils-native"
 
 EXTRA_OECMAKE += " -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMANDS=ON"
 
