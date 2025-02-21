@@ -3,9 +3,11 @@ inherit esw python3native esw_apps_common deploy
 IMGSEL_DEPENDS ?= ""
 IMGSEL_DEPENDS:zynqmp ?= "libxil xiltimer bootgen-native"
 IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs bootgen-native base-pdi"
+IMGSEL_DEPENDS:versal2 ?= "xilpdi xilplmi xilloader xilpm-ng xilsecure xilpuf xiltimer xilffs xilocp xilcert bootgen-native base-pdi"
 
 BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
 BOOTGEN_ARCH_DEFAULT:versal = "versal"
+BOOTGEN_ARCH_DEFAULT:versal2 = "versal_2ve_2vm"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 DEPENDS += "${IMGSEL_DEPENDS}"
@@ -45,6 +47,7 @@ IMGSEL_BIF_OPTIONAL_DATA ?= ""
 
 CDO_DEPENDS ?= ""
 CDO_DEPENDS:versal ?= "cdo-deploy:do_deploy"
+CDO_DEPENDS:versal2 ?= "cdo-deploy:do_deploy"
 
 do_compile[depends] += "${CDO_DEPENDS}"
 
@@ -98,6 +101,10 @@ EOF
 }
 
 do_compile:append:versal () {
+    gen_imgsel_bif
+}
+
+do_compile:append:versal2 () {
     gen_imgsel_bif
 }
 

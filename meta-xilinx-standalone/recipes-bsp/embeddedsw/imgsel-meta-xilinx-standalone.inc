@@ -4,6 +4,7 @@ IMGSEL_DEPENDS ?= ""
 IMGSEL_MC_TARGET ?=""
 IMGSEL_MC_TARGET:zynqmp ?= "${MACHINE}-cortexa53-fsbl"
 IMGSEL_MC_TARGET:versal ?= "${MACHINE}-microblaze-pmc"
+IMGSEL_MC_TARGET:versal2 ?= "${MACHINE}-microblaze-pmc"
 
 IMGSEL_MCDEPENDS ?= "mc::${IMGSEL_MC_TARGET}:image-selector:do_deploy"
 IMGSEL_DEPLOY_DIR ?= "${TOPDIR}/tmp-${IMGSEL_MC_TARGET}/deploy/images/${MACHINE}/"

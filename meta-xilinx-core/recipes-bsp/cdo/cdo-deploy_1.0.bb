@@ -8,6 +8,7 @@ DEPENDS += "${SYSTEM_DTFILE_DEPENDS}"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:versal = "versal"
+COMPATIBLE_MACHINE:versal2 = "versal2"
 COMPATIBLE_MACHINE:versal-net = "versal-net"
 
 # Since we're just copying, we can run any config
