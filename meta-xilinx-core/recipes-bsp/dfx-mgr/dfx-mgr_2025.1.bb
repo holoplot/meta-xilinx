@@ -25,7 +25,7 @@ S = "${WORKDIR}/git"
 inherit cmake update-rc.d systemd
 
 DEPENDS += " libwebsockets inotify-tools libdfx zocl libdrm systemd"
-RDEPENDS:${PN} += " freeipmi"
+RDEPENDS:${PN} += " freeipmi ${PN}-client"
 EXTRA_OECMAKE += " \
                -DCMAKE_SYSROOT:PATH=${RECIPE_SYSROOT} \
 		"
@@ -68,8 +68,9 @@ do_install(){
 	install -m 0644 ${S}/src/dfx-mgr-fw-load.service ${D}${systemd_system_unitdir}
 }
 
-PACKAGES =+ "libdfx-mgr"
+PACKAGES =+ "libdfx-mgr dfx-mgr-client"
 
 FILES:${PN} += "${base_libdir}/firmware/xilinx"
 FILES:${PN} += "${@bb.utils.contains('DISTRO_FEATURES','sysvinit','${sysconfdir}/init.d/dfx-mgr.sh', '', d)} ${systemd_system_unitdir}"
 FILES:libdfx-mgr = "${libdir}/libdfx-mgr.so.${SOVERSION} ${libdir}/libdfx-mgr.so.${SOMAJOR}"
+FILES:dfx-mgr-client = "${bindir}/dfx-mgr-client"
