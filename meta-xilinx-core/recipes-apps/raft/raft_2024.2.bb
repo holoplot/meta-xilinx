@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = " \
 "
 BRANCH = "2024.2"
 SRC_URI = "git://github.com/Xilinx/RAFT;protocol=https;branch=${BRANCH}"
-SRCREV = "43b63b273d5ae4ef71092b77f2694919408dcf92"
+SRCREV = "f5fc2a0bfa4a6dc18065b08455836e450f2ac054"
 
 inherit update-rc.d systemd
 
