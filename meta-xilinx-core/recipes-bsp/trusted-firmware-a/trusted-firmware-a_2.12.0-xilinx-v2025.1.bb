@@ -6,7 +6,7 @@ DEPENDS:remove:versal-net:qemuall = " optee-os"
 
 # Xilinx TF-A v2.12
 SRC_URI_TRUSTED_FIRMWARE_A = "git://github.com/Xilinx/arm-trusted-firmware.git;protocol=https"
-SRCREV_tfa = "4a0a838a45fba87674ba0e49d51ccd553bed938c"
+SRCREV_tfa = "50858f448f2d2b3eb932ac8621c2d6ce0abe72d6"
 SRCBRANCH = "xlnx_rebase_v2.12"
 
 LIC_FILES_CHKSUM = "file://docs/license.rst;md5=83b7626b8c7a37263c6a58af8d19bee1"
