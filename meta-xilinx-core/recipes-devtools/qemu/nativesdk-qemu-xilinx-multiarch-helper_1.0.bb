@@ -14,3 +14,5 @@ do_compile[noexec] = "1"
 do_install() {
 	install -Dm 0755 ${WORKDIR}/qemu-system-aarch64-multiarch ${D}${bindir}/qemu-system-aarch64-multiarch
 }
+
+RDEPENDS:${PN} += "nativesdk-qemu-xilinx-common"
