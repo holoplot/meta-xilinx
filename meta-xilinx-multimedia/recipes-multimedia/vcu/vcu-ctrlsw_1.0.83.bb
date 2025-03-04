@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=002a0a92906100955ea6ed02dcd2c2cd"
 # Recipe has been renamed
 PROVIDES += "libvcu-xlnx"
 
+PE = "1"
+
 PV .= "+git"
 
 BRANCH ?= "master"

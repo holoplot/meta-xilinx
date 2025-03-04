@@ -3,6 +3,8 @@ DESCRIPTION = "Firmware binaries provider for VCU"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9bef8aa9d1eba8aca1b7dffdef500262"
 
+PE = "1"
+
 PV .= "+git"
 
 S  = "${WORKDIR}/git"
