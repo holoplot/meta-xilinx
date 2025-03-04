@@ -19,6 +19,9 @@ QEMU_HOST_TASK += "nativesdk-qemu-devicetrees"
 # Tool to work on qemuboot.conf files
 QEMU_HOST_TASK += "nativesdk-qemuboot-tool"
 
+# Add wic to allow for image manipulation
+QEMU_HOST_TASK += "nativesdk-wic"
+
 # Not all helpers build or run on mingw32
 QEMU_HOST_TASK:sdkmingw32 = "nativesdk-qemu-xilinx nativesdk-qemu-xilinx-common"
 
