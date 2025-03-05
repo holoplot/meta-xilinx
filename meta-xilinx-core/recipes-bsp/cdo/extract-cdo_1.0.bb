@@ -1,4 +1,4 @@
-DESCRIPTION = "Recipe to extract pmc_cdo for qemu usage"
+DESCRIPTION = "Recipe to extract boot_files for qemu usage"
 
 LICENSE = "CLOSED"
 
@@ -25,11 +25,11 @@ BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_OUTFILE ?= "${DEPLOY_DIR_IMAGE}/boot.bin"
 
-# bootgen extracts the pmc_cdo file from the boot.bin.  By default this
-# happens in the same directory as the boot.bin.  We need to move it to
-# this directory, as do_compile should never write into a deploy dir
+# bootgen extracts the boot_files from the boot.bin. By default this happens in
+# the same directory as the boot.bin. We need to move it to $B directory, as
+# do_compile should never write into a deploy directory.
 do_compile() {
-    ${BOOTGEN_CMD} -arch ${BOOTGEN_ARCH} -dump_dir ${B} -dump ${BOOTGEN_OUTFILE} pmc_cdo
+    ${BOOTGEN_CMD} -arch ${BOOTGEN_ARCH} -dump_dir ${B} -dump ${BOOTGEN_OUTFILE} boot_files
 }
 
 do_install[noexec] = '1'
