@@ -11,7 +11,7 @@ COMPATIBLE_HOST:arm = "null"
 QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 x86_64"
 
 BRANCH = "master"
-SRCREV = "0dc789dd7300ae13993673fb39207c6611f715b2"
+SRCREV = "1b47c061a3ce53d403d522a5e3f12ffc32450ef7"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
