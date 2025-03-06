@@ -53,6 +53,7 @@ COMPATIBLE_MACHINE:zynq   = ".*"
 COMPATIBLE_MACHINE:zynqmp = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
 
 DEPENDS += "python3-dtc-native"
 

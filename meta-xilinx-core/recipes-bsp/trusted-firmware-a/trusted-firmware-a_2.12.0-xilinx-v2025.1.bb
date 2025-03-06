@@ -20,18 +20,20 @@ COMPATIBLE_MACHINE ?= "^$"
 COMPATIBLE_MACHINE:zynqmp = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
 
 ### Platform Settings
 TFA_PLATFORM:zynqmp     = "zynqmp"
 TFA_PLATFORM:versal     = "versal"
 TFA_PLATFORM:versal-net = "versal_net"
-
+TFA_PLATFORM:versal2    = "versal2"
 
 ### Console settings
 TFA_CONSOLE_DEFAULT = ""
 TFA_CONSOLE_DEFAULT:zynqmp = "cadence"
 TFA_CONSOLE_DEFAULT:versal = "pl011"
 TFA_CONSOLE_DEFAULT:versal-net = "pl011"
+TFA_CONSOLE_DEFAULT:versal2 = "pl011"
 
 # Use old name for compatibility
 ATF_CONSOLE ?= "${TFA_CONSOLE_DEFAULT}"
@@ -43,14 +45,15 @@ TFA_CONSOLE_OEMAKE = ""
 TFA_CONSOLE_OEMAKE:append:zynqmp = "${@' ZYNQMP_CONSOLE=${TFA_CONSOLE}' if d.getVar('TFA_CONSOLE', True) != '' else ''}"
 TFA_CONSOLE_OEMAKE:append:versal = "${@' VERSAL_CONSOLE=${TFA_CONSOLE}' if d.getVar('TFA_CONSOLE', True) != '' else ''}"
 TFA_CONSOLE_OEMAKE:append:versal-net = "${@' VERSAL_NET_CONSOLE=${TFA_CONSOLE}' if d.getVar('TFA_CONSOLE', True) != '' else ''}"
+TFA_CONSOLE_OEMAKE:append:versal2 = "${@' CONSOLE=${TFA_CONSOLE}' if d.getVar('TFA_CONSOLE', True) != '' else ''}"
 
 EXTRA_OEMAKE += "${TFA_CONSOLE_OEMAKE}"
-
 
 ### Debug settings
 DEBUG_ATF_DEFAULT = ""
 DEBUG_ATF_DEFAULT:versal = "1"
 DEBUG_ATF_DEFAULT:versal-net = "1"
+DEBUG_ATF_DEFAULT:versal2 = "1"
 DEBUG_ATF ?= "${DEBUG_ATF_DEFAULT}"
 
 # Translate old to new name
@@ -71,6 +74,8 @@ TFA_MEM_OEMAKE:append:versal     = "${@' VERSAL_ATF_MEM_BASE=${ATF_MEM_BASE}'   
 TFA_MEM_OEMAKE:append:versal     = "${@' VERSAL_ATF_MEM_SIZE=${ATF_MEM_SIZE}'     if d.getVar('ATF_MEM_SIZE', True) != '' else ''}"
 TFA_MEM_OEMAKE:append:versal-net = "${@' VERSAL_NET_ATF_MEM_BASE=${ATF_MEM_BASE}' if d.getVar('ATF_MEM_BASE', True) != '' else ''}"
 TFA_MEM_OEMAKE:append:versal-net = "${@' VERSAL_NET_ATF_MEM_SIZE=${ATF_MEM_SIZE}' if d.getVar('ATF_MEM_SIZE', True) != '' else ''}"
+TFA_MEM_OEMAKE:append:versal2    = "${@' MEM_BASE=${ATF_MEM_BASE}' if d.getVar('ATF_MEM_BASE', True) != '' else ''}"
+TFA_MEM_OEMAKE:append:versal2    = "${@' MEM_SIZE=${ATF_MEM_SIZE}' if d.getVar('ATF_MEM_SIZE', True) != '' else ''}"
 
 EXTRA_OEMAKE += "${TFA_MEM_OEMAKE}"
 
@@ -79,6 +84,12 @@ EXTRA_OEMAKE += "${TFA_MEM_OEMAKE}"
 TFA_BL33_LOAD ?= ""
 EXTRA_OEMAKE += "${@' PRELOADED_BL33_BASE=${TFA_BL33_LOAD}' if d.getVar('TFA_BL33_LOAD', True) != '' else ''}"
 
+# Enable PM for versal2
+EXTRA_OEMAKE:append:versal2 = " RESET_TO_BL31=1"
+
+# Use opteed SPD (Secure Payload Dispatcher) for versal2 platform if optee
+# MACHINE FEATURES is enabled.
+TFA_SPD:versal2 ?= "${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'opteed', '', d)}"
 
 # TFA 2.12 seems to want to use gcc for linking instead of ld
 LD = "${CCLD}"

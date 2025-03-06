@@ -13,6 +13,7 @@ do_compile[depends] += "virtual/boot-bin:do_deploy"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:versal = "versal"
 COMPATIBLE_MACHINE:versal-net = "versal-net"
+COMPATIBLE_MACHINE:versal2 = "versal2"
 
 PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 

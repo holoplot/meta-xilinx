@@ -16,8 +16,9 @@ SRCREV = "089a930c5aef4ac7d3be59bbe55e6a270db1da68"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:zynqmp = "zynqmp"
-COMPATIBLE_MACHINE:versal = "versal"
+COMPATIBLE_MACHINE:zynqmp = ".*"
+COMPATIBLE_MACHINE:versal = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
 
 # The inherit of module.bbclass will automatically name module packages with
 # "kernel-module-" prefix as required by the oe-core build environment.

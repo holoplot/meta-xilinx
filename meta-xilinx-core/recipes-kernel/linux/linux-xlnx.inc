@@ -47,6 +47,7 @@ COMPATIBLE_MACHINE:zynqmp = ".*"
 COMPATIBLE_MACHINE:microblaze = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
+COMPATIBLE_MACHINE:versal2 = ".*"
 
 # Use DEFCONFIGs for configuring linux-xlnx kernels
 KCONFIG_MODE ?= "alldefconfig"
@@ -55,6 +56,7 @@ KBUILD_DEFCONFIG:zynq ?= "xilinx_zynq_defconfig"
 KBUILD_DEFCONFIG:microblaze ?= "mmu_defconfig"
 KBUILD_DEFCONFIG:versal ?= "xilinx_defconfig"
 KBUILD_DEFCONFIG:versal-net ?= "xilinx_defconfig"
+KBUILD_DEFCONFIG:versal2 ?= "xilinx_defconfig"
 
 KERNEL_FEATURES:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)}"
 
@@ -62,5 +64,6 @@ KERNEL_FEATURES:append:zynqmp = "${@' features/xilinx/overlay_of/overlay_of.scc'
 
 KERNEL_FEATURES:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)} features/xilinx/hdmi-module/hdmi-module.scc"
 KERNEL_FEATURES:append:versal-net = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)} features/xilinx/hdmi-module/hdmi-module.scc"
+KERNEL_FEATURES:append:versal2 = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)} features/xilinx/hdmi-module/hdmi-module.scc"
 
 KERNEL_FEATURES:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', ' features/ocicontainer/ocicontainer.scc', '', d)}"
