@@ -1,31 +1,37 @@
-From 857bcafe8beb5a0cd78c070f432108049661a56d Mon Sep 17 00:00:00 2001
+From 349fd92a622bbb6a0e104009e67085a512a61a30 Mon Sep 17 00:00:00 2001
 From: Juergen Gross <jgross@suse.com>
-Date: Thu, 20 May 2021 13:31:32 +0200
-Subject: [PATCH 08/11] xen: let xen_ram_addr_from_mapcache() return -1 in case
+Date: Tue, 27 Feb 2024 14:34:58 -0800
+Subject: [PATCH 07/26] xen: let xen_ram_addr_from_mapcache() return -1 in case
  of not found entry
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Today xen_ram_addr_from_mapcache() will either abort() or return 0 in
 case it can't find a matching entry for a pointer value. Both cases
 are bad, so change that to return an invalid address instead.
 
 Signed-off-by: Juergen Gross <jgross@suse.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 ---
- hw/xen/xen-mapcache.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ hw/xen/xen-mapcache.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
 diff --git a/hw/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
-index 8115c44c00..8a61c7dde6 100644
+index bbd8a1b001..b30516de7a 100644
 --- a/hw/xen/xen-mapcache.c
 +++ b/hw/xen/xen-mapcache.c
-@@ -404,13 +404,8 @@ ram_addr_t xen_ram_addr_from_mapcache(void *ptr)
+@@ -396,13 +396,8 @@ ram_addr_t xen_ram_addr_from_mapcache(void *ptr)
          }
      }
      if (!found) {
--        fprintf(stderr, "%s, could not find %p\n", __func__, ptr);
+-        trace_xen_ram_addr_from_mapcache_not_found(ptr);
 -        QTAILQ_FOREACH(reventry, &mapcache->locked_entries, next) {
--            DPRINTF("   "HWADDR_FMT_plx" -> %p is present\n", reventry->paddr_index,
--                    reventry->vaddr_req);
+-            trace_xen_ram_addr_from_mapcache_found(reventry->paddr_index,
+-                                                   reventry->vaddr_req);
 -        }
 -        abort();
 -        return 0;
@@ -34,16 +40,15 @@ index 8115c44c00..8a61c7dde6 100644
      }
  
      entry = &mapcache->entry[paddr_index % mapcache->nr_buckets];
-@@ -418,8 +413,7 @@ ram_addr_t xen_ram_addr_from_mapcache(void *ptr)
-         entry = entry->next;
+@@ -411,7 +406,7 @@ ram_addr_t xen_ram_addr_from_mapcache(void *ptr)
      }
      if (!entry) {
--        DPRINTF("Trying to find address %p that is not in the mapcache!\n", ptr);
+         trace_xen_ram_addr_from_mapcache_not_in_cache(ptr);
 -        raddr = 0;
 +        raddr = RAM_ADDR_INVALID;
      } else {
          raddr = (reventry->paddr_index << MCACHE_BUCKET_SHIFT) +
               ((unsigned long) ptr - (unsigned long) entry->vaddr_base);
 -- 
-2.39.2
+2.34.1
 

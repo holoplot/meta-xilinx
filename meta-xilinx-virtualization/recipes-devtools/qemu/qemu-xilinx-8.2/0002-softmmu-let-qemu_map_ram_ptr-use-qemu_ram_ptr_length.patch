@@ -1,7 +1,7 @@
-From 82139e7e4bdcf5ca51b2ac90c63e4af699e3eb6f Mon Sep 17 00:00:00 2001
+From 7ff4fb5c0245a9e2519a847513c8f40f2d256ca8 Mon Sep 17 00:00:00 2001
 From: Juergen Gross <jgross@suse.com>
 Date: Thu, 20 May 2021 11:54:48 +0200
-Subject: [PATCH 07/11] softmmu: let qemu_map_ram_ptr() use
+Subject: [PATCH 02/26] softmmu: let qemu_map_ram_ptr() use
  qemu_ram_ptr_length()
 
 qemu_map_ram_ptr() and qemu_ram_ptr_length() share quite some code, so
@@ -11,15 +11,16 @@ qemu_map_ram_ptr(), too.
 Signed-off-by: Juergen Gross <jgross@suse.com>
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 ---
- softmmu/physmem.c | 58 +++++++++++++++++++----------------------------
+ system/physmem.c | 58 +++++++++++++++++++-----------------------------
  1 file changed, 23 insertions(+), 35 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index f73629733e..a934e44fe7 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2123,38 +2123,8 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
+diff --git a/system/physmem.c b/system/physmem.c
+index 820dbaa61e..bba8d8d886 100644
+--- a/system/physmem.c
++++ b/system/physmem.c
+@@ -2146,38 +2146,8 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
  }
  #endif /* !_WIN32 */
  
@@ -60,7 +61,7 @@ index f73629733e..a934e44fe7 100644
   *
   * Called within RCU critical section.
   */
-@@ -2162,7 +2132,9 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
+@@ -2185,7 +2155,9 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
                                   hwaddr *size, bool lock)
  {
      RAMBlock *block = ram_block;
@@ -71,7 +72,7 @@ index f73629733e..a934e44fe7 100644
          return NULL;
      }
  
-@@ -2170,7 +2142,10 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
+@@ -2193,7 +2165,10 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
          block = qemu_get_ram_block(addr);
          addr -= block->offset;
      }
@@ -83,7 +84,7 @@ index f73629733e..a934e44fe7 100644
  
      if (xen_enabled() && block->host == NULL) {
          /* We need to check if the requested address is in the RAM
-@@ -2178,7 +2153,7 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
+@@ -2201,7 +2176,7 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
           * In that case just map the requested area.
           */
          if (block->offset == 0) {
@@ -92,7 +93,7 @@ index f73629733e..a934e44fe7 100644
          }
  
          block->host = xen_map_cache(block->offset, block->max_length, 1, lock);
-@@ -2187,6 +2162,19 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
+@@ -2210,6 +2185,19 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
      return ramblock_ptr(block, addr);
  }
  
@@ -113,5 +114,5 @@ index f73629733e..a934e44fe7 100644
  ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host)
  {
 -- 
-2.39.2
+2.34.1
 

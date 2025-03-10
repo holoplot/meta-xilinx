@@ -1,7 +1,10 @@
-From d4774a0e5e1ebed605c5d49e81433fd371d0b680 Mon Sep 17 00:00:00 2001
+From 2fcf8234e4f378db52a8ba1a12ff0f8408174350 Mon Sep 17 00:00:00 2001
 From: Vikram Garhwal <vikram.garhwal@amd.com>
-Date: Tue, 17 Oct 2023 20:22:26 +0000
-Subject: [PATCH 05/11] softmmu: physmem: Split ram_block_add()
+Date: Tue, 27 Feb 2024 14:34:55 -0800
+Subject: [PATCH 01/26] softmmu: physmem: Split ram_block_add()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Extract ram block list update to a new function ram_block_add_list(). This is
 done to support grant mappings which adds a memory region for granted memory and
@@ -9,14 +12,18 @@ updates the ram_block list.
 
 Signed-off-by: Juergen Gross <jgross@suse.com>
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 ---
  include/exec/ram_addr.h |  1 +
- softmmu/physmem.c       | 62 ++++++++++++++++++++++++++---------------
+ system/physmem.c        | 62 ++++++++++++++++++++++++++---------------
  2 files changed, 40 insertions(+), 23 deletions(-)
 
 diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 9f2e3893f5..76fa360463 100644
+index 90676093f5..c0b5f9a7d0 100644
 --- a/include/exec/ram_addr.h
 +++ b/include/exec/ram_addr.h
 @@ -139,6 +139,7 @@ void qemu_ram_free(RAMBlock *block);
@@ -27,12 +34,12 @@ index 9f2e3893f5..76fa360463 100644
  
  /* Clear whole block of mem */
  static inline void qemu_ram_block_writeback(RAMBlock *block)
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 3df73542e1..f73629733e 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1786,12 +1786,47 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
-     }
+diff --git a/system/physmem.c b/system/physmem.c
+index 073e6c6124..820dbaa61e 100644
+--- a/system/physmem.c
++++ b/system/physmem.c
+@@ -1791,12 +1791,47 @@ static void dirty_memory_extend(ram_addr_t new_ram_size)
+     ram_list.num_dirty_blocks = new_num_blocks;
  }
  
 +static void ram_block_add_list_locked(RAMBlock *new_block)
@@ -78,13 +85,13 @@ index 3df73542e1..f73629733e 100644
      const bool shared = qemu_ram_is_shared(new_block);
 -    RAMBlock *block;
 -    RAMBlock *last_block = NULL;
-     ram_addr_t old_ram_size, new_ram_size;
+     ram_addr_t ram_size;
      Error *err = NULL;
  
 @@ -1829,28 +1864,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
-     if (new_ram_size > old_ram_size) {
-         dirty_memory_extend(old_ram_size, new_ram_size);
-     }
+ 
+     ram_size = (new_block->offset + new_block->max_length) >> TARGET_PAGE_BITS;
+     dirty_memory_extend(ram_size);
 -    /* Keep the list sorted from biggest to smallest block.  Unlike QTAILQ,
 -     * QLIST (which has an RCU-friendly variant) does not have insertion at
 -     * tail, so save the last element in last_block.
@@ -103,15 +110,15 @@ index 3df73542e1..f73629733e 100644
 -        QLIST_INSERT_HEAD_RCU(&ram_list.blocks, new_block, next);
 -    }
 -    ram_list.mru_block = NULL;
-+ 
-+    ram_block_add_list_locked(new_block);
  
 -    /* Write list before version */
 -    smp_wmb();
 -    ram_list.version++;
++    ram_block_add_list_locked(new_block);
++
      qemu_mutex_unlock_ramlist();
  
      cpu_physical_memory_set_dirty_range(new_block->offset,
 -- 
-2.39.2
+2.34.1
 

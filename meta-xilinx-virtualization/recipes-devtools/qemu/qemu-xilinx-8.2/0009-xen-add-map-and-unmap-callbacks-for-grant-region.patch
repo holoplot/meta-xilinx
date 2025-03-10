@@ -1,20 +1,23 @@
-From 90496d4c71e3b9334aebca118661bf72631ed0f0 Mon Sep 17 00:00:00 2001
+From 9fd5169558d6924b3c40c7cd9363bcd9162baf46 Mon Sep 17 00:00:00 2001
 From: Juergen Gross <jgross@suse.com>
-Date: Fri, 26 Aug 2022 13:57:06 +0200
-Subject: [PATCH 10/11] xen: add map and unmap callbacks for grant region
+Date: Tue, 27 Feb 2024 14:35:00 -0800
+Subject: [PATCH 09/26] xen: add map and unmap callbacks for grant region
 
 Add the callbacks for mapping/unmapping guest memory via grants to the
 special grant memory region.
 
 Signed-off-by: Juergen Gross <jgross@suse.com>
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 ---
  hw/xen/xen-mapcache.c | 176 +++++++++++++++++++++++++++++++++++++++++-
- softmmu/physmem.c     |  11 ++-
+ system/physmem.c      |  11 ++-
  2 files changed, 182 insertions(+), 5 deletions(-)
 
 diff --git a/hw/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
-index 8a61c7dde6..e071328fc5 100644
+index b30516de7a..cb7a1ad758 100644
 --- a/hw/xen/xen-mapcache.c
 +++ b/hw/xen/xen-mapcache.c
 @@ -9,6 +9,8 @@
@@ -33,9 +36,9 @@ index 8a61c7dde6..e071328fc5 100644
 +#include <xenevtchn.h>
 +#include <xengnttab.h>
  
- //#define MAPCACHE_DEBUG
- 
-@@ -385,7 +389,7 @@ uint8_t *xen_map_cache(hwaddr phys_addr, hwaddr size,
+ #if HOST_LONG_BITS == 32
+ #  define MCACHE_BUCKET_SHIFT 16
+@@ -377,7 +381,7 @@ uint8_t *xen_map_cache(hwaddr phys_addr, hwaddr size,
      return p;
  }
  
@@ -44,7 +47,7 @@ index 8a61c7dde6..e071328fc5 100644
  {
      MapCacheEntry *entry = NULL;
      MapCacheRev *reventry;
-@@ -594,10 +598,179 @@ uint8_t *xen_replace_cache_entry(hwaddr old_phys_addr,
+@@ -614,10 +618,179 @@ uint8_t *xen_replace_cache_entry(hwaddr old_phys_addr,
      return p;
  }
  
@@ -224,7 +227,7 @@ index 8a61c7dde6..e071328fc5 100644
      memory_region_init(&ram_grants, NULL, "xen.grants",
                         XEN_MAX_VIRTIO_GRANTS * XC_PAGE_SIZE);
      block = g_malloc0(sizeof(*block));
-@@ -612,6 +785,7 @@ MemoryRegion *xen_init_grant_ram(void)
+@@ -632,6 +805,7 @@ MemoryRegion *xen_init_grant_ram(void)
      ram_grants.ram_block = block;
      ram_grants.ram = true;
      ram_grants.terminates = true;
@@ -232,11 +235,11 @@ index 8a61c7dde6..e071328fc5 100644
      ram_block_add_list(block);
      memory_region_add_subregion(get_system_memory(), XEN_GRANT_ADDR_OFF,
                                  &ram_grants);
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index a1e2030424..e1057304f1 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2210,13 +2210,16 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+diff --git a/system/physmem.c b/system/physmem.c
+index 1bf5955fc3..4542ded68e 100644
+--- a/system/physmem.c
++++ b/system/physmem.c
+@@ -2216,13 +2216,16 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
  
      if (xen_enabled()) {
          ram_addr_t ram_addr;
@@ -258,5 +261,5 @@ index a1e2030424..e1057304f1 100644
  
      RCU_READ_LOCK_GUARD();
 -- 
-2.39.2
+2.34.1
 
