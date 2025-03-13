@@ -21,7 +21,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 DEPENDS += "libdrm wayland"
 
-#RDEPENDS:${PN} = " kernel-module-mali"
+RDEPENDS:${PN} = " kernel-modules-g78ae"
 
 do_compile[noexec] = "1"
 

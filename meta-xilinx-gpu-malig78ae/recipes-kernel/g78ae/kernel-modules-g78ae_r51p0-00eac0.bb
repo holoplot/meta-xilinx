@@ -46,21 +46,40 @@ do_install() {
 		--install "${D}${INSTALL_DIR}"
 }
 
+
 FILES:${PN} = "\
-	${INSTALL_DIR}/dma-buf-test-exporter.ko \
-	${INSTALL_DIR}/kutf.ko \
-	${INSTALL_DIR}/mali_arbiter.ko \
-	${INSTALL_DIR}/mali_emu_kbase.ko \
-	${INSTALL_DIR}/mali_gpu_assign.ko \
-	${INSTALL_DIR}/mali_gpu_aw.ko \
-	${INSTALL_DIR}/mali_gpu_partition_config.ko \
-	${INSTALL_DIR}/mali_gpu_partition_control.ko \
-	${INSTALL_DIR}/mali_gpu_power.ko \
-	${INSTALL_DIR}/mali_gpu_resource_group.ko \
-	${INSTALL_DIR}/mali_gpu_system.ko \
-	${INSTALL_DIR}/mali_kbase.ko \
-	${INSTALL_DIR}/mali_kutf_clk_rate_trace_test_portal.ko \
-	${INSTALL_DIR}/mali_kutf_irq_test.ko \
-	${INSTALL_DIR}/mali_kutf_mgm_integration_test.ko \
-	${INSTALL_DIR}/memory_group_manager.ko \
+	${INSTALL_DIR}/kernel-module-dma-buf-test-exporter.ko \
+	${INSTALL_DIR}/kernel-module-kutf.ko \
+	${INSTALL_DIR}/kernel-module-mali-arbiter.ko \
+	${INSTALL_DIR}/kernel-module-mali-emu-kbase.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-assign.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-aw.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-partition-config.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-partition-control.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-power.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-resource-group.ko \
+	${INSTALL_DIR}/kernel-module-mali-gpu-system.ko \
+	${INSTALL_DIR}/kernel-module-mali-kbase.ko \
+	${INSTALL_DIR}/kernel-module-mali-kutf-clk-rate-trace-test-portal.ko \
+	${INSTALL_DIR}/kernel-module-mali-kutf-irq-test.ko \
+	${INSTALL_DIR}/kernel-module-mali-kutf-mgm-integration-test.ko \
+	${INSTALL_DIR}/kernel-module-memory-group-manager.ko \
+"
+RPROVIDES:${PN} = "\
+	kernel-module-dma-buf-test-exporter \
+	kernel-module-kutf \
+	kernel-module-mali-arbiter \
+	kernel-module-mali-emu-kbase \
+	kernel-module-mali-gpu-assign \
+	kernel-module-mali-gpu-aw \
+	kernel-module-mali-gpu-partition-config \
+	kernel-module-mali-gpu-partition-control \
+	kernel-module-mali-gpu-power \
+	kernel-module-mali-gpu-resource-group \
+	kernel-module-mali-gpu-system \
+	kernel-module-mali-kbase \
+	kernel-module-mali-kutf-clk-rate-trace-test-portal \
+	kernel-module-mali-kutf-irq-test \
+	kernel-module-mali-kutf-mgm-integration-test \
+	kernel-module-memory-group-manager \
 "
