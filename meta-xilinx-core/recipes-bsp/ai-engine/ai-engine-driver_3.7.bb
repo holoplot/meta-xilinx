@@ -22,6 +22,7 @@ PARALLEL_MAKE = "-j 1"
 
 CFLAGS += "-Wall -Wextra"
 CFLAGS += "${@bb.utils.contains('IOBACKENDS', 'Linux', ' -D__AIELINUX__', '', d)}"
+CFLAGS += "${@bb.utils.contains('IOBACKENDS', 'controlcode', ' -D__AIECONTROLCODE__', '', d)}"
 CFLAGS += "${@bb.utils.contains('IOBACKENDS', 'metal', ' -D__AIEMETAL__', '', d)}"
 EXTRA_OEMAKE = "-C ${AIEDIR}/src -f Makefile.Linux CFLAGS='${CFLAGS}'"
 
