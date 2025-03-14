@@ -1,8 +1,7 @@
 DESCRIPTION = "libraries for Versal with Mali G78AE"
 
 LICENSE = "Proprietary"
-# TODO: This isn't really a license, this needs to be corrected
-LIC_FILES_CHKSUM = "file://README.md;md5=b7564ab9ff217046e6b58319d2c9e555"
+LIC_FILES_CHKSUM = "file://EULA;md5=646a0c3fd8ffd4c63169926fbc5f62a8"
 
 inherit features_check update-alternatives
 
@@ -10,8 +9,8 @@ REQUIRED_DISTRO_FEATURES = "wayland"
 REQUIRED_MACHINE_FEATURES = "malig78ae"
 
 REPO ?= "git://github.com/Xilinx/g78ae-userspace-binaries.git;protocol=https"
-BRANCH ?= "master"
-SRCREV ?= "48915904f1d9d13eae09d944e2b52a05329e0775"
+BRANCH ?= "r51p0-00eac0-1"
+SRCREV ?= "b721040e9ced793d54b13169794a92f738a319a2"
 
 SRC_URI = "${REPO};branch=${BRANCH}"
 
