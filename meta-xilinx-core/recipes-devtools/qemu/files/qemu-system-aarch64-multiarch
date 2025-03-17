@@ -80,7 +80,7 @@ def help(status):
             apu_args_s = ' '.join(APU_args)
             help_cmd = f'{binpath}/qemu-system-aarch64 {apu_args_s}'
 
-        print(f"    -machine-path <path> - Optional path to use for multiarch files. This path must be less then about 100 characters.\n     Note: if specified caller is responsible for cleaning up the directory on exist\n")
+        print(f"    -machine-path <path> - Optional path to use for multiarch files\n     Note: if specified caller is responsible for cleaning up the directory on exit\n")
 
         print(f"{help_cmd}\n")
         process = subprocess.Popen(help_cmd, shell=True, stderr=subprocess.PIPE)
