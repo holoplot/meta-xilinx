@@ -55,23 +55,6 @@ if '-kernel' in APU_args:
     kernel_args_idx = APU_args.index('-kernel')
     del APU_args[kernel_args_idx:kernel_args_idx+2]
 
-# The APU QEMU will hang if it does get get a -hw-dtb
-if dtb_arg and '-hw-dtb' in APU_args:
-    sys.exit(f'\nERROR: Arguments -dtb and -hw-dtb conflict, only one should be specified.')
-elif not dtb_arg and not '-hw-dtb' in APU_args:
-    sys.exit(f'\nERROR: You must specify at least a -dtb or -hw-dtb for the APU.')
-
-if mach_path_arg:
-    if not os.path.isdir(mach_path_arg):
-        sys.exit(f'\nERROR: Missing machine path for qemu: {mach_path_arg}')
-    else:
-        mach_path = os.path.realpath(mach_path_arg)
-else:
-    mach_path = tempfile.mkdtemp()
-
-if PMU_args and PLM_args:
-    sys.exit("\nError: -pmu-args can not be used with -plm-args\n")
-
 help_options = ['-h', '-help', '--help']
 def help(status):
     print("AMD FPGA QEMU multiarch wrapper\nVersion 2025.1\n\nUsage:")
@@ -109,6 +92,23 @@ if set(APU_args).intersection(set(help_options)) or set(PMU_args).intersection(s
 
 if not PMU_args and not PLM_args:
     help(1)
+
+# The APU QEMU will hang if it does get get a -hw-dtb
+if dtb_arg and '-hw-dtb' in APU_args:
+    sys.exit(f'\nERROR: Arguments -dtb and -hw-dtb conflict, only one should be specified.')
+elif not dtb_arg and not '-hw-dtb' in APU_args:
+    sys.exit(f'\nERROR: You must specify at least a -dtb or -hw-dtb for the APU.')
+
+if mach_path_arg:
+    if not os.path.isdir(mach_path_arg):
+        sys.exit(f'\nERROR: Missing machine path for qemu: {mach_path_arg}')
+    else:
+        mach_path = os.path.realpath(mach_path_arg)
+else:
+    mach_path = tempfile.mkdtemp()
+
+if PMU_args and PLM_args:
+    sys.exit("\nError: -pmu-args can not be used with -plm-args\n")
 
 if PMU_args:
     try:
