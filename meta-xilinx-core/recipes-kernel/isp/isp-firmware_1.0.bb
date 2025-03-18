@@ -4,8 +4,8 @@ LICENSE="CLOSED"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/02240807/isp-r52-0-firmware.elf"
-SRC_URI[sha256sum]="ab6c98e479ea3d439dfd172ba1fe0de94a89a8f29554a6b3c84a597c3fd0f8c1"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/03171107/isp-r52-6-firmware.elf"
+SRC_URI[sha256sum]="72b092d32481a753781d554a45569fa22babdb25ad25da260b73f7ff035dfa7c"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
