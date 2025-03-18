@@ -2,16 +2,15 @@ inherit cmake ccmake
  
 COMPATIBLE_HOST = "aarch64-xilinx-elf"
 
-require ../../meta-xilinx-core/recipes-bsp/ai-engine/aie-rt-2024.2.inc
+require ../../../meta-xilinx-core/recipes-bsp/ai-engine/aie-rt-2024.2.inc
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
  
 EXTRA_OECMAKE += "-DYOCTO=ON"
-DEPENDS += "xilstandalone xiltimer"
+DEPENDS += "xilstandalone xiltimer aienginev2"
  
-ESW_COMPONENT_SRC = "/driver/src/"
-ESW_COMPONENT_NAME = "libaienginev2.a"
+ESW_COMPONENT_SRC = "/fal/src/"
  
 OECMAKE_SOURCEPATH = "${S}/${ESW_COMPONENT_SRC}"
 XLNX_CMAKE_SYSTEM_NAME ?= "Generic"
@@ -30,10 +29,7 @@ EOF
 }
 
 do_install() {
-    install -d ${D}${libdir}
     install -d ${D}${includedir}
-    install -m 0755  ${B}/${ESW_COMPONENT_NAME} ${D}${libdir}
-    install -m 0644  ${B}/include/*.h ${D}${includedir}
-    cp -r ${B}/include/xaiengine ${D}${includedir}
+    cp -r ${B}/include/xaiefal ${D}${includedir}
 }
 
