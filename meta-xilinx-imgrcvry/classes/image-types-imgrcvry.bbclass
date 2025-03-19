@@ -3,8 +3,6 @@
 IMAGE_TYPES += "imagercvry"
 
 include recipes-bsp/bootbin/machine-xilinx-${SOC_FAMILY}.inc
-# TMPFIX to include the files from dynamic layers
-include dynamic-layers/meta-xilinx-core/recipes-bsp/bootbin/machine-xilinx-${SOC_FAMILY}.inc
 
 IMGRCVRY_ATTR ?= "${BIF_PARTITION_ATTR}"
 IMGRCVRY_KERNEL_ATTR ?= "linux-xlnx rootfs"
