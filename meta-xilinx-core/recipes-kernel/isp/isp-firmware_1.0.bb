@@ -11,8 +11,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
 
 do_install() {
-	install -d ${D}${base_libdir}/firmware
-    install -Dm 0644 ${S}/isp-r52-0-firmware.elf ${D}${base_libdir}/firmware/isp-r52-0-firmware.elf
+    install -d ${D}${base_libdir}/firmware
+    install -Dm 0644 ${S}/isp-r52-6-firmware.elf ${D}${base_libdir}/firmware/isp-r52-6-firmware.elf
 }
 
 COMPATIBLE_MACHINE = "^$"
@@ -21,4 +21,4 @@ COMPATIBLE_MACHINE:versal2 = "versal2"
 INSANE_SKIP:${PN} += "arch"
 
 # Inhibit warnings about files being stripped
-FILES:${PN} += "${base_libdir}/firmware/isp-r52-0-firmware.elf"
+FILES:${PN} += "${base_libdir}/firmware/isp-r52-6-firmware.elf"
