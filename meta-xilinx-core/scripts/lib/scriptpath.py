@@ -12,7 +12,7 @@ import os.path
 
 def add_oe_lib_path():
     basepath = os.path.abspath(os.path.dirname(__file__) + '/../..')
-    newpath = basepath + '/meta/lib'
+    newpath = basepath + '/lib'
     sys.path.insert(0, newpath)
 
 def add_bitbake_lib_path():

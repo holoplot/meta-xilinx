@@ -135,12 +135,13 @@ class KickStart():
     DEFAULT_EXTRA_SPACE = 10*1024
     DEFAULT_OVERHEAD_FACTOR = 1.3
 
-    def __init__(self, confpath):
+    def __init__(self, confpath, cmdline_args):
 
         self.partitions = []
         self.bootloader = None
         self.lineno = 0
         self.partnum = 0
+        self.cmdline_args = cmdline_args
 
         parser = KickStartParser()
         subparsers = parser.add_subparsers()
@@ -281,7 +282,7 @@ class KickStart():
                                 parsed.extra_space = self.DEFAULT_EXTRA_SPACE
 
                         self.partnum += 1
-                        self.partitions.append(Partition(parsed, self.partnum))
+                        self.partitions.append(Partition(parsed, self.partnum, self.cmdline_args))
                     elif line.startswith('include'):
                         self._parse(parser, parsed.path)
                     elif line.startswith('bootloader'):

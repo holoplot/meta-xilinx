@@ -43,7 +43,7 @@ class DirectPlugin(ImagerPlugin):
     def __init__(self, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
                  native_sysroot, oe_builddir, options):
         try:
-            self.ks = KickStart(wks_file)
+            self.ks = KickStart(wks_file, options)
         except KickStartError as err:
             raise WicError(str(err))
 
@@ -60,6 +60,9 @@ class DirectPlugin(ImagerPlugin):
         self.bmap = options.bmap
         self.no_fstab_update = options.no_fstab_update
         self.updated_fstab_path = None
+        self.sector_size = options.sector_size
+        if self.sector_size != 512:
+            os.environ['PARTED_SECTOR_SIZE'] = "%d" % self.sector_size
 
         self.name = "%s-%s" % (os.path.splitext(os.path.basename(wks_file))[0],
                                strftime("%Y%m%d%H%M"))
@@ -77,8 +80,8 @@ class DirectPlugin(ImagerPlugin):
 
         image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
         self._image = PartitionedImage(image_path, self.ptable_format,
-                                       self.parts, self.native_sysroot,
-                                       options.extra_space)
+                                       self.parts, self.sector_size,
+                                       self.native_sysroot, options.extra_space)
 
     def setup_workdir(self, workdir):
         if workdir:
@@ -292,15 +295,12 @@ MBR_OVERHEAD = 1
 # Overhead of the GPT partitioning scheme
 GPT_OVERHEAD = 34
 
-# Size of a sector in bytes
-SECTOR_SIZE = 512
-
 class PartitionedImage():
     """
     Partitioned image in a file.
     """
 
-    def __init__(self, path, ptable_format, partitions, native_sysroot=None, extra_space=0):
+    def __init__(self, path, ptable_format, partitions, sector_size, native_sysroot=None, extra_space=0):
         self.path = path  # Path to the image file
         self.numpart = 0  # Number of allocated partitions
         self.realpart = 0 # Number of partitions in the partition table
@@ -321,7 +321,7 @@ class PartitionedImage():
         self.partitions = partitions
         self.partimages = []
         # Size of a sector used in calculations
-        self.sector_size = SECTOR_SIZE
+        self.sector_size = sector_size
         self.native_sysroot = native_sysroot
         num_real_partitions = len([p for p in self.partitions if not p.no_table])
         self.extra_space = extra_space
