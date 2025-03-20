@@ -14,7 +14,7 @@
 # AUTHORS
 # Tom Zanussi <tom.zanussi (at] linux.intel.com>
 #
-__version__ = "0.2.0"
+__version__ = "0.2.0 (meta-xilinx-core)"
 
 # Python Standard Library modules
 import os
@@ -351,6 +351,8 @@ def wic_init_parser_create(subparser):
                       default="direct", help="the wic imager plugin")
     subparser.add_argument("--extra-space", type=int, dest="extra_space",
                       default=0, help="additional free disk space to add to the image")
+    subparser.add_argument("--sector-size", type=int, dest="sector_size",
+                      default=512, help="sector size to use")
     return
 
 

@@ -22,7 +22,7 @@ logger = logging.getLogger('wic')
 
 class Partition():
 
-    def __init__(self, args, lineno):
+    def __init__(self, args, lineno, cmdline_args):
         self.args = args
         self.active = args.active
         self.align = args.align
@@ -61,6 +61,7 @@ class Partition():
         self.update_fstab_in_rootfs = False
         self.hidden = args.hidden
         self.mbr = args.mbr
+        self.sector_size = cmdline_args.sector_size
 
         self.lineno = lineno
         self.source_file = ""
@@ -283,6 +284,8 @@ class Partition():
             os.ftruncate(sparse.fileno(), rootfs_size * 1024)
 
         extraopts = self.mkfs_extraopts or "-F -i 8192"
+        if self.sector_size != 512:
+            extraopts += " -b %d" % self.sector_size
 
         # use hash_seed to generate reproducible ext4 images
         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, pseudo)
@@ -293,6 +296,7 @@ class Partition():
 
         mkfs_cmd = "mkfs.%s %s %s %s -U %s -d %s" % \
             (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
+        logger.info("mkfs_cmd(rootfs): %s" % mkfs_cmd)
         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
 
         if self.updated_fstab_path and self.has_fstab and not self.no_fstab_update:
@@ -390,11 +394,13 @@ class Partition():
 
         size_str = ""
 
-        extraopts = self.mkfs_extraopts or '-S 512'
+        extraopts = self.mkfs_extraopts
+        extraopts += " -S %d" % self.sector_size
 
         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
                     (label_str, self.fsuuid, size_str, extraopts, rootfs,
                      rootfs_size)
+        logger.info("dosfs_cmd(rootfs): %s" % dosfs_cmd)
         exec_native_cmd(dosfs_cmd, native_sysroot)
 
         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
@@ -442,6 +448,8 @@ class Partition():
             os.ftruncate(sparse.fileno(), size * 1024)
 
         extraopts = self.mkfs_extraopts or "-i 8192"
+        if self.sector_size != 512:
+            extraopts += " -b %s" % self.sector_size
 
         # use hash_seed to generate reproducible ext4 images
         (extraopts, pseudo) = self.get_hash_seed_ext4(extraopts, None)
@@ -452,6 +460,7 @@ class Partition():
 
         mkfs_cmd = "mkfs.%s -F %s %s -U %s %s" % \
             (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
+        logger.info("mkfs_cmd(empty): %s" % mkfs_cmd)
         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
 
         self.check_for_Y2038_problem(rootfs, native_sysroot)
@@ -487,12 +496,13 @@ class Partition():
 
         size_str = ""
 
-        extraopts = self.mkfs_extraopts or '-S 512'
+        extraopts = self.mkfs_extraopts
+        extraopts += " -S %d" % self.sector_size
 
         dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
                     (label_str, self.fsuuid, extraopts, size_str, rootfs,
                      blocks)
-
+        logger.info("dosfs_cmd(empty): %s" % dosfs_cmd)
         exec_native_cmd(dosfs_cmd, native_sysroot)
 
         chmod_cmd = "chmod 644 %s" % rootfs
