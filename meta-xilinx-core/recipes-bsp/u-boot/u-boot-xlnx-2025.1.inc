@@ -1,6 +1,6 @@
 UBRANCH = "xlnx_rebase_v2025.01"
 
-SRCREV = "2e300a8e77c7d4f7a976e8824bbf3e4372c7ba14"
+SRCREV = "efa92adb8a932dc9c4715217f25ae753264734f2"
 
 LICENSE = "GPL-2.0-or-later"
 LIC_FILES_CHKSUM = "file://README;beginline=1;endline=4;md5=744e7e3bb0c94b4b9f6b3db3bf893897"
