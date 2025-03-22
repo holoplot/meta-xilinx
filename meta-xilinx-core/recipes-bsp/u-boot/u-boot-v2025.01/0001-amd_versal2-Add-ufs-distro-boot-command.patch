@@ -1,0 +1,43 @@
+From c5db971528c0de9d8f09417bcca12eb5e1ea2b5f Mon Sep 17 00:00:00 2001
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Date: Wed, 26 Feb 2025 16:17:43 -0700
+Subject: [PATCH] amd_versal2: Add ufs distro boot command
+
+Add ufs distro boot command for ufs boot mode. This command will
+initialize ufs with LUN0 and execute "run scsi_init" to scan the
+ufs scsi devices. Once devices are detected it will load the
+boot_ufs.scr from ext4 /boot partition.
+
+Patch is Yocto Project integration specific.
+
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+---
+ include/configs/amd_versal2.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/include/configs/amd_versal2.h b/include/configs/amd_versal2.h
+index 6a40bbdf3a7..ab91cddad05 100644
+--- a/include/configs/amd_versal2.h
++++ b/include/configs/amd_versal2.h
+@@ -117,8 +117,18 @@
+ #define BOOTENV_DEV_NAME_DFU_USB(devtypeu, devtypel, instance) \
+ 	""
+ 
++#define BOOT_TARGET_DEVICES_UFS(func)	func(UFS, ufs, na)
++
++#define BOOTENV_DEV_UFS(devtypeu, devtypel, instance) \
++	"bootcmd_ufs=echo UFS: Trying to boot script at ${scriptaddr} && " \
++	"source ${scriptaddr}; echo UFS: SCRIPT FAILED: continuing...;\0"
++
++#define BOOTENV_DEV_NAME_UFS(devtypeu, devtypel, instance) \
++	"ufs "
++
+ #define BOOT_TARGET_DEVICES(func) \
+ 	BOOT_TARGET_DEVICES_JTAG(func) \
++	BOOT_TARGET_DEVICES_UFS(func) \
+ 	BOOT_TARGET_DEVICES_MMC(func) \
+ 	BOOT_TARGET_DEVICES_XSPI(func) \
+ 	BOOT_TARGET_DEVICES_DFU_USB(func) \
+-- 
+2.34.1
+

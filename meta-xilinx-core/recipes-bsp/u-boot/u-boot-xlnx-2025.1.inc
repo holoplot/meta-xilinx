@@ -17,5 +17,6 @@ DEPENDS += "bc-native dtc-native python3-setuptools-native gnutls-native"
 FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot-v2025.01:"
 
 SRC_URI:append:versal2 = "\
-    ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://u-boot-optee.cfg', '', d)}\
+    ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://u-boot-optee.cfg', '', d)} \
+    file://0001-amd_versal2-Add-ufs-distro-boot-command.patch \
     "
