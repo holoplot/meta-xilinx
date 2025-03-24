@@ -176,7 +176,7 @@ python () {
                 # file in process_wks_template as well, so just put it in
                 # a variable and let the metadata deal with the deps.
                 d.setVar('_WKS_TEMPLATE', body)
-                bb.build.addtask('do_write_wks_template', 'do_image_wic_ufs', 'do_image do_image_wic', d)
+                bb.build.addtask('do_write_wks_template', 'do_image_wic_ufs', 'do_image', d)
         bb.build.addtask('do_image_wic_ufs', 'do_image_complete', None, d)
 }
 
