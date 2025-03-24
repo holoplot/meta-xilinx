@@ -177,7 +177,8 @@ python () {
                 # a variable and let the metadata deal with the deps.
                 d.setVar('_WKS_TEMPLATE', body)
                 bb.build.addtask('do_write_wks_template', 'do_image_wic_ufs', 'do_image', d)
-        bb.build.addtask('do_image_wic_ufs', 'do_image_complete', None, d)
+        # Delay do_image_wic_ufs build until after do_image_wic to workaround a potential pseudo abort
+        bb.build.addtask('do_image_wic_ufs', 'do_image_complete', 'do_image_wic', d)
 }
 
 #
