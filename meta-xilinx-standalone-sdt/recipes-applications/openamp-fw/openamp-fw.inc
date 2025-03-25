@@ -1,7 +1,7 @@
 SUMMARY = "Sample recipe to package and deploy baremetal or freertos elf or bin to linux rootfs"
 LICENSE = "CLOSED"
 
-inherit fw-package
+inherit check_sdt_enabled fw-package
 
 OPENAMP_XLNX_RECIPE ?= "open-amp-xlnx-echo"
 
