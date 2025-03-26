@@ -19,4 +19,5 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/u-boot-v2025.01:"
 SRC_URI:append:versal2 = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://u-boot-optee.cfg', '', d)} \
     file://0001-amd_versal2-Add-ufs-distro-boot-command.patch \
+    file://0001-Reread-the-eeprom-in-the-late_board_init.patch \
     "
