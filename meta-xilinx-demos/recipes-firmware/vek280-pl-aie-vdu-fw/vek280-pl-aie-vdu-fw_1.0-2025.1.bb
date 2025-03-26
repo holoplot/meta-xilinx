@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 inherit dfx_user_dts
 
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0324_1_03250322/external/vek280-pl-aie-vdu-fw/vek280-pl-aie-vdu-fw_2025.1_0314_2.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0325_1_03260322/external/vek280-pl-aie-vdu-fw/vek280-pl-aie-vdu-fw_2025.1_0325_1.tar.gz"
 
-SRC_URI[sha256sum] = "3082faa27a1e76c446bd14a729dac5a880c59b1d4f3f8ef4ce314cc40b9f2c46"
+SRC_URI[sha256sum] = "da26e70122edc16b399c12b5cc15cf1e7565e8c1fd0ed852cdc8663557835427"
 
 COMPATIBLE_MACHINE:versal-vek280-sdt-seg = "${MACHINE}"
 
