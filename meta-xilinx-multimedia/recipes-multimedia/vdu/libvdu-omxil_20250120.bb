@@ -3,6 +3,7 @@ DESCRIPTION = "OMX IL Libraries,test application and headers for VDU"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ac7c6b649ce8caa4f4c517aaa77c8b17"
 
+PE = "1"
 PV .= "+git"
 
 BRANCH ?= "master"

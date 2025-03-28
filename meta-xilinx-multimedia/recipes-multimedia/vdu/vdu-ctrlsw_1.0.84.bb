@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ac7c6b649ce8caa4f4c517aaa77c8b17"
 # Recipe has been renamed
 PROVIDES += "libvdu-ctrlsw"
 
+PE = "1"
 PV .= "+git"
 
 BRANCH ?= "master"
