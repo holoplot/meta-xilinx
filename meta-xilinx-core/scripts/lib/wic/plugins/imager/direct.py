@@ -609,12 +609,11 @@ class PartitionedImage():
                 self._create_partition(mbr_path, "primary",
                                        parted_fs_type, part.start, part.size_sec)
 
-            if self.ptable_format in ("gpt", "gpt-hybrid") and (part.part_name or part.label):
-                partition_label = part.part_name if part.part_name else part.label
+            if self.ptable_format in ("gpt", "gpt-hybrid") and part.part_name:
                 logger.debug("partition %d: set name to %s",
-                             part.num, partition_label)
+                             part.num, part.part_name)
                 exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
-                                         (part.num, partition_label,
+                                         (part.num, part.part_name,
                                           self.path), self.native_sysroot)
 
             if part.part_type:
