@@ -10,10 +10,11 @@ BIF_OPTIONAL_DATA ?= ""
 # Specify BIF partition attributes required for BOOT.bin
 BIF_FSBL_ATTR       ??= "base-pdi plmfw"
 BIF_ATF_ATTR        ??= "arm-trusted-firmware"
+BIF_OPTEE_ATTR      ??= "${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'optee-os', '', d)}"
 BIF_ASU_ATTR        ??= ""
 BIF_DEVICETREE_ATTR ??= "device-tree"
 BIF_SSBL_ATTR       ??= "u-boot-xlnx"
-BIF_PARTITION_ATTR  ??= "${BIF_FSBL_ATTR} ${BIF_ASU_ATTR} ${BIF_DEVICETREE_ATTR} ${BIF_ATF_ATTR} ${BIF_SSBL_ATTR}"
+BIF_PARTITION_ATTR  ??= "${BIF_FSBL_ATTR} ${BIF_ASU_ATTR} ${BIF_DEVICETREE_ATTR} ${BIF_ATF_ATTR} ${BIF_OPTEE_ATTR} ${BIF_SSBL_ATTR}"
 
 # Specify BIF partition attributes for base-pdi
 BIF_PARTITION_ATTR[base-pdi] ?= "type=bootimage"
@@ -37,6 +38,11 @@ BIF_PARTITION_ID[u-boot-xlnx] ?= "0x1c000000"
 BIF_PARTITION_ATTR[arm-trusted-firmware] ?= "core=a78-0, cluster=0, exception_level = el-3, trustzone"
 BIF_PARTITION_IMAGE[arm-trusted-firmware] ?= "${RECIPE_SYSROOT}/boot/arm-trusted-firmware.elf"
 BIF_PARTITION_ID[arm-trusted-firmware] ?= "0x1c000000"
+
+# Specify BIF partition attributes for optee
+BIF_PARTITION_ATTR[optee-os] ?= "core=a78-0, cluster=0, exception_level = el-1, trustzone"
+BIF_PARTITION_IMAGE[optee-os] ?= "${RECIPE_SYSROOT}/${nonarch_base_libdir}/firmware/tee.elf"
+BIF_PARTITION_ID[optee-os] ?= "0x1c000000"
 
 # Specify BIF partition attributes for asufw
 BIF_PARTITION_ATTR[asufw] ?= "core=asu"
