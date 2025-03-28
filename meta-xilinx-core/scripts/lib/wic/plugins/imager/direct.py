@@ -538,7 +538,7 @@ class PartitionedImage():
                 self.disk_guid = uuid.uuid4()
 
             logger.debug("Set disk guid %s", self.disk_guid)
-            sfdisk_cmd = "sfdisk --disk-id %s %s" % (self.path, self.disk_guid)
+            sfdisk_cmd = "sfdisk --sector-size %d --disk-id %s %s" % (self.sector_size, self.path, self.disk_guid)
             exec_native_cmd(sfdisk_cmd, self.native_sysroot)
 
     def create(self):
@@ -642,15 +642,15 @@ class PartitionedImage():
                                     (mbr_path, hybrid_mbr_part_num, "boot"),
                                     self.native_sysroot)
             if part.system_id:
-                exec_native_cmd("sfdisk --part-type %s %s %s" % \
-                                (self.path, part.num, part.system_id),
+                exec_native_cmd("sfdisk --sector-size %d --part-type %s %s %s" % \
+                                (self.sector_size, self.path, part.num, part.system_id),
                                 self.native_sysroot)
 
             if part.hidden and self.ptable_format == "gpt":
                 logger.debug("Set hidden attribute for partition '%s' on disk '%s'",
                              part.num, self.path)
-                exec_native_cmd("sfdisk --part-attrs %s %s RequiredPartition" % \
-                                (self.path, part.num),
+                exec_native_cmd("sfdisk --sector-size %d --part-attrs %s %s RequiredPartition" % \
+                                (self.sector_size, self.path, part.num),
                                 self.native_sysroot)
 
         if self.ptable_format == "gpt-hybrid":
@@ -663,7 +663,7 @@ class PartitionedImage():
             # create with an arbitrary type, then change it to the correct type
             # with sfdisk
             self._create_partition(mbr_path, "primary", "fat32", 1, GPT_OVERHEAD)
-            exec_native_cmd("sfdisk --part-type %s %d 0xee" % (mbr_path, hybrid_mbr_part_num),
+            exec_native_cmd("sfdisk --sector-size %d --part-type %s %d 0xee" % (self.sector_size, mbr_path, hybrid_mbr_part_num),
                             self.native_sysroot)
 
             # Copy hybrid MBR
