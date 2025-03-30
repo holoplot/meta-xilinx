@@ -1,20 +1,20 @@
 SUMMARY = "VEK280 Segemented Configuration(DFx Full) firmware using dfx_user_dts bbclass"
-DESCRIPTION = "VEK280 Segemented Configuration(DFx Full) PL AXI BRAM, AXI GPIO and AXI UART firmware application"
+DESCRIPTION = "VEK280 Segemented Configuration(DFx Full) PL AIE and VDU firmware application"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2024.2/sdt/2024.2/2024.2_1111_2_02260716/external/vek280-pl-bram-gpio-fw/vek280-pl-bram-gpio-fw_2024.2_1111_1.tar.gz"
 
-SRC_URI[sha256sum] = "0c31d5595368ae796c7aac0344e084225fb9abe3ecf4c2f17583191a8196aed4"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2024.2/sdt/2024.2/2024.2_1111_2_02260716/external/vek280-pl-aie-vdu-fw/vek280-pl-aie-vdu-fw_2024.2_1111_1.tar.gz"
+
+SRC_URI[sha256sum] = "6d42c9679e9615c6560a8b095957e5490aacbe9a22ae607794cb914ce790df0f"
 
 COMPATIBLE_MACHINE:versal-vek280-sdt-seg = "${MACHINE}"
-COMPATIBLE_MACHINE:versal-vek280-sdt-seg-ospi = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
-FW_DIR = "vek280-pl-bram-gpio-fw"
+FW_DIR = "vek280-pl-aie-vdu-fw"
 
 # fw files doesn't install on rootfs using dfx_user_dts bbclass using artifactory
 # method. To workaround this issue we are using copy_fw_files pre-functions.
