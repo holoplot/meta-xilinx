@@ -62,9 +62,9 @@ for mach in ${!MACHINES[@]}; do
     continue
   fi
 
-  echo "Machine: ${MACHINES[${mach}]}"
-  echo "Recipe:  ${RECIPES[${mach}]}"
-  echo "URL:     ${URLS[${mach}]}"
+  echo "Firmware: ${MACHINES[${mach}]}"
+  echo "Recipe:   ${RECIPES[${mach}]}"
+  echo "URL:      ${URLS[${mach}]}"
   echo
 
   url=${URLS[${mach}]}
