@@ -50,8 +50,9 @@ _UDHCPC="/sbin/udhcpc"
 _UDHCPC_ARGS="-n"
 
 run_udhcpc() {
+	_UDHCPC_INT="$1"
 	if [ -x $_UDHCPC ]; then
-		$_UDHCPC $_UDHCPC_ARGS
+		$_UDHCPC $_UDHCPC_INT $_UDHCPC_ARGS
 	fi
 	return 0
 }
@@ -76,6 +77,8 @@ launch_imgrcvry() {
 early_setup
 
 run_udhcpc
+
+run_udhcpc "-i eth1"
 
 launch_imgrcvry
 
