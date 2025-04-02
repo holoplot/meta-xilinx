@@ -9,6 +9,6 @@ INITRAMFS_FSTYPES += "cpio.gz.u-boot imagercvry"
 
 PACKAGE_INSTALL = "imgrcvry-initramfs-live-boot-tiny packagegroup-core-boot dropbear \
 		${VIRTUAL-RUNTIME_base-utils} ${VIRTUAL-RUNTIME_dev_manager} base-passwd \
-		image-recovery-linux-dev mtd-utils i2c-tools ufs-utils bmap-writer \
+		image-recovery-linux-dev mtd-utils i2c-tools ufs-utils bmap-writer bash \
 		"
 
