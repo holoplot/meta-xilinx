@@ -8,7 +8,7 @@ LICFILENAME = "license.txt"
 SPECFILE_PATH:arm = "${S}/scripts/specs/arm/Xilinx.spec"
 SPECFILE_PATH:aarch64 = "${S}/scripts/specs/arm/Xilinx.spec"
 SPECFILE_PATH:microblaze = "${S}/scripts/specs/microblaze/Xilinx.spec"
-SPECFILE_PATH:microblaze_riscv = "${S}/scripts/specs/microblaze_riscv/Xilinx.spec"
+SPECFILE_PATH:riscv32 = "${S}/scripts/specs/microblaze_riscv/Xilinx.spec"
 
 ESW_MACHINE ?= "${MACHINE}"
 
@@ -31,11 +31,13 @@ do_install[depends] += "device-tree:do_deploy"
 
 def get_xlnx_cmake_processor(tune, machine, d):
     cmake_processor = tune
-    if tune.startswith('microblaze'):
+    if tune.startswith('microblaze') and tune != "microblaze_riscv":
         if (machine == 'psu_pmu_0'):
             cmake_processor = 'pmu_microblaze'
         elif (machine in [ 'psv_pmc_0', 'psx_pmc_0', 'pmc_0']):
             cmake_processor = 'plm_microblaze'
+        elif (machine == 'asu'):
+            cmake_processor = 'microblaze_riscv'
         else:
             cmake_processor = 'microblaze'
     elif tune == 'microblaze_riscv':
