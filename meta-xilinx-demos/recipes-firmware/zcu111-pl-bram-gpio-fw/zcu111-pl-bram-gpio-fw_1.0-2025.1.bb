@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0404_1_04040829/external/zcu111-pl-bram-gpio-fw/zcu111-pl-bram-gpio-fw_2025.1_0404_1.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0407_1_04080322/external/zcu111-pl-bram-gpio-fw/zcu111-pl-bram-gpio-fw_2025.1_0407_1.tar.gz"
 
-SRC_URI[sha256sum] = "8df2c7a4fd01f7dbafdd7267cf4e6932a619655d3ccec8dedd6a531b2a012784"
+SRC_URI[sha256sum] = "469735c2991f6982ca066963808c711f1a539657f10a36ed2c33dde38eba180f"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zynqmp-common = "${MACHINE}"
