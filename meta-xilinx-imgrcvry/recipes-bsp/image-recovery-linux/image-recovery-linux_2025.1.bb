@@ -9,7 +9,7 @@ BRANCH ??= "main"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 SRC_URI = "${REPO};${BRANCHARG}"
-SRCREV ??= "b0b2790fbfee074712dd367feabf357f058910ba"
+SRCREV ??= "b0aded66825172b2747df0b47f151a3c6558e009"
 
 S = "${WORKDIR}/git"
 
