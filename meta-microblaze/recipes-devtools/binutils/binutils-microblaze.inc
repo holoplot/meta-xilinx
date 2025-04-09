@@ -61,4 +61,5 @@ SRC_URI += " \
     file://0053-Merge-gdb-microblaze-linux-tdep.c-to-gdb-14-and-fix-.patch \
     file://0054-Roll-back-an-improvement-which-inlines-target_gdbarc.patch \
     file://0055-fix-microblaze-linux-nat.patch \
+    file://0056-Microblaze_Fix_regression_introduced_during_2024.2.patch \
 "
