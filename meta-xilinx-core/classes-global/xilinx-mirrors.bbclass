@@ -38,7 +38,7 @@ python() {
                             if mirror_link not in mirror_links:
                                 mirror_links += [ mirror_link ]
                         except Exception as e:
-                            bb.debug("xilinx-mirrors: localpath mirror link exception %s" % e)
+                            bb.debug(1, "xilinx-mirrors: localpath mirror link exception %s" % e)
 
                         try:
                             linkpath = os.path.join(dl_dir, ud.fullmirror)
@@ -50,7 +50,7 @@ python() {
                             if mirror_link not in mirror_links:
                                 mirror_links += [ mirror_link ]
                         except Exception as e:
-                            bb.debug("xilinx-mirrors: fullmirror link exception %s" % e)
+                            bb.debug(1, "xilinx-mirrors: fullmirror link exception %s" % e)
 
                         try:
                             count = 0
@@ -66,7 +66,7 @@ python() {
 
                                 count = count + 1
                         except Exception as e:
-                            bb.debug("xilinx-mirrors: mirrortarballs link exception %s" % e)
+                            bb.debug(1, "xilinx-mirrors: mirrortarballs link exception %s" % e)
 
                 else:
                     new_srcuri += [ src_uri ]
@@ -135,7 +135,7 @@ python mirror_fetcher_set_symlinks() {
     # Copy from bitbake fetch2/__init__.py
     def ensure_symlink(target, link_name):
         if not os.path.exists(link_name):
-            bb.debug("mirror_fetcher set symlink %s -> %s" % (link,  target))
+            bb.debug(2, "mirror_fetcher set symlink %s -> %s" % (link,  target))
             dirname = os.path.dirname(link_name)
             bb.utils.mkdirhier(dirname)
             if os.path.islink(link_name):
