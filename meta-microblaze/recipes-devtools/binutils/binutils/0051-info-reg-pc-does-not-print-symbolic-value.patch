@@ -1,7 +1,7 @@
 From 54a6eedd59d70a80be5dc8b4a5abe642113ea291 Mon Sep 17 00:00:00 2001
 From: Gopi Kumar Bulusu <gopi@sankhya.com>
 Date: Thu, 9 May 2024 11:30:22 +0530
-Subject: [PATCH 50/53] info reg pc does not print symbolic value
+Subject: [PATCH 51/55] info reg pc does not print symbolic value
 
 Problem - Test gdb.base/pc-fp.exp fails
 Fix - Change feature/microblaze-core.xml add type=code_ptr for pc
