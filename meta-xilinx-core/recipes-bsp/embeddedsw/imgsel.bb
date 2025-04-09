@@ -39,6 +39,7 @@ do_deploy() {
     if ${SHOULD_DEPLOY}; then
         install -Dm 0644 ${IMGSEL_FILE}.bin ${DEPLOYDIR}/${IMGSEL_IMAGE_NAME}.bin
         install -Dm 0644 ${IMGSEL_FILE}.elf ${DEPLOYDIR}/${IMGSEL_IMAGE_NAME}.elf
+        install -Dm 0644 ${IMGSEL_FILE}.manifest ${DEPLOYDIR}/${IMGSEL_IMAGE_NAME}.manifest
     fi
 }
 
