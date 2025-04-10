@@ -1,11 +1,13 @@
 SUMMARY = "Firmware for ISP"
 DESCRIPTION = "Firmware binaries provider for ISP"
 LICENSE="CLOSED"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=bb0c8bccc6e0b47e992c34438e3a06fb"
+COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/03171107/isp-r52-6-firmware.elf"
-SRC_URI[sha256sum]="72b092d32481a753781d554a45569fa22babdb25ad25da260b73f7ff035dfa7c"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/04101709/isp_fw.tar.gz"
+SRC_URI[sha256sum]="d82506caa2946acc4bd7f8703298dc45cb662879b505643e8e32ef41ad0bb536"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
