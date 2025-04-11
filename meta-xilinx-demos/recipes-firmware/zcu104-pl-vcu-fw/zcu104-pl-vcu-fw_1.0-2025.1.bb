@@ -10,7 +10,7 @@ SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.
 SRC_URI[sha256sum] = "36c2cbd0c2ece0986b45877bb61844124454c4612c4e8f050fe7c151bbbfeffd"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:zynqmp-mali-common = "${MACHINE}"
+COMPATIBLE_MACHINE:amd-cortexa53-mali-common = "${MACHINE}"
 COMPATIBLE_MACHINE:zynqmp-zcu104-sdt-full = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
