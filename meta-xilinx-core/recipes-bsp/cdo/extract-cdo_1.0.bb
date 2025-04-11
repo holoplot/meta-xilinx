@@ -13,7 +13,7 @@ do_compile[depends] += "virtual/boot-bin:do_deploy"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:versal = "versal"
 COMPATIBLE_MACHINE:versal-net = "versal-net"
-COMPATIBLE_MACHINE:versal2 = "versal2"
+COMPATIBLE_MACHINE:versal-2ve-2vm = "versal-2ve-2vm"
 
 PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 
@@ -23,7 +23,7 @@ BOOTGEN_CMD ?= "bootgen"
 BOOTGEN_ARCH_DEFAULT = "undefined"
 BOOTGEN_ARCH_DEFAULT:versal = "versal"
 BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
-BOOTGEN_ARCH_DEFAULT:versal2 = "versal_2ve_2vm"
+BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_OUTFILE ?= "${DEPLOY_DIR_IMAGE}/boot.bin"
 
@@ -42,7 +42,7 @@ do_deploy() {
     ln -sf CDO/pmc_cdo.bin ${DEPLOYDIR}/pmc_cdo.bin
 }
 
-do_deploy:append:versal2() {
+do_deploy:append:versal-2ve-2vm() {
     install -m 0644 ${B}/HashBlock0.bin ${DEPLOYDIR}/HashBlock0.bin
 }
 

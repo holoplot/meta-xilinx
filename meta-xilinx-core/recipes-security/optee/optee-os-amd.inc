@@ -8,9 +8,9 @@ REPO ?= "git://github.com/Xilinx/optee_os.git;protocol=https"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-COMPATIBLE_MACHINE:versal2 = ".*"
+COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
-OPTEEMACHINE:versal2 = "versal2"
+OPTEEMACHINE:versal-2ve-2vm = "versal2"
 
 OPTEE_ARCH ?= "arm64"
 
@@ -19,7 +19,7 @@ TOOLCHAIN = "gcc"
 # Optee Console settings
 # 0 for uart0/serial0 and 1 for uart1/serial1
 OPTEE_CONSOLE_DEFAULT ?= ""
-OPTEE_CONSOLE_DEFAULT:versal2 = "0"
+OPTEE_CONSOLE_DEFAULT:versal-2ve-2vm = "0"
 
 OPTEE_CONSOLE ?= "${OPTEE_CONSOLE_DEFAULT}"
 

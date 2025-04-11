@@ -4,10 +4,6 @@
 #FILESEXTRAPATHS:prepend:board:imgrcvry := "${THISDIR}/files:"
 #FILESEXTRAPATHS:prepend:board:linux := "${THISDIR}/files:"
 
-#IMGRCVRY_DT_FILE_INCLUDE:zynqmp ?= "imgrcvry-zynqmp-system-conf.dtsi"
-#IMGRCVRY_DT_FILE_INCLUDE:versal ?= "imgrcvry-system-conf.dtsi"
-#IMGRCVRY_DT_FILE_INCLUDE:versal2 ?= "imgrcvry-system-conf.dtsi"
-
 # Examples:
 # zynqmp:  imgrcvry-zynqmp-system-conf.dtsi
 # versal:  imgrcvry-system-conf.dtsi

@@ -7,7 +7,7 @@ FILESPATH .= ":${FILE_DIRNAME}/embeddedsw/${PV}:${FILE_DIRNAME}/embeddedsw"
 
 SRC_URI += " \
     file://0001-makefile-Prevent-makefile-from-calling-copy_bsp.sh.patch\
-    file://0001-versal2_fw-Fixup-core-makefiles.patch \
+    file://0001-versal_2ve_2vm_fw-Fixup-core-makefiles.patch \
     file://0001-Remove-hardcoded-multilibs.patch \
     "
 

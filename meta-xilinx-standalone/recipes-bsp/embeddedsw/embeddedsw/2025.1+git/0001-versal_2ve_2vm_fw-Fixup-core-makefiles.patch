@@ -1,7 +1,7 @@
 From 2d54a92019f7ea223ee0ad5432ba915fbdddf8db Mon Sep 17 00:00:00 2001
 From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 Date: Tue, 28 May 2024 14:47:18 -0600
-Subject: [PATCH] versal2_fw: Fixup core makefiles
+Subject: [PATCH] versal_2ve_2vm_fw: Fixup core makefiles
 
 The Yocto Project build environment needs to be able to override a few
 additional variables that may not be appropriate to do on the regular

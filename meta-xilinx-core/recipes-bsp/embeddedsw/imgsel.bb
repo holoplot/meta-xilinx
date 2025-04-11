@@ -9,7 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 COMPATIBLE_MACHINE:versal = "versal"
-COMPATIBLE_MACHINE:versal2 = "versal2"
+COMPATIBLE_MACHINE:versal-2ve-2vm = "versal-2ve-2vm"
 
 # Since we're just copying, we can run any config
 COMPATIBLE_HOST = ".*"

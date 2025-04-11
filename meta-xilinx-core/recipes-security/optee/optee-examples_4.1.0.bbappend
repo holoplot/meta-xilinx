@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE:versal2 = ".*"
+COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"

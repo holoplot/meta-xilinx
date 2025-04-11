@@ -1,11 +1,11 @@
 DESCRIPTION = "Application Security Unit"
-SUMMARY = "Application Security Unit for Versal2 devices"
+SUMMARY = "Application Security Unit for Versal 2ve 2vm devices"
 
 inherit xlnx-embeddedsw deploy
 
 COMPATIBLE_HOST = "riscv32-xilinx-elf"
 COMPATIBLE_MACHINE = "none"
-COMPATIBLE_MACHINE:versal2 = ".*"
+COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

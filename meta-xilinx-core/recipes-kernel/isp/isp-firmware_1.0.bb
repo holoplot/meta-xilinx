@@ -18,7 +18,7 @@ do_install() {
 }
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:versal2 = "versal2"
+COMPATIBLE_MACHINE:versal-2ve-2vm = "versal-2ve-2vm"
 
 INSANE_SKIP:${PN} += "arch"
 

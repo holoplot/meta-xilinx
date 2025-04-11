@@ -1,4 +1,4 @@
-# Extra args for versal2
+# Extra args for versal_2ve_2vm
 BOOTGEN_EXTRA_ARGS += "-dump bh"
 
 # Specify BIF common attribute for FSBL

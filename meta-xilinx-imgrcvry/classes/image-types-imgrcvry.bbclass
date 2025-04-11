@@ -19,7 +19,7 @@ BIF_PARTITION_ID[rootfs] ?= "0x1c000000"
 
 BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
 BOOTGEN_ARCH_DEFAULT:versal = "versal"
-BOOTGEN_ARCH_DEFAULT:versal2 = "versal_2ve_2vm"
+BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
 BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 IMGRCVRY_BIFFILE ?= "${B}/imgrcvry.bif"
@@ -30,7 +30,7 @@ IMGRCVRY_VERSION_STRING ?= "basecamp-${MACHINE}-imgrcvry-v${IMGRCVRY_VERSION}"
 
 IMGRCVRY_OPTIONAL_DATA ?= ""
 IMGRCVRY_OPTIONAL_DATA:versal ?= "${IMGRCVRY_VERFILE}, id=0x21;"
-IMGRCVRY_OPTIONAL_DATA:versal2 ?= "${IMGRCVRY_VERFILE}, id=0x21;"
+IMGRCVRY_OPTIONAL_DATA:versal-2ve-2vm ?= "${IMGRCVRY_VERFILE}, id=0x21;"
 
 def write_imgrcvry_version(d):
     version_string = d.getVar('IMGRCVRY_VERSION_STRING')
@@ -110,7 +110,7 @@ python do_imgrcvry_bif () {
    
     soc_family = d.getVar('SOC_FAMILY')
     biffile_str = ''
-    if soc_family in ('versal', 'versal2'):
+    if soc_family in ('versal', 'versal-2ve-2vm'):
         write_imgrcvry_version(d)
         biffile_str = write_versal_bif(bifpartition, attrflags, attrimage, ids, d)
     elif soc_family in ('zynqmp'):

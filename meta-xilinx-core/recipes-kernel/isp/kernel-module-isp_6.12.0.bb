@@ -19,7 +19,7 @@ inherit module
 
 EXTRA_OEMAKE += "O=${STAGING_KERNEL_BUILDDIR}"
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:versal2 = "versal2"
+COMPATIBLE_MACHINE:versal-2ve-2vm = "versal-2ve-2vm"
 
 # The inherit of module.bbclass will automatically name module packages with
 # "kernel-module-" prefix as required by the oe-core build environment.

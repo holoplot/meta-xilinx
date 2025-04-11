@@ -10,7 +10,7 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:microblaze = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
-COMPATIBLE_MACHINE:versal2 = ".*"
+COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
 COMPATIBLE_HOST = ".*"
 
