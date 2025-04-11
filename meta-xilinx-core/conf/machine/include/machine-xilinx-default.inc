@@ -90,7 +90,7 @@ def get_default_image_boot_files(d):
             files.append('boot.bin')
         if 'versal-net' in d.getVar('OVERRIDES').split(':'):
             files.append('boot.bin')
-        if 'versal2' in d.getVar('OVERRIDES').split(':'):
+        if 'versal-2ve-2vm' in d.getVar('OVERRIDES').split(':'):
             files.append('boot.bin')
 
     # kernel images
@@ -142,7 +142,7 @@ def get_default_extra_imagedepends(d):
         if 'versal-net' in d.getVar('OVERRIDES').split(':'):
             depends.append('virtual/boot-bin')
             depends.append('virtual/cdo')
-        if 'versal2' in d.getVar('OVERRIDES').split(':'):
+        if 'versal-2ve-2vm' in d.getVar('OVERRIDES').split(':'):
             depends.append('virtual/boot-bin')
             depends.append('virtual/cdo')
 

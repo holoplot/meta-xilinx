@@ -1,7 +1,7 @@
 # This has a cortex-a78, but for compatibility set the same as versal
 DEFAULTTUNE ?= "cortexa72-cortexa53"
 
-SOC_FAMILY ?= "versal2"
+SOC_FAMILY ?= "versal-2ve-2vm"
 
 require conf/machine/include/soc-family.inc
 require conf/machine/include/soc-tune-include.inc
