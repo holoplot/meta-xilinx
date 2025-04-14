@@ -1,8 +1,60 @@
 SRC_URI[vardepsexclude] += "XILINX_MIRRORS"
 
+BB_BASEHASH_IGNORE_VARS += "__SRC_URI_MIRROR_LINKS mirror_fetcher_set_symlinks"
+
 python() {
     import os.path
     from bb.fetch2 import decodeurl, CHECKSUM_LIST
+
+    # Expand var and set vardepvalue, so even if we change this later it's now expanded
+    def expand_and_store(var, d):
+        # based on code in bitbake data.py on value calculation
+        def handle_contains(value, contains, exclusions, d):
+            newvalue = []
+            if value:
+                newvalue.append(str(value))
+            for k in sorted(contains):
+                if k in exclusions or k in ignored_vars:
+                    continue
+                l = (d.getVar(k) or "").split()
+                for item in sorted(contains[k]):
+                    for word in item.split():
+                        if not word in l:
+                            newvalue.append("\n%s{%s} = Unset" % (k, item))
+                            break
+                    else:
+                        newvalue.append("\n%s{%s} = Set" % (k, item))
+            return "".join(newvalue)
+
+        def handle_remove(value, deps, removes, d):
+            for r in sorted(removes):
+                r2 = d.expandWithRefs(r, None)
+                value += "\n_remove of %s" % r
+                deps |= r2.references
+                deps = deps | (keys & r2.execs)
+                value = handle_contains(value, r2.contains, exclusions, d)
+            return value
+
+        ignored_vars = set((d.getVar("BB_BASEHASH_IGNORE_VARS") or "").split())
+        exclusions = d.getVarFlag(var, "vardepsexclude").split()
+
+        mod_funcs = set(bb.codeparser.modulecode_deps.keys())
+        keys = set(key for key in d if not key.startswith("__")) | mod_funcs
+
+        deps = set()
+
+        value, parser = d.getVarFlag(var, "_content", False, retparser=True)
+
+        deps |= parser.references
+        deps = deps | (keys & parser.execs)
+        value = handle_contains(value, parser.contains, exclusions, d)
+        if hasattr(parser, "removes"):
+            value = handle_remove(value, deps, parser.removes, d)
+
+        d.setVarFlag(var, 'vardepvalue', value)
+
+    # Since we MIGHT change the SRC_URI, we need to preserve the hash
+    expand_and_store('SRC_URI', d)
 
     xlnx_mirrors = d.getVar('XILINX_MIRRORS')
     if xlnx_mirrors:
@@ -72,51 +124,6 @@ python() {
                     new_srcuri += [ src_uri ]
 
             if replace_uri:
-                # Since we've going to change the SRC_URI, we need to preserve the hash
-                # based on code in bitbake data.py on value calculation
-                ignored_vars = set((d.getVar("BB_BASEHASH_IGNORE_VARS") or "").split())
-                exclusions = d.getVarFlag('SRC_URI', "vardepsexclude").split()
-
-                def handle_contains(value, contains, exclusions, d):
-                    newvalue = []
-                    if value:
-                        newvalue.append(str(value))
-                    for k in sorted(contains):
-                        if k in exclusions or k in ignored_vars:
-                            continue
-                        l = (d.getVar(k) or "").split()
-                        for item in sorted(contains[k]):
-                            for word in item.split():
-                                if not word in l:
-                                    newvalue.append("\n%s{%s} = Unset" % (k, item))
-                                    break
-                            else:
-                                newvalue.append("\n%s{%s} = Set" % (k, item))
-                    return "".join(newvalue)
-
-                def handle_remove(value, deps, removes, d):
-                    for r in sorted(removes):
-                        r2 = d.expandWithRefs(r, None)
-                        value += "\n_remove of %s" % r
-                        deps |= r2.references
-                        deps = deps | (keys & r2.execs)
-                        value = handle_contains(value, r2.contains, exclusions, d)
-                    return value
-
-                mod_funcs = set(bb.codeparser.modulecode_deps.keys())
-                keys = set(key for key in d if not key.startswith("__")) | mod_funcs
-
-                deps = set()
-
-                value, parser = d.getVarFlag('SRC_URI', "_content", False, retparser=True)
-                deps |= parser.references
-                deps = deps | (keys & parser.execs)
-                value = handle_contains(value, parser.contains, exclusions, d)
-                if hasattr(parser, "removes"):
-                    value = handle_remove(value, deps, parser.removes, d)
-
-                d.setVarFlag('SRC_URI', 'vardepvalue', value)
-
                 # Original hash is now preserved, now change to our mirror and set for later links
                 d.setVar('SRC_URI', ' '.join(new_srcuri) )
                 d.setVar('__SRC_URI_MIRROR_LINKS', ' '.join(mirror_links) )
@@ -165,4 +172,3 @@ python mirror_fetcher_set_symlinks() {
 }
 
 do_fetch[postfuncs] += "mirror_fetcher_set_symlinks"
-do_fetch[vardepsexclude] += "__SRC_URI_MIRROR_LINKS"
