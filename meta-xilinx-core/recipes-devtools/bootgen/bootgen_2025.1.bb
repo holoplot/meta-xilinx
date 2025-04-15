@@ -2,7 +2,7 @@ SUMMARY = "Building and installing bootgen"
 DESCRIPTION = "Building and installing bootgen, a Xilinx tool that lets you stitch binary files together and generate device boot images"
 
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=d526b6d0807bf263b97da1da876f39b1"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=04054e01a445f223956a47542277e6ad"
 
 S = "${WORKDIR}/git"
 
@@ -10,20 +10,15 @@ DEPENDS += "openssl"
 RDEPENDS:${PN} += "openssl"
 
 REPO ?= "git://github.com/Xilinx/bootgen.git;protocol=https"
-BRANCH = "xlnx_rel_v2025.1"
-SRCREV = "59cce9f92e244a21e524e4ca074ae37156a3b2d7"
+BRANCH = "master"
+SRCREV = "eaf217d064cbd5ff750d7ae5320ccfbc5d47d06a"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-EXTRA_OEMAKE += 'CROSS_COMPILER="${CXX}" -C ${S}'
-CXXFLAGS:append = " -std=c++0x"
-
-TARGET_CC_ARCH += "${LDFLAGS}"
-
 do_install() {
     install -d ${D}${bindir}
-    install -Dm 0755 ${S}/bootgen ${D}${bindir}
+    install -Dm 0755 ${S}/build/bin/bootgen ${D}${bindir}
 }
 
 FILES:${PN} = "${bindir}/bootgen"
