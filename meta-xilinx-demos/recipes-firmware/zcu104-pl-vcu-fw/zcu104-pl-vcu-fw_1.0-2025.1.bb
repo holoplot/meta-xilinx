@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0412_1_04120641/external/zcu104-pl-vcu-fw/zcu104-pl-vcu-fw_2025.1_0412_1.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.1/sdt/2025.1/2025.1_0414_1_04150322/external/zcu104-pl-vcu-fw/zcu104-pl-vcu-fw_2025.1_0414_1.tar.gz"
 
-SRC_URI[sha256sum] = "66025766d0b8bfad8cd7e1e7109b7d6b999f61b11209f7b4225f82e2e6bedd04"
+SRC_URI[sha256sum] = "663399304d21fdd4fea84771c15b531ec19471eed9f6a2cd9552c35062fb4a24"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zynqmp-mali-common = "${MACHINE}"
