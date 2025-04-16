@@ -1,4 +1,4 @@
-/* OSPI patitions for basecamp Image-recovery */
+/* OSPI patitions for Image-recovery */
 &ospi {
 	#address-cells = <1>;
 	#size-cells = <0>;

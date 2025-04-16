@@ -1,4 +1,4 @@
-/* QSPI patitions for basecamp Image-recovery */
+/* QSPI patitions for Image-recovery */
 &qspi {
 	#address-cells = <1>;
 	#size-cells = <0>;
