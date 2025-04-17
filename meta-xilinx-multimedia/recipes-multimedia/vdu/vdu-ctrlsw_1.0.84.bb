@@ -11,7 +11,7 @@ PV .= "+git"
 
 BRANCH ?= "master"
 REPO   ?= "git://github.com/Xilinx/vdu-ctrl-sw.git;protocol=https"
-SRCREV ?= "e313a093849b3127c5f4c6167450ebe772f42a97"
+SRCREV ?= "1bbaf265b6d0a9fa25fd4d67133e55cbf0e6daa7"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
