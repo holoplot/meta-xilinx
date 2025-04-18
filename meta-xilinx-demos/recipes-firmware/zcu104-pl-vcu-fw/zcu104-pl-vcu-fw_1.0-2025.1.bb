@@ -16,15 +16,3 @@ COMPATIBLE_MACHINE:zynqmp-zcu104-sdt-full = "${MACHINE}"
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
 FW_DIR = "zcu104-pl-vcu-fw"
-
-# fw files doesn't install on rootfs using dfx_user_dts bbclass using artifactory
-# method. To workaround this issue we are using copy_fw_files pre-functions.
-# copy_fw_files prefuncs needs to be called before find_firmware_file to update
-# the firmware-name to ${PN}.
-do_configure[prefuncs] =+ "copy_fw_files"
-python copy_fw_files () {
-    import shutil
-    fw_file_src = d.getVar('WORKDIR') + '/' + d.getVar("FW_DIR")
-    fw_file_dest = d.getVar('S')
-    shutil.copytree(fw_file_src, fw_file_dest, dirs_exist_ok=True)
-}
