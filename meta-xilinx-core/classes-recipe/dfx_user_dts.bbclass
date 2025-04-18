@@ -46,8 +46,14 @@ XCL_PATH[doc] = "Absolute '.xclbin' file path as input to SRC_URI"
 python() {
     import re
     soc_family = d.getVar("SOC_FAMILY")
-    if "git://" in d.getVar("SRC_URI") or "https://" in d.getVar("SRC_URI"):
+    srcuri = d.getVar('SRC_URI')
+    uri = bb.fetch.URI(srcuri)
+    if uri.scheme in ("git", "gitsm"):
+        bb.debug(2, "SRC_URI scheme is git or gitsm")
         d.setVar("S",'${WORKDIR}/git/'+d.getVar("FW_DIR"))
+    elif uri.scheme in ("http", "https", "ftp"):
+        bb.debug(2, "SRC_URI scheme is http or https or ftp")
+        d.setVar("S",'${WORKDIR}/'+d.getVar("FW_DIR"))
     else:
         dtsi_found = False
         dtbo_found = False
