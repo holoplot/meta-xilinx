@@ -16,6 +16,8 @@ SRC_URI = " \
 	file://0001-Fix-tab-alignment-in-mali-ptm.txt.patch \
 	file://0002-Making-arbiter-driver-compatible-with-6.12-kernel.patch \
 	file://0003-Making-gpu-driver-compatible-with-6.12-kernel.patch \
+        file://load-mali-modules.sh \
+        file://99-mali-modules.rules \
 	"
 
 SRC_URI[kernel.sha256sum] = "614818481f2d0335e48f9b2bca0714e43555b0c6e3b02f8f111233ec1ef8cf37"
@@ -44,6 +46,14 @@ do_compile() {
 do_install() {
 	${BUILD_CMD} \
 		--install "${D}${INSTALL_DIR}"
+
+        # Install the script to load modules and configure settings
+        install -d ${D}/usr/bin
+        install -m 0755 ${WORKDIR}/load-mali-modules.sh ${D}/usr/bin
+
+        # Install the udev rules file to /etc/udev/rules.d/
+        install -d ${D}/etc/udev/rules.d
+        install -m 0644 ${WORKDIR}/99-mali-modules.rules ${D}/etc/udev/rules.d
 }
 
 
@@ -64,6 +74,8 @@ FILES:${PN} = "\
 	${INSTALL_DIR}/kernel-module-mali-kutf-irq-test.ko \
 	${INSTALL_DIR}/kernel-module-mali-kutf-mgm-integration-test.ko \
 	${INSTALL_DIR}/kernel-module-memory-group-manager.ko \
+        /etc/udev/rules.d/99-mali-modules.rules \
+        /usr/bin/load-mali-modules.sh \
 "
 RPROVIDES:${PN} = "\
 	kernel-module-dma-buf-test-exporter \
