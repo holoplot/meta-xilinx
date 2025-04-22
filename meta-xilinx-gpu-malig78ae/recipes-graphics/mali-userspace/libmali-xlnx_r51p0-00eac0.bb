@@ -25,12 +25,39 @@ RDEPENDS:${PN} = " kernel-modules-g78ae"
 do_compile[noexec] = "1"
 
 do_install() {
+    install_include_dir="${D}${includedir}"
+    install_lib_dir="${D}${libdir}"
+    install_pkgconfig_dir="${D}${libdir}/pkgconfig"
+    install_vulkan_icd_dir="${D}/${datadir}/vulkan/icd.d"
 
-    # install libraries
-    install -d ${D}${libdir}/mali
+    # libraries
+    install -d ${install_lib_dir}
+    cp -r ${S}/lib/* ${install_lib_dir}/.
 
-    # Link based on backend
-    cp -r ${S}/lib/* ${D}${libdir}/mali/.
+    # headers
+    install -d -m 0655 ${install_include_dir}/EGL
+    install -m 0644 ${S}/include/EGL/*.h ${install_include_dir}/EGL/
+    install -d -m 0655 ${install_include_dir}/GLES
+    install -m 0644 ${S}/include/GLES/*.h ${install_include_dir}/GLES/
+    install -d -m 0655 ${install_include_dir}/GLES2
+    install -m 0644 ${S}/include/GLES2/*.h ${install_include_dir}/GLES2/
+    install -d -m 0655 ${install_include_dir}/GLES3
+    install -m 0644 ${S}/include/GLES3/*.h ${install_include_dir}/GLES3/
+    install -d -m 0655 ${install_include_dir}/KHR
+    install -m 0644 ${S}/include/KHR/*.h ${install_include_dir}/KHR/
+    install -d -m 0655 ${install_include_dir}
+    install -m 0644 ${S}/include/gbm.h ${install_include_dir}/
+
+    # pkconfig
+    install -d ${install_pkgconfig_dir}
+    install -m 0644 ${S}/pkgconfig/egl.pc ${install_pkgconfig_dir}/egl.pc
+    install -m 0644 ${S}/pkgconfig/glesv1_cm.pc ${install_pkgconfig_dir}/glesv1_cm.pc
+    install -m 0644 ${S}/pkgconfig/glesv2.pc ${install_pkgconfig_dir}/glesv2.pc
+    install -m 0644 ${S}/pkgconfig/gbm.pc ${install_pkgconfig_dir}/gbm.pc
+
+    # vulkan icd
+    install -d ${install_vulkan_icd_dir}
+    install -m 0644 ${S}/vulkan/mali_icd.json ${install_vulkan_icd_dir}/mali_icd.json
 }
 
 # Package gets renamed on the debian class, but we want to keep -xlnx
@@ -45,25 +72,26 @@ INHIBIT_SYSROOT_STRIP = "1"
 # explicitly depends upon them.
 EXCLUDE_FROM_WORLD = "1"
 FILES:${PN}-dev += " \
-	${libdir}/mali/libEGL.so \
-	${libdir}/mali/libgbm.so \
-	${libdir}/mali/libGLESv1_CM.so \
-	${libdir}/mali/libGLESv2.so \
-	${libdir}/mali/libmali.so \
-	${libdir}/mali/libOpenCL.so \
+	${libdir}/libEGL.so \
+	${libdir}/libgbm.so \
+	${libdir}/libGLESv1_CM.so \
+	${libdir}/libGLESv2.so \
+	${libdir}/libmali.so \
+	${libdir}/libOpenCL.so \
 	"
 
 FILES:${PN} += " \
-	${libdir}/mali/libEGL.so.1 \
-	${libdir}/mali/libEGL.so.1.4.0 \
-	${libdir}/mali/libgbm.so.1 \
-	${libdir}/mali/libgbm.so.1.0.0 \
-	${libdir}/mali/libGLESv1_CM.so.1 \
-	${libdir}/mali/libGLESv1_CM.so.1.1.0 \
-	${libdir}/mali/libGLESv2.so.2 \
-	${libdir}/mali/libGLESv2.so.2.1.0 \
-	${libdir}/mali/libmali.so.0 \
-	${libdir}/mali/libmali.so.0.51.0 \
-	${libdir}/mali/libOpenCL.so.1 \
-	${libdir}/mali/libOpenCL.so.1.0.0 \
+	${libdir}/libEGL.so.1 \
+	${libdir}/libEGL.so.1.4.0 \
+	${libdir}/libgbm.so.1 \
+	${libdir}/libgbm.so.1.0.0 \
+	${libdir}/libGLESv1_CM.so.1 \
+	${libdir}/libGLESv1_CM.so.1.1.0 \
+	${libdir}/libGLESv2.so.2 \
+	${libdir}/libGLESv2.so.2.1.0 \
+	${libdir}/libmali.so.0 \
+	${libdir}/libmali.so.0.51.0 \
+	${libdir}/libOpenCL.so.1 \
+	${libdir}/libOpenCL.so.1.0.0 \
+	${datadir} \
 	"
