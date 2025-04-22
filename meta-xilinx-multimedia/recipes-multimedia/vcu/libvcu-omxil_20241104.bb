@@ -11,7 +11,7 @@ PE = "1"
 # Version from core/core_version.mk
 PV .= "+git"
 
-BRANCH ?= "master"
+BRANCH ?= "xlnx_rel_v2025.1"
 REPO   ?= "git://github.com/Xilinx/vcu-omx-il.git;protocol=https"
 SRCREV = "4c5b7130eedb13635318e35bfe779061d06347d7"
 

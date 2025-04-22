@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=003bf8ee942bb6256905b58e9b1b19c2"
 
 PV .= "+git"
 
-BRANCH ?= "master"
+BRANCH ?= "xlnx_rel_v2025.1"
 REPO   ?= "git://github.com/Xilinx/vcu2-ctrl-sw.git;protocol=https"
 SRCREV = "73132ee4c9bd04209631566953b1e4fefe69497e"
 

@@ -11,7 +11,7 @@ PV .= "+git"
 
 S = "${WORKDIR}/git"
 
-SRC_BRANCH = "rel-v2025.1_freeze"
+SRC_BRANCH = "rel-v2025.1"
 SRC_URI = "git://github.com/Xilinx/isp-modules.git;protocol=https;branch=${SRC_BRANCH}"
 SRCREV = "f238d5f8a7a203f1ee4b6da8eefbfb733634d559"
 

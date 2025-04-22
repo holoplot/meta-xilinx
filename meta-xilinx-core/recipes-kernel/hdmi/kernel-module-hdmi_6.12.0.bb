@@ -8,7 +8,7 @@ PV .= "+git"
 
 S = "${WORKDIR}/git"
 
-BRANCH ?= "master"
+BRANCH ?= "xlnx_rel_v2025.1"
 REPO   ?= "git://github.com/Xilinx/hdmi-modules.git;protocol=https"
 SRCREV = "4c764fe30bd6c0a843f7b040ba89e0a298aff32b"
 

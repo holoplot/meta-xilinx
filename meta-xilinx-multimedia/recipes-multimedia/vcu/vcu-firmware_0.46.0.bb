@@ -9,7 +9,7 @@ PV .= "+git"
 
 S  = "${WORKDIR}/git"
 
-BRANCH ?= "master"
+BRANCH ?= "xlnx_rel_v2025.1"
 REPO ?= "git://github.com/Xilinx/vcu-firmware.git;protocol=https"
 SRCREV = "46c57faac36f36ff9695f983bf455a8e660a7fff"
 
