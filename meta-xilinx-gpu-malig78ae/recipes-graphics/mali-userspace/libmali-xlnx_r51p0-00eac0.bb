@@ -76,27 +76,23 @@ INHIBIT_SYSROOT_STRIP = "1"
 # These libraries shouldn't get installed in world builds unless something
 # explicitly depends upon them.
 EXCLUDE_FROM_WORLD = "1"
-FILES:${PN}-dev += " \
+
+# Rewrite to EXCLUDE libmali.so
+FILES:${PN}-dev = " \
+	${includedir} \
+	${libdir}/pkgconfig \
 	${libdir}/libEGL.so \
 	${libdir}/libgbm.so \
 	${libdir}/libGLESv1_CM.so \
 	${libdir}/libGLESv2.so \
-	${libdir}/libmali.so \
 	${libdir}/libOpenCL.so \
 	"
 
+# Due to an incorrect 'FILTER' section entry, libmali.so needs to be in
+# the runtime package, even though it's not the soname
 FILES:${PN} += " \
-	${libdir}/libEGL.so.1 \
-	${libdir}/libEGL.so.1.4.0 \
-	${libdir}/libgbm.so.1 \
-	${libdir}/libgbm.so.1.0.0 \
-	${libdir}/libGLESv1_CM.so.1 \
-	${libdir}/libGLESv1_CM.so.1.1.0 \
-	${libdir}/libGLESv2.so.2 \
-	${libdir}/libGLESv2.so.2.1.0 \
-	${libdir}/libmali.so.0 \
-	${libdir}/libmali.so.0.51.0 \
-	${libdir}/libOpenCL.so.1 \
-	${libdir}/libOpenCL.so.1.0.0 \
 	${datadir} \
+	${libdir}/libmali.so \
 	"
+
+INSANE_SKIP:${PN} = "already-stripped dev-so"
