@@ -68,7 +68,7 @@ python() {
     if d.getVar('BPN') != "embeddedsw-source":
         bb.build.addtask('do_copy_shared_src', 'do_configure do_populate_lic do_deploy_source_date_epoch', 'do_patch', d)
 
-        d.appendVarFlag('do_copy_shared_src', 'depends', ' embeddedsw-source-${ESW_VER}:do_patch')
+        d.appendVarFlag('do_copy_shared_src', 'depends', ' embeddedsw-source-${ESW_VER}:do_configure')
 
         d.appendVarFlag('do_deploy_source_date_epoch', 'depends', ' embeddedsw-source-${ESW_VER}:do_deploy_source_date_epoch')
 }
