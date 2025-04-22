@@ -18,11 +18,16 @@ S = "${WORKDIR}/git"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-DEPENDS += "libdrm wayland"
+DEPENDS += "libdrm wayland opencl-headers"
 
 RDEPENDS:${PN} = " kernel-modules-g78ae"
 
 do_compile[noexec] = "1"
+
+PROVIDES += "virtual/libgles1 virtual/libgles2 virtual/libgles3 virtual/egl virtual/libgbm virtual/opencl-icd"
+RREPLACES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
+RPROVIDES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
+RCONFLICTS:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
 
 do_install() {
     install_include_dir="${D}${includedir}"
