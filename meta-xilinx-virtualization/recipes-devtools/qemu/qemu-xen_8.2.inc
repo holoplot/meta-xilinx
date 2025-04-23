@@ -1,4 +1,4 @@
-# Xen-4.18 specific changes are only applicable on the target
+# Xen-4.20 specific changes are only applicable on the target
 SRC_URI_XEN = ""
 SRC_URI_XEN:class-target = " \
     file://0001-softmmu-physmem-Split-ram_block_add.patch \
@@ -27,6 +27,7 @@ SRC_URI_XEN:class-target = " \
     file://0024-hw-xen-xenpvh-Disable-buffered-IOREQs-for-ARM.patch \
     file://0025-hw-xen-xenpvh-Add-pci-intx-irq-base-property.patch \
     file://0026-hw-arm-xenpvh-Enable-PCI-for-ARM-PVH.patch \
+    file://0027-memory-Fix-use-of-uninitialized-variable.patch \
     "
 
 FILESEXTRAPATHS:prepend:class-target := "${THISDIR}/qemu-xilinx-8.2:"
