@@ -18,7 +18,7 @@ ESW_COMPONENT_SRC = "/src/"
 ESW_EXECUTABLE_NAME = "imgsel"
 
 SRC_URI:append = " git://github.com/Xilinx/image-selector.git;protocol=https;branch=main;destsuffix=image-selector;name=image-selector"
-SRCREV_image-selector = "45d83ea17300d68443868489595c18dd1fb58cea"
+SRCREV_image-selector = "238a52abffe96344007362f82e342df759cc474b"
 
 do_configure:prepend() {
     (
