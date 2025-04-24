@@ -47,3 +47,13 @@ BIF_PARTITION_ID[optee-os] ?= "0x1c000000"
 # Specify BIF partition attributes for asufw
 BIF_PARTITION_ATTR[asufw] ?= "core=asu"
 BIF_PARTITION_IMAGE[asufw] ?= "${RECIPE_SYSROOT}/boot/asufw.elf"
+
+# Force the newly created CDO file to be made available in the deploy directory
+do_extract_cdo() {
+    :
+}
+
+do_extract_cdo[noexec] = "1"
+do_extract_cdo[depends] += "extract-cdo:do_deploy"
+
+addtask do_extract_cdo before do_build after do_deploy
