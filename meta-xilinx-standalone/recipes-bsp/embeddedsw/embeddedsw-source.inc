@@ -4,6 +4,10 @@ python do_configure () {
         dest = d.getVar('SHARED_S')
         if externalsrc != dest:
             oe.path.copyhardlinktree(externalsrc, dest)
+            for symlink in d.getVar('EXTERNALSRC_SYMLINKS').split():
+                link = symlink.split(':')[0]
+                if os.path.islink((dest + '/' + link)):
+                    os.unlink((dest + '/' + link))
 }
 
 deltask do_compile
