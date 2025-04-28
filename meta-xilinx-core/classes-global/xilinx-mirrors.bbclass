@@ -36,7 +36,7 @@ python() {
             return value
 
         ignored_vars = set((d.getVar("BB_BASEHASH_IGNORE_VARS") or "").split())
-        exclusions = d.getVarFlag(var, "vardepsexclude").split()
+        exclusions = (d.getVarFlag(var, "vardepsexclude") or "").split()
 
         mod_funcs = set(bb.codeparser.modulecode_deps.keys())
         keys = set(key for key in d if not key.startswith("__")) | mod_funcs
