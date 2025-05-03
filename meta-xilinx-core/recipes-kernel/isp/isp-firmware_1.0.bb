@@ -1,13 +1,13 @@
 SUMMARY = "Firmware for ISP"
 DESCRIPTION = "Firmware binaries provider for ISP"
 LICENSE="CLOSED"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=bb0c8bccc6e0b47e992c34438e3a06fb"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ae254519d1cbab1bfd89ed89f6f6268d"
 COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/04101709/isp_fw.tar.gz"
-SRC_URI[sha256sum]="d82506caa2946acc4bd7f8703298dc45cb662879b505643e8e32ef41ad0bb536"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.1/05040027/isp_fw.tar.gz"
+SRC_URI[sha256sum]="9e0ef4169dc1355fb8332ead64059f4529849ca8f571454b355af760c9b8cbd2"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
