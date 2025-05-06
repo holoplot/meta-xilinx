@@ -8,12 +8,12 @@ IMGRCVRY_ATTR ?= "${BIF_PARTITION_ATTR}"
 IMGRCVRY_KERNEL_ATTR ?= "linux-xlnx rootfs"
 
 # specify BIF partition attributes for linux-xlnx
-BIF_PARTITION_ATTR[linux-xlnx] ?= "type=raw, load=0x200000"
+BIF_PARTITION_ATTR[linux-xlnx] ?= "type=raw, load=0x20200000"
 BIF_PARTITION_IMAGE[linux-xlnx] ?= "${DEPLOY_DIR_IMAGE}/Image.gz"
 BIF_PARTITION_ID[linux-xlnx] ?= "0x1c000000"
 
 # specify BIF partition attributes for tiny-rootfs
-BIF_PARTITION_ATTR[rootfs] ?= "type=raw, load=0x4000000"
+BIF_PARTITION_ATTR[rootfs] ?= "type=raw, load=0x24000000"
 BIF_PARTITION_IMAGE[rootfs] ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.cpio.gz.u-boot"
 BIF_PARTITION_ID[rootfs] ?= "0x1c000000"
 
