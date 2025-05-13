@@ -279,4 +279,7 @@ except subprocess.TimeoutExpired:
 if not mach_path_arg:
     shutil.rmtree(mach_path)
 
+if apu_rc != 0:
+    print(error_msg)
+
 sys.exit(apu_rc)
