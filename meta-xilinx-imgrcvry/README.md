@@ -9,7 +9,7 @@ This section describes how to build Image Recovery bin file with meta-xilinx-img
 1. Set hardware MACHINE configuration variable in build/conf/local.conf file for a specific 
    target which can boot and run in the board.
 ```
-MACHINE = "versal-vek280-sdt-seg-ospi"
+MACHINE = "versal-vek280-sdt-seg"
 ```
 
 2. Set DISTRO configuration variable as xilinx-image-recovery in build/conf/local.conf file
