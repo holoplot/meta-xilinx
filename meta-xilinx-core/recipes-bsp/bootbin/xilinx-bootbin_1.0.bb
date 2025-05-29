@@ -140,7 +140,8 @@ def create_versal_bif(config, attrflags, attrimage, ids, common_attr, biffd, d):
     for id, string in id_dict.items():
         biffd.write("\timage {\n")
         if id != '0':
-            biffd.write("\t id = " + id + ", name=apu_ss\n")
+            name = d.getVarFlag("BIF_PARTITION_NAME", id) or "apu_ss"
+            biffd.write("\t id = " + id + ", name=" + name + "\n")
         biffd.write(string)
         biffd.write("\t}\n")
     return

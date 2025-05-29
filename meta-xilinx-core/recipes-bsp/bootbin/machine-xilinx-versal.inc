@@ -26,6 +26,9 @@ BIF_PARTITION_IMAGE[plmfw] ?= "${RECIPE_SYSROOT}/boot/plmfw.elf"
 BIF_PARTITION_ATTR[psmfw] ?= "core=psm"
 BIF_PARTITION_IMAGE[psmfw] ?= "${RECIPE_SYSROOT}/boot/psmfw.elf"
 
+# Specify BIF image name for given ID
+BIF_PARTITION_NAME[0x1c000000] ?= "apu_ss"
+
 # specify BIF partition attributes for device-tree
 BIF_PARTITION_ATTR[device-tree] ?= "type=raw, load=0x1000"
 BIF_PARTITION_IMAGE[device-tree] ?= "${RECIPE_SYSROOT}/boot/devicetree/system-top.dtb"

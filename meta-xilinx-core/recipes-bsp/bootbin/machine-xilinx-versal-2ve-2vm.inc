@@ -24,6 +24,9 @@ BIF_PARTITION_IMAGE[base-pdi] ?= "${RECIPE_SYSROOT}/boot/base-design.pdi"
 BIF_PARTITION_ATTR[plmfw] ?= "type=bootloader"
 BIF_PARTITION_IMAGE[plmfw] ?= "${RECIPE_SYSROOT}/boot/plmfw.elf"
 
+# Specify BIF image name for given ID
+BIF_PARTITION_NAME[0x1c000000] ?= "apu_ss"
+
 # Specify BIF partition attributes for device-tree
 BIF_PARTITION_ATTR[device-tree] ?= "type=raw, load=0x1000000"
 BIF_PARTITION_IMAGE[device-tree] ?= "${RECIPE_SYSROOT}/boot/devicetree/system-top.dtb"
