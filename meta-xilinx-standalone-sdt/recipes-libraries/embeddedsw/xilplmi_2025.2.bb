@@ -8,7 +8,4 @@ DEPENDS += " \
     libxil \
     cfupmc \
     xiltimer \
-    ${@'xilmailbox' if d.getVar('ESW_MACHINE') == 'psv_cortexa72_0' \
-        or d.getVar('ESW_MACHINE') == 'psv_cortexr5_0' \
-        or d.getVar('ESW_MACHINE') == 'pmc_0' else ''} \
-    "
+    ${@'xilmailbox' if d.getVar('ESW_MACHINE') in ['psv_cortexa72_0', 'psv_cortexr5_0', 'pmc_0', 'psx_pmc_0', 'psx_psm_0'] else ''} "
