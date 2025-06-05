@@ -5,11 +5,8 @@ REQUIRED_MACHINE_FEATURES = "sysmonpsv"
 inherit esw python3native
 
 DEPENDS += " \
-    xilstandalone ${@'scugic' if d.getVar('ESW_MACHINE') != 'psv_pmc_0' \
-        and d.getVar('ESW_MACHINE') != 'psv_psm_0' \
-        and d.getVar('ESW_MACHINE') != 'pmc_0' \
-        and d.getVar('ESW_MACHINE') != 'asu' else ''} \
-    "
+    xilstandalone ${@'scugic' if d.getVar('ESW_MACHINE') not in ['psv_pmc_0', 'psv_psm_0', 'pmc_0', 'asu', 'psx_pmc_0', 'psx_psm_0'] else ''} \
+"
 
 ESW_COMPONENT_SRC = "/XilinxProcessorIPLib/drivers/sysmonpsv/src/"
 ESW_COMPONENT_NAME = "libsysmonpsv.a"
