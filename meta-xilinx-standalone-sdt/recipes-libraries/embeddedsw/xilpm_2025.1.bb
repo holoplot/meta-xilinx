@@ -6,9 +6,9 @@ ESW_COMPONENT_NAME = "libxilpm.a"
 DEPENDS += " \
     libxil \
     ${@'xilplmi cframe' if d.getVar('ESW_MACHINE') == 'psv_pmc_0' \
-        or d.getVar('ESW_MACHINE') == 'pmc_0' else ''} \
-    "
-
+        or d.getVar('ESW_MACHINE') == 'pmc_0' \
+	or d.getVar('ESW_MACHINE') == 'psx_pmc_0' else ''} \
+"
 def lopper_args(d):
      lopper_cmd_append = ""
      flags = [
