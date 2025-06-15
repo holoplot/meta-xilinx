@@ -8,7 +8,7 @@ CVE_PRODUCT = "qemu"
 COMPATIBLE_HOST:arm = "null"
 
 # x86_64 is needed to build nativesdks
-QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 x86_64"
+QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 riscv64 x86_64"
 
 BRANCH = "master"
 SRCREV = "b05c9752662eb4b8120a57454a323445d78d1463"
