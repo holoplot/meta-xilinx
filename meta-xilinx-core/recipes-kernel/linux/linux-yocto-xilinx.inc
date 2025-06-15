@@ -13,5 +13,9 @@ COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 KMACHINE:zynqmp = "zynqmp"
 
 # MicroBlaze default generic KMACHINE
-KMACHINE:microblaze = "microblaze"
 COMPATIBLE_MACHINE:microblaze = "microblaze"
+KMACHINE:microblaze = "microblaze"
+
+# MicroBlaze default generic KMACHINE
+COMPATIBLE_MACHINE:microblaze-v-generic = "microblaze-v-generic"
+KMACHINE:microblaze-v-generic = "${TUNE_RISCV_ARCH}"

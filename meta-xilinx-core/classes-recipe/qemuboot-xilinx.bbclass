@@ -85,6 +85,8 @@ def qemu_rootfs_params(data, param):
     sd_index = data.getVar('QEMU_HW_SD_DRIVE_INDEX') or ""
     if 'microblaze' in tune_features:
         soc_family = 'microblaze'
+    elif 'rv' in tune_features:
+        soc_family = 'microblaze-v'
 
     if param == 'rootfs':
         return 'none' if bundle_image == "1" else ''
@@ -92,6 +94,7 @@ def qemu_rootfs_params(data, param):
     elif param == 'fstype':
         fstype_dict = {
             "microblaze": "cpio.gz",
+            "microblaze-v": "ext4",
             "zynq": "cpio.gz",
             "zynqmp": "cpio.gz.u-boot",
             "versal": "cpio.gz.u-boot.qemu-sd-fatimg",
