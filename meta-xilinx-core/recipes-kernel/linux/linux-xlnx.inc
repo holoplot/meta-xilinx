@@ -46,18 +46,22 @@ inherit kernel-simpleimage
 
 # Default to be only compatible with specific machines or soc families
 COMPATIBLE_MACHINE ?= "^$"
+COMPATIBLE_MACHINE:microblaze = ".*"
+COMPATIBLE_MACHINE:riscv32 = ".*"
+COMPATIBLE_MACHINE:riscv64 = ".*"
 COMPATIBLE_MACHINE:zynq = ".*"
 COMPATIBLE_MACHINE:zynqmp = ".*"
-COMPATIBLE_MACHINE:microblaze = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
 COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
 # Use DEFCONFIGs for configuring linux-xlnx kernels
 KCONFIG_MODE ?= "alldefconfig"
-KBUILD_DEFCONFIG:zynqmp ?= "xilinx_defconfig"
-KBUILD_DEFCONFIG:zynq ?= "xilinx_zynq_defconfig"
 KBUILD_DEFCONFIG:microblaze ?= "mmu_defconfig"
+KBUILD_DEFCONFIG:riscv32 ?= "qemu-riscv32_smode_defconfig"
+KBUILD_DEFCONFIG:riscv64 ?= "qemu-riscv64_smode_defconfig"
+KBUILD_DEFCONFIG:zynq ?= "xilinx_zynq_defconfig"
+KBUILD_DEFCONFIG:zynqmp ?= "xilinx_defconfig"
 KBUILD_DEFCONFIG:versal ?= "xilinx_defconfig"
 KBUILD_DEFCONFIG:versal-net ?= "xilinx_defconfig"
 KBUILD_DEFCONFIG:versal-2ve-2vm ?= "xilinx_defconfig"
