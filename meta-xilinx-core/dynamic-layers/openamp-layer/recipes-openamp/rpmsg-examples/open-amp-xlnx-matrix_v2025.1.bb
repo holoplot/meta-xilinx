@@ -1,6 +1,3 @@
-require ${LAYER_PATH_openamp-layer}/recipes-openamp/rpmsg-examples/rpmsg-example.inc
-require ${LAYER_PATH_openamp-layer}/vendor/xilinx/meta-xilinx-standalone-sdt/recipes-openamp/open-amp/open-amp-xlnx-demos.inc
-
 require open-amp-xlnx-demos_v2025.1.inc
 
 PROVIDES += "open-amp-xlnx-matrix"
