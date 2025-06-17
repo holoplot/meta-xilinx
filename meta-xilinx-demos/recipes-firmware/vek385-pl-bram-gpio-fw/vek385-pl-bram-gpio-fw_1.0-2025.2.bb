@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/sdt/2025.2/2025.2_0611_1_06120347/external/vek385-pl-bram-gpio-fw/vek385-pl-bram-gpio-fw_2025.2_0611_1_06120347.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/sdt/2025.2/2025.2_0616_1_06170454/external/vek385-pl-bram-gpio-fw/vek385-pl-bram-gpio-fw_2025.2_0616_1_06170454.tar.gz"
 
-SRC_URI[sha256sum] = "b9feee1b9d4a2b6dafadf27ef47164ba7f4dfec1b63f6742a7baed0e2ef4c1dc"
+SRC_URI[sha256sum] = "db28637c2d9c17d038e2abdc9711f1b95790974be14d53507538dffe63178895"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:amd-cortexa78-mali-common = "${MACHINE}"
