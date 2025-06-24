@@ -23,7 +23,7 @@ ESW_REV[2023.2] = "e847e1935dca630615e5f7dc694365a44b89699c"
 ESW_REV[2024.1] = "b173d246826f662b9a98215d8f39e93d39d699b4"
 ESW_REV[2024.2] = "6e4d0b89d2958994ab9b3531eb4c6e648a63f201"
 ESW_REV[2025.1] = "c0aed2eff7a30f307238ec853fa8fbc45dcabdda"
-ESW_REV[2025.2] = "7a3271e290cbd46f5a538d2ee236fbb5abc31a78"
+ESW_REV[2025.2] = "194d4ca1a2fbfab6cf89ea2a392c278ec9d4e71e"
 SRCREV ??= "${@d.getVarFlag('ESW_REV', d.getVar('ESW_VER')) or 'INVALID'}"
 
 EMBEDDEDSW_BRANCHARG ?= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
