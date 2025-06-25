@@ -1,5 +1,4 @@
 # QEMU for the Kria SOM requires a section from the FSBL to be extracted
-
 PMU_CONF_NAME ?= "pmu-conf"
 PMU_CONF_BASE_NAME ?= "${PMU_CONF_NAME}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 
@@ -7,7 +6,7 @@ PMU_CONF_BASE_NAME ?= "${PMU_CONF_NAME}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAG
 DEPENDS:append:zynqmp = " virtual/${TARGET_PREFIX}binutils"
 
 do_compile:append:zynqmp () {
-    ${OBJCOPY} --dump-section .sys_cfg_data=${B}/${PMU_CONF_NAME}.bin ${B}/${ESW_COMPONENT}
+    ${OBJCOPY} --dump-section .sys_cfg_data=${B}/${PMU_CONF_NAME}.bin ${FSBL_FILE}.elf
 }
 
 do_deploy:append:zynqmp () {
