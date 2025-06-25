@@ -70,7 +70,7 @@ def qemu_add_extra_args(data):
         if kernel_name:
             qb_extra_args = ' -device loader,file=%s,addr=%s,force-raw=on' % (kernel_image, kernel_loadaddr)
             qb_extra_args += ' -device loader,file=%s,addr=%s,force-raw=on' % (bootscr_image, bootscr_loadaddr)
-        if soc_family in ('versal', 'versal-net', 'versal-2ve-2vm'):
+        if soc_family in ('zynqmp', 'versal', 'versal-net', 'versal-2ve-2vm'):
             qb_extra_args += ' -boot mode=%s' % boot_mode
     else:
         if soc_family in ('zynqmp', 'versal', 'versal-net', 'versal-2ve-2vm'):
