@@ -1,27 +1,15 @@
 # meta-xilinx-bsp
 
-This layer enables AMD MicroBlaze, Zynq, ZynqMP and Versal device
-evaluation boards and provides related metadata.
+This layer is deprecated.  All BSP components have been moved to
+other layers.
 
-## Additional documentation
-
-* [Building Image Instructions](../README.building.md)
-* [Booting Image Instructions](../README.booting.md)
-
-## Dependencies
+XSCT based machine are in generally in meta-xilinx-tools, while
+SDT based machines are in meta-amd-adaptive-socs-bsps.
 
 This layer depends on:
 
 	URI: https://git.yoctoproject.org/poky
 	layers: meta, meta-poky
-	branch: scarthgap
-
-	URI: https://git.openembedded.org/meta-openembedded
-	layers: meta-oe
-	branch: scarthgap
-
-	URI: https://git.yoctoproject.org/meta-arm
-	layers: meta-arm, meta-arm-toolchain
 	branch: scarthgap
 
 	URI:
