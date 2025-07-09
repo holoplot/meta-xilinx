@@ -3,7 +3,7 @@
 ### The following table controls the automatic generated of the firmware demos
 ### Machine                 Recipe
 #M# vck190-pl-bram-gpio-fw  recipes-firmware/vck190-pl-bram-gpio-fw/vck190-pl-bram-gpio-fw_1.0-2025.2.bb
-#M# vek280-pl-bram-gpio-fw  recipes-firmware/vek280-pl-bram-uart-gpio-fw/vek280-pl-bram-uart-gpio-fw_1.0-2025.2.bb
+#M# vek280-pl-bram-gpio-fw  recipes-firmware/vek280-pl-bram-gpio-fw/vek280-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# zcu104-pl-vcu-fw        recipes-firmware/zcu104-pl-vcu-fw/zcu104-pl-vcu-fw_1.0-2025.2.bb
 #M# zcu111-pl-bram-gpio-fw  recipes-firmware/zcu111-pl-bram-gpio-fw/zcu111-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# vek385-pl-bram-gpio-fw  recipes-firmware/vek385-pl-bram-gpio-fw/vek385-pl-bram-gpio-fw_1.0-2025.2.bb
