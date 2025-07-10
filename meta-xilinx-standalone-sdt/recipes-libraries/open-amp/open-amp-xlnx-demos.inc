@@ -5,7 +5,7 @@ OPENAMP_DEPENDS ?= "${SYSTEM_DTFILE_DEPENDS}"
 OPENAMP_DTFILE ?= "${SYSTEM_DTFILE}"
 
 DEPENDS += "${OPENAMP_DEPENDS}"
-DEPENDS += "open-amp-xlnx libmetal-xlnx device-tree python3-native python3-pyyaml-native lopper-native python3-dtc-native"
+DEPENDS += "open-amp-xlnx libmetal-xlnx python3-native python3-pyyaml-native lopper-native python3-dtc-native"
 
 DEPENDS_BAREMETAL ??= ""
 DEPENDS_BAREMETAL:armv7r = "xiltimer libxil xilstandalone xiltimer "
