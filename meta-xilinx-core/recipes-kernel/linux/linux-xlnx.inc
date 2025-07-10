@@ -89,3 +89,11 @@ KERNEL_FEATURES:append:versal-net = "${@bb.utils.contains('DISTRO_FEATURES', 'xe
 KERNEL_FEATURES:append:versal-2ve-2vm = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)} features/xilinx/hdmi-module/hdmi-module.scc"
 
 KERNEL_FEATURES:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', ' features/ocicontainer/ocicontainer.scc', '', d)}"
+
+# To enable lttng, we need kprobes
+KERNEL_FEATURES_KPROBES = " features/kprobes"
+
+# Not supported on Microblaze
+KERNEL_FEATURES_KPROBES:microblaze = ""
+
+KERNEL_FEATURES:append = "${KERNEL_FEATURES_KPROBES}"
