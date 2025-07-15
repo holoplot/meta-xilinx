@@ -14,7 +14,7 @@ S = "${WORKDIR}/git"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zcu208-zynqmp = "${MACHINE}"
 COMPATIBLE_MACHINE:zcu216-zynqmp = "${MACHINE}"
-COMPATIBLE_MACHINE:system-controller = "${MACHINE}"
+COMPATIBLE_MACHINE:zynqmp-generic = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -56,7 +56,7 @@ do_install() {
 
 PACKAGECONFIG:append:zcu208-zynqmp = "raftnotebooks raftstartup"
 PACKAGECONFIG:append:zcu216-zynqmp = "raftnotebooks raftstartup"
-PACKAGECONFIG:append:system-controller = "raftstartupsc"
+PACKAGECONFIG:append:zynqmp-generic = "raftstartupsc"
 
 FILES:${PN} += " \
     ${datadir}/raft/* \
