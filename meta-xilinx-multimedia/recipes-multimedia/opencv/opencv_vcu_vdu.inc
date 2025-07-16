@@ -14,13 +14,13 @@ EXTRA_OECMAKE += "-DOPENCV_EXTRA_MODULES_PATH='${S}/contrib/modules;${S}/contrib
 # Only add the configuration if the machine has the corresponding feature
 
 # VDU support - for machines with 'vdu' feature
-PACKAGECONFIG .= "${@bb.utils.contains('MACHINE_FEATURES', 'vdu', ' vcucodec-vdu', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vdu', ' vcucodec-vdu', '', d)}"
 PACKAGECONFIG[vcucodec-vdu] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VDU_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vdu-ctrlsw,vdu-ctrlsw"
 
 # VCU support - for machines with 'vcu' feature
-PACKAGECONFIG .= "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' vcucodec-vcu', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' vcucodec-vcu', '', d)}"
 PACKAGECONFIG[vcucodec-vcu] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VCU_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vcu-ctrlsw,vcu-ctrlsw"
 
 # VCU2 support - for machines with 'vcu2' feature
-PACKAGECONFIG .= "${@bb.utils.contains('MACHINE_FEATURES', 'vcu2', ' vcucodec-vcu2', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vcu2', ' vcucodec-vcu2', '', d)}"
 PACKAGECONFIG[vcucodec-vcu2] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VCU2_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vcu2-ctrlsw,vcu2-ctrlsw"
