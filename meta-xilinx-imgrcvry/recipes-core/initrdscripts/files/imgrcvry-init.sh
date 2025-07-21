@@ -41,7 +41,7 @@ echo_msg() {
 launch_shell() {
     echo $1 >$CONSOLE
     echo >$CONSOLE
-    exec sh
+    setsid cttyhack sh
 }
 
 
