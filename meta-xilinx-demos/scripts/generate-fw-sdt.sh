@@ -9,6 +9,7 @@
 #M# vek385-pl-bram-gpio-fw  recipes-firmware/vek385-pl-bram-gpio-fw/vek385-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# zcu106-pl-bram-gpio-fw  recipes-firmware/zcu106-pl-bram-gpio-fw/zcu106-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# zc702-pl-bram-gpio-fw   recipes-firmware/zc702-pl-bram-gpio-fw/zc702-pl-bram-gpio-fw_1.0-2025.2.bb
+#M# zcu104-pl-bram-gpio-fw  recipes-firmware/zcu104-pl-bram-gpio-fw/zcu104-pl-bram-gpio-fw_1.0-2025.2.bb
 
 this=$(realpath $0)
 
