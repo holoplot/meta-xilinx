@@ -133,14 +133,7 @@ DEPENDS += "u-boot-mkimage-native"
 do_deploy() {
     # Copy the /boot items to deploy
     install -d ${DEPLOYDIR}
-    install -m 0644 ${D}/boot/${ATF_BASE_NAME}.elf ${DEPLOYDIR}/${ATF_BASE_NAME}.elf
-    ln -sf ${ATF_BASE_NAME}.elf ${DEPLOYDIR}/arm-trusted-firmware.elf
-    install -m 0644 ${D}/boot/${ATF_BASE_NAME}.bin ${DEPLOYDIR}/${ATF_BASE_NAME}.bin
-    ln -sf ${ATF_BASE_NAME}.bin ${DEPLOYDIR}/arm-trusted-firmware.bin
-
-    install -m 0644 ${D}/boot/${ATF_BASE_NAME}.ub ${DEPLOYDIR}/${ATF_BASE_NAME}.ub
-    ln -sf ${ATF_BASE_NAME}.ub ${DEPLOYDIR}/arm-trusted-firmware.ub
-    ln -sf ${ATF_BASE_NAME}.ub ${DEPLOYDIR}/atf-uboot.ub
+    cp -rf ${D}/boot/* ${DEPLOYDIR}/
 }
 
 addtask deploy before do_build after do_compile
