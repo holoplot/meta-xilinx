@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/sdt/2025.2/2025.2_0804_1_08050351/external/zcu104-pl-vcu-fw/zcu104-pl-vcu-fw_2025.2_0804_1_08050351.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/sdt/2025.2/2025.2_0806_1_08070352/external/zcu104-pl-vcu-fw/zcu104-pl-vcu-fw_2025.2_0804_1_08070352.tar.gz"
 
-SRC_URI[sha256sum] = "eda496fd5586882e29dd53e63484960fcffc3ff6473f06ed731a113bf06c8d35"
+SRC_URI[sha256sum] = "633bad3c1018d6f9a12958e0ff525980de31565baf641327e86248b6f4765de6"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:amd-cortexa53-mali-common = "${MACHINE}"
