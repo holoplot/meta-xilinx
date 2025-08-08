@@ -13,6 +13,7 @@ XEN_EXTRA_PACKAGES = " \
 	kernel-module-xen-netback \
 	kernel-module-xen-wdt \
 	xen \
+	${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'xen-efi', '', d)} \
 	xen-tools \
 	xen-tools-xenstat \
 	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-aarch64 qemu-keymaps', 'qemu', d)} \
