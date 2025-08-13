@@ -9,14 +9,31 @@ EXTRA_OECONF:append:xilinx-standalone:arm:baremetal-multilib-tc = " \
 
 # RISC V configuration
 RISCV_MULTILIB = "\
-rv32e-ilp32e--;rv32i-ilp32--;rv32ib-ilp32--;rv32ic-ilp32--;\
-rv32icb-ilp32--;rv32im-ilp32--;rv32imb-ilp32--;rv32imc-ilp32--;\
-rv32imcb-ilp32--;rv32imac-ilp32--;rv32imac_zicsr_zifencei-ilp32--;\
-rv32imf-ilp32f--;rv32imfc-ilp32f--;\
-rv32imafc-ilp32f--;rv32imfdc-ilp32d--;\
-rv64i-lp64--;rv64ic-lp64--;rv64im-lp64--;rv64imc-lp64--;rv64imac-lp64--;\
-rv64imf-lp64f--;rv64imfc-lp64f--;rv64imfd-lp64d--;rv64imafc-lp64f--;\
-rv64imfdc-lp64d--\
+rv32e-ilp32e--;\
+rv32i-ilp32--a*zicsr*zifencei;\
+rv32ib-ilp32--a*zicsr*zifencei;\
+rv32ic-ilp32--a*zicsr*zifencei;\
+rv32icb-ilp32--a*zicsr*zifencei;\
+rv32im-ilp32--a*zicsr*zifencei;\
+rv32imb-ilp32--a*zicsr*zifencei;\
+rv32imc-ilp32--zicsr*zifencei;\
+rv32imcb-ilp32--a*zicsr*zifencei;\
+rv32imac-ilp32--b;\
+rv32imac_zicsr_zifencei-ilp32--b;\
+rv32imf_zicsr-ilp32f--b*a*zicsr*zifencei;\
+rv32imfc_zicsr-ilp32f--b*zifencei;\
+rv32imafc_zicsr-ilp32f--b*zifencei;\
+rv32imfdc_zicsr-ilp32d--b*a*zifencei;\
+rv64i-lp64--b*a*zicsr*zifencei;\
+rv64ic-lp64--b*a*zicsr*zifencei;\
+rv64im-lp64--b*a*zicsr*zifencei;\
+rv64imc-lp64--b*zicsr*zifencei;\
+rv64imac-lp64--b*zicsr*zifencei;\
+rv64imf_zicsr-lp64f-rv64imf-b*a*zifencei;\
+rv64imfc_zicsr-lp64f-rv64imfc-b*zifencei;\
+rv64imfd_zicsr-lp64d-rv64imfd-b*zifencei;\
+rv64imafc_zicsr-lp64f-rv64imafc-b*zifencei;\
+rv64imfdc_zicsr-lp64d-rv64imfdc-b*a*zifencei\
 "
 
 EXTRA_OECONF:append:xilinx-standalone:riscv32:baremetal-multilib-tc = " \
