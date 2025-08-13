@@ -9,7 +9,6 @@ EXTRA_OECONF:append:xilinx-standalone:arm:baremetal-multilib-tc = " \
 
 # RISC V configuration
 RISCV_MULTILIB = "\
-rv32e-ilp32e--;\
 rv32i-ilp32--a*zicsr*zifencei;\
 rv32ib-ilp32--a*zicsr*zifencei;\
 rv32ic-ilp32--a*zicsr*zifencei;\
@@ -31,7 +30,6 @@ rv64imc-lp64--b*zicsr*zifencei;\
 rv64imac-lp64--b*zicsr*zifencei;\
 rv64imf_zicsr-lp64f-rv64imf-b*a*zifencei;\
 rv64imfc_zicsr-lp64f-rv64imfc-b*zifencei;\
-rv64imfd_zicsr-lp64d-rv64imfd-b*zifencei;\
 rv64imafc_zicsr-lp64f-rv64imafc-b*zifencei;\
 rv64imfdc_zicsr-lp64d-rv64imfdc-b*a*zifencei\
 "
