@@ -68,6 +68,9 @@ domains:
         domain-to-domain:
             compatible: openamp,domain-to-domain-v1
             remoteproc-relation:
+                libmetal_ipis:
+                  - ipi3
+                  - ipi1
                 compatible: openamp,remoteproc-v2
                 remote:
                      - openamp_r5_0_cluster
