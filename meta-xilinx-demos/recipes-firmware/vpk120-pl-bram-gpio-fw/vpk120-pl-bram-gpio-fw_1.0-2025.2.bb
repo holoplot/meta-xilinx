@@ -7,7 +7,7 @@ inherit dfx_user_dts
 
 SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/sdt/2025.2/2025.2_0811_1_08120318/external/vpk120-pl-bram-gpio-fw/vpk120-pl-bram-gpio-fw_2025.2_0811_1_08120318.tar.gz"
 
-SRC_URI[sha256sum] = "e93895379e05f70a0d71debcdc7b8809530eb00ee73e0a55e0d3660765dca25c"
+SRC_URI[sha256sum] = "2df0e06c8c979e4c0419b2b1d2ec3006d2df7e21ae83a8f227e291a8adba5e7a"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:amd-cortexa72-common = "${MACHINE}"
