@@ -8,7 +8,11 @@ definitions:
              - dev: r52_0a_ctcm_global
                flags: 0
 
-         rproc0: &rproc0
+         rsctbl: &rsctbl
+             - start: 0x97FFF00
+               size: 0x10
+               no-map: 1
+         ddrboot: &ddrboot
              - start: 0x9800000
                size: 0x60000
                no-map: 1
@@ -48,8 +52,7 @@ domains:
 
         reserved-memory:
             ranges: true
-            # if we want an object / node merge, it should be like this (a map)
-            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0 ]
+            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *ddrboot, *rsctbl ]
 
         domain-to-domain:
             compatible: openamp,domain-to-domain-v1
@@ -58,7 +61,7 @@ domains:
                 remote:
                     - openamp_r52_0_cluster
                 elfload:
-                    - [ r52_0a_atcm_global, r52_0a_btcm_global, r52_0a_ctcm_global, rproc0 ]
+                    - [ r52_0a_atcm_global, r52_0a_btcm_global, r52_0a_ctcm_global, rsctbl, ddrboot ]
 
             rpmsg-relation:
                 compatible: openamp,rpmsg-v1
@@ -79,6 +82,7 @@ domains:
               cpumask: 0x1
               mode:
               secure: true
+        xlnx,ddr-boot: true
         access:
             - dev:
                 - ipi1 # used for Open AMP RPMsg IPC
@@ -86,7 +90,7 @@ domains:
             - <<+: *openamp_channel_0_access_srams # TCM banks used for firmware memory
         reserved-memory:
             ranges: true
-            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0 ]
+            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *ddrboot ]
 
         domain-to-domain:
              compatible: openamp,domain-to-domain-v1
