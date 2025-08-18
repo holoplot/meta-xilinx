@@ -460,6 +460,10 @@ domains:
         flags: {}
         label: ipi_nobuf1
         spec_name: IPI_NO_BUF1
+      - dev: serial@f1920000
+        flags: {}
+        label: serial0
+        spec_name: UART0
  
   RPU_BM:
     compatible: openamp,domain-v1
