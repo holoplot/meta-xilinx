@@ -7,8 +7,8 @@ SUMMARY = "sdfec applications"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;branch=xlnx_rel_v2024.1"
-SRCREV = "84b31cb194325640a631380ed8bfc1db21bab883"
+SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;branch=xlnx_rel_v2025.2"
+SRCREV = "e85a9637dd6da92ec9afc1838f55b3e323dbc456"
 
 inherit features_check
 
