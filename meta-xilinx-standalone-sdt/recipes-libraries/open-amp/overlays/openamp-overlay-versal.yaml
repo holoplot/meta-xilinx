@@ -43,9 +43,9 @@ domains:
                flags: 0
              - dev: ipi3
                flags: 0
-             - dev: psv_r5_0_atcm_global
-               flags: 0
-             - dev: psv_r5_0_btcm_global
+             - dev: psv_r5_0_atcm_global@ffe00000
+               flags: {}
+             - dev: psv_r5_0_btcm_global@ffe20000
                flags: 0
 
         reserved-memory:
@@ -59,7 +59,7 @@ domains:
                 remote:
                      - openamp_r5_0_cluster
                 elfload:
-                    - [ psv_r5_0_atcm_global, psv_r5_0_btcm_global, rproc0 ]
+                    - [ psv_r5_0_atcm_global@ffe00000, psv_r5_0_btcm_global@ffe20000, rproc0 ]
 
             rpmsg-relation:
                 compatible: openamp,rpmsg-v1
@@ -80,17 +80,20 @@ domains:
               cpumask: 0x1
               mode:
               secure: true
+              cluster_cpu: psv_cortexr5_0
         os,type: freertos
         access:
-             - dev: psv_r5_0_atcm_global
+             - dev: psv_r5_0_atcm_global@ffe00000
                flags: 0
-             - dev: psv_r5_0_btcm_global
+             - dev: psv_r5_0_btcm_global@ffe20000
                flags: 0
              - dev: ipi1 
                flags: 0
              - dev: ipi3
                flags: 0
              - dev: noc_lpddr0_ddr_memory
+               flags: 0
+             - dev: timer@ff0e0000
                flags: 0
 
         reserved-memory:

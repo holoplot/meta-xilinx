@@ -1,9 +1,9 @@
 definitions:
     OpenAMP:
          openamp_channel0_access_srams: &openamp_channel0_access_srams # used for access in each domain
-             - dev: psu_r5_0_atcm_global
+             - dev: psu_r5_0_atcm_global@ffe00000
                flags: 0
-             - dev: psu_r5_0_btcm_global
+             - dev: psu_r5_0_btcm_global@ffe20000
                flags: 0
 
          rproc0: &rproc0
@@ -45,7 +45,8 @@ domains:
               flags: {}
             - dev: ipi1
               flags: {}
-            - dev: psu_cortexa53_0
+            - dev: "/cpus-a53@0/cpu@0"
+              label: psu_cortexa53_0
               flags: {}
             - dev: psu_cortexa53_1
               flags: {}
@@ -53,9 +54,9 @@ domains:
               flags: {}
             - dev: psu_cortexa53_3
               flags: {}
-            - dev: psu_r5_0_atcm_global
+            - dev: psu_r5_0_atcm_global@ffe00000
               flags: {}
-            - dev: psu_r5_0_btcm_global
+            - dev: psu_r5_0_btcm_global@ffe20000
               flags: {}
 
         reserved-memory:
@@ -69,7 +70,7 @@ domains:
                 remote:
                     - openamp_r5_0_cluster
                 elfload:
-                    - [ psu_r5_0_atcm_global, psu_r5_0_btcm_global, rproc0 ]
+                    - [ psu_r5_0_atcm_global@ffe00000, psu_r5_0_btcm_global@ffe20000, rproc0 ]
 
             rpmsg-relation:
                 compatible: openamp,rpmsg-v1
@@ -90,12 +91,20 @@ domains:
               cpumask: 0x1
               mode:
               secure: true
+              cluster_cpu: psu_cortexr5_0
         os,type: freertos
         access:
-            - dev:
-                - ipi1 # used for Open AMP RPMsg IPC
-              flags: 0
-            - <<+: *openamp_channel0_access_srams # TCM banks used for firmware memory
+            - dev: psu_r5_0_atcm_global@ffe00000
+              label: psu_r5_0_atcm_global
+              flags: {}
+            - dev: psu_r5_0_btcm_global@ffe20000
+              flags: {}
+              label: psu_r5_0_btcm_global
+            - dev: ipi7
+              flags: {}
+            - dev: ipi1
+              flags: {}
+
         reserved-memory:
             ranges: true
             <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0 ]
