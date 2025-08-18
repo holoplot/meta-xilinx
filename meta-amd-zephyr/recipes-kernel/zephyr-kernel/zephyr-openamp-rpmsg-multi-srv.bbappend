@@ -7,7 +7,7 @@ require amd-zephyr-kernel-src_${PREFERRED_VERSION_zephyr-kernel}_${XILINX_RELEAS
 
 SRC_URI_ZEPHYR_OPEN_AMP_SYS_REF = "git://github.com/Xilinx/openamp-system-reference.git;protocol=https"
 BRANCH  = "main"
-SRCREV_open-amp-sys-ref = "a869aaece2f40d3f5eb2be66abd44ef10666705a"
+SRCREV_open-amp-sys-ref = "e1590054897e8a21bf8d1d808944b18690cb9dce"
 
 ZEPHYR_SDT_SOC_KCONFIG="${ZEPHYR_SOC_KCONFIG}"
 ZEPHYR_SDT_SOC_KCONFIG_DEFCONFIG="${ZEPHYR_SOC_KCONFIG_DEFCONFIG}"
