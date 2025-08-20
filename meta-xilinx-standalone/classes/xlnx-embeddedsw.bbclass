@@ -23,7 +23,7 @@ ESW_REV[2023.2] = "e847e1935dca630615e5f7dc694365a44b89699c"
 ESW_REV[2024.1] = "b173d246826f662b9a98215d8f39e93d39d699b4"
 ESW_REV[2024.2] = "6e4d0b89d2958994ab9b3531eb4c6e648a63f201"
 ESW_REV[2025.1] = "cc89abdc1c394c19f0b72d5b498c0b5ed7403442"
-ESW_REV[2025.2] = "bbfd1411d3d2b8c9e85f518ec560585c024604f9"
+ESW_REV[2025.2] = "1797b8a4a322958af43f84348b6008b59b8138b7"
 SRCREV ??= "${@d.getVarFlag('ESW_REV', d.getVar('ESW_VER')) or 'INVALID'}"
 
 EMBEDDEDSW_BRANCHARG ?= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
@@ -38,7 +38,7 @@ LIC_FILES_CHKSUM[xlnx_rel_v2023.2_update] = '9fceecdbcad88698f265578f3d4cb26c'
 LIC_FILES_CHKSUM[xlnx_rel_v2024.1] = '0dcabd3719e5ac33f7c03f0d77d473f2'
 LIC_FILES_CHKSUM[xlnx_rel_v2024.2] = '689662801a76c14d0cb57ae169cbec7c'
 LIC_FILES_CHKSUM[xlnx_rel_v2025.1] = '981710c1c5161c0b8b578ede7374d1c9'
-LIC_FILES_CHKSUM[master-next] = '63afd3a191aff6e7e865b577e4471a37'
+LIC_FILES_CHKSUM[master-next] = '655611c202cf88a39ddda3a7700f067c'
 LIC_FILES_CHKSUM ??= "file://license.txt;md5=${@d.getVarFlag('LIC_FILES_CHKSUM', d.getVar('BRANCH')) or '0'}"
 
 PV .= "+git"
