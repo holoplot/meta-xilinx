@@ -104,6 +104,8 @@ domains:
               flags: {}
             - dev: ipi1
               flags: {}
+            - dev: memory@100000
+              flags: {}
 
         reserved-memory:
             ranges: true

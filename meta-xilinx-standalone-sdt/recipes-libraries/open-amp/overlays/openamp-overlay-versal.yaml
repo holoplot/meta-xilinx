@@ -93,6 +93,8 @@ domains:
                flags: 0
              - dev: noc_lpddr0_ddr_memory
                flags: 0
+             - dev: memory@00000000
+               flags: 0
              - dev: timer@ff0e0000
                flags: 0
              - dev: ps_wizard_0_pmcps_0_psv_rpu_0@ff9a0000
