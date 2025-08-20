@@ -11,9 +11,9 @@ PV .= "+git"
 
 S = "${WORKDIR}/git"
 
-SRC_BRANCH = "xlnx_rel_v2025.1"
+SRC_BRANCH = "2025.2_freeze"
 SRC_URI = "git://github.com/Xilinx/isp-modules.git;protocol=https;branch=${SRC_BRANCH}"
-SRCREV = "05a572d4f398dc195d85078910369d9f63a8b896"
+SRCREV = "63db49537199c8003f9b6a4dec4170733137dcc1"
 
 inherit module
 
