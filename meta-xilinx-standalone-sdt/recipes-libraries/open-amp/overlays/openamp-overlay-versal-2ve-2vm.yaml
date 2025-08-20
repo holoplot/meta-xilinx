@@ -464,7 +464,51 @@ domains:
         flags: {}
         label: serial0
         spec_name: UART0
- 
+      - dev: serial@f1930000
+        flags: {}
+        label: serial1
+        spec_name: UART1
+      - dev: mmc@f1040000
+        flags: {}
+      - dev: mmc@f1050000
+        flags: {}
+      - dev: serial@f1930000
+        flags: {}
+      - dev: serial@f1930000
+        flags: {}
+      - dev: serial@f1930000
+        flags: {}
+      - dev: serial@b2090000
+        flags: {}
+      - dev: coresight@f0800000
+        flags: {}
+      - dev: spi@f1010000
+        flags: {}
+      - dev: spi@f1030000
+        flags: {}
+      - dev: spi@f19c0000
+        flags: {}
+      - dev: spi@f19d0000
+        flags: {}
+      - dev: i2c@f1940000
+        flags: {}
+      - dev: i2c@f1950000
+        flags: {}
+      - dev: i2c@f1960000
+        flags: {}
+      - dev: i2c@f1970000
+        flags: {}
+      - dev: i2c@f1980000
+        flags: {}
+      - dev: i2c@f1990000
+        flags: {}
+      - dev: i2c@f19a0000
+        flags: {}
+      - dev: i2c@f19b0000
+        flags: {}
+      - dev: i2c@f1000000
+        flags: {}
+
   RPU_BM:
     compatible: openamp,domain-v1
     cpus:
