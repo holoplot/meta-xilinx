@@ -99,6 +99,8 @@ domains:
                flags: 0
              - dev: ps_wizard_0_pmcps_0_psv_rpu_0@ff9a0000
                flags: 0
+             - dev: CIPS_0_pspmc_0_psv_rpu_0@ff9a0000
+               flags: 0
 
         reserved-memory:
             ranges: true
