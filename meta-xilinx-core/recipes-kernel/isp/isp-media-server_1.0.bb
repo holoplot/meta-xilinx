@@ -6,8 +6,8 @@ COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-media-server/2025.1/07082025/isp-media-server.tar.gz"
-SRC_URI[sha256sum]="e4f7949af7f10fae1ac5f170cab8e314857df6b39ca8b12a8d25efc169a681c0"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-media-server/2025.2/08222025/isp-media-server.tar.gz"
+SRC_URI[sha256sum] = "6ca889c3e20431d4c59b170e62419b2c56b7b7ae788222b7fd1c38022f028b84"
 
 RDEPENDS:${PN} += "kernel-module-isp"
 
@@ -15,11 +15,9 @@ do_install() {
     install -d ${D}${libdir}
     install -d ${D}${bindir}
 
-    install -d ${D}${datadir}/limo_example_jsons
-    install -d ${D}${datadir}/mimo_example_jsons
+    install -d ${D}${datadir}
 
-    cp -r ${WORKDIR}/limo_example_jsons/* ${D}${datadir}/limo_example_jsons/
-    cp -r ${WORKDIR}/mimo_example_jsons/* ${D}${datadir}/mimo_example_jsons/
+    cp -r ${WORKDIR}/Tuning_files ${D}${datadir}
 
     # Make sure necessary symlinks are created
     for fullso in *.so.*.* *.so.* *.so ; do
@@ -45,7 +43,7 @@ do_install() {
     install -m 0755 *isp_media_server ${D}${bindir}/
 }
 
-FILES:${PN} += "${libdir}/*.so* ${bindir}/*isp_media_server ${datadir}/limo_example_jsons/* ${datadir}/mimo_example_jsons/*"
+FILES:${PN} += "${libdir}/*.so* ${bindir}/*isp_media_server ${datadir}/Tuning_files/*"
 
 # Disable all QA checks and stripping
 INSANE_SKIP:${PN} += "already-stripped ldflags"
