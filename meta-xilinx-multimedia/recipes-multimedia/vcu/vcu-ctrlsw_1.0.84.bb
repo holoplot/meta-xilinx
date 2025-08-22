@@ -37,6 +37,7 @@ do_install() {
     oe_runmake install_headers INSTALL_HDR_PATH=${D}${includedir}/vcu-ctrl-sw/include INSTALL_PATH=${D}/${bindir}
     oe_libinstall -C ${S}/bin/ -so liballegro_decode ${D}/${libdir}/
     oe_libinstall -C ${S}/bin/ -so liballegro_encode ${D}/${libdir}/
+    oe_libinstall -C ${S}/bin/ -so liballegro_app ${D}/${libdir}/
 }
 
 PACKAGES =+ "libvcu-ctrlsw"
