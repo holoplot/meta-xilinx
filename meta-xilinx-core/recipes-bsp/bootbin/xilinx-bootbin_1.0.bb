@@ -189,7 +189,7 @@ python do_configure() {
                 try:
                     fname = d.expand(attrimage[part])
                 except:
-                    bb.error('BIF_PARTITION_ATTR[%s] not defined, but referenced in BIF_PARTITION_ATTR', part)
+                    bb.error('BIF_PARTITION_ATTR[%s] not defined, but referenced in BIF_PARTITION_ATTR' % part)
 
                 dest = os.path.join(d.getVar('B'), os.path.basename(fname))
                 print('Copy BIF_PARTITION_IMAGE[%s] %s -> %s' % (part, fname, dest))
