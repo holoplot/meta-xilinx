@@ -3,6 +3,8 @@
 IMAGE_TYPES += "imagercvry"
 
 include recipes-bsp/bootbin/machine-xilinx-${SOC_FAMILY}.inc
+# Delete the task do_extract_cdo to disable building boot.bin
+deltask do_extract_cdo
 
 IMGRCVRY_ATTR ?= "${BIF_PARTITION_ATTR}"
 IMGRCVRY_KERNEL_ATTR ?= "linux-xlnx rootfs"
