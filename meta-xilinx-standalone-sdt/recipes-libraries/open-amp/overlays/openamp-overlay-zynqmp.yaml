@@ -106,6 +106,10 @@ domains:
               flags: {}
             - dev: memory@100000
               flags: {}
+            - dev: psu_rpu
+              flags: {}
+            - dev: ttc3
+              flags: {}
 
         reserved-memory:
             ranges: true
