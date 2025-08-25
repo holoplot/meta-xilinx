@@ -23,9 +23,10 @@ SRC_URI = " \
     "
 
 do_configure[noexec] = "1"
+do_compile[depends] += " image-builder-native:do_populate_sysroot"
 
 do_compile(){
-    ${DEPLOY_DIR_IMAGE}/scripts/uboot-script-gen -c ${WORKDIR}/${XEN_TEMPLATE_CONFIG} -s -d ${WORKDIR} -o ${WORKDIR}/xen_boot
+    ${RECIPE_SYSROOT_NATIVE}/usr/bin/uboot-script-gen -c ${WORKDIR}/${XEN_TEMPLATE_CONFIG} -s -d ${WORKDIR} -o ${WORKDIR}/xen_boot
 }
 
 do_install() {
