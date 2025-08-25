@@ -11,7 +11,7 @@ INHIBIT_PACKAGE_STRIP = "1"
 
 SRC_URI = "git://github.com/Xilinx/hdmi21-modules.git;protocol=https;branch=${SRC_BRANCH}"
 
-SRCREV = "5699556f9b03fd0a7c97ad2f970137b3e06c3bc5"
+SRCREV = "2045edac98ae0388c79c7cb74b0e8d1c4ee3614c"
 
 S = "${WORKDIR}/git"
 
