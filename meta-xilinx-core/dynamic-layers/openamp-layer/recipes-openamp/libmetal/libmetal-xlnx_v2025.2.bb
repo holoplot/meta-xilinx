@@ -1,6 +1,6 @@
 SRCBRANCH ?= "2025"
-BRANCH = "${SRCBRANCH}"
-SRCREV = "08634e98b4dbef63f73389afc8968bd2f041b6b0"
+SRCREV = "2ebf3a70bb310bcaed01f0d8352b4818660e8c21"
+BRANCH = "xlnx_rel_v2025.2"
 LIC_FILES_CHKSUM ?= "file://LICENSE.md;md5=f4d5df0f12dcea1b1a0124219c0dbab4"
 PV .= "+git"
 
