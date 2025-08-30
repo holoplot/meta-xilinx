@@ -1,99 +1,99 @@
 definitions:
   plm_reserved_memory: &plm_reserved_memory
     - start: '0x00000000'
-      size: 16M
+      size: '0x1000000'
       no-map : true
   tfa_handoff_reserved_memory: &tfa_handoff_reserved_memory
     - start: '0x01000000'
-      size: 6M
+      size: '0x600000'
       no-map: true
   tfa_runtime_memory:  &tfa_runtime_memory
     - start: '0x01600000'
-      size: 2M
+      size: '0x200000'
       no-map: true
   optee_shared_buffs: &optee_shared_buffs
     - start: '0x01800000'
-      size: 128M
+      size: '0x8000000'
       no-map: true
   rpu_a0_openamp_reserved_memory: &rpu_a0_openamp_reserved_memory
     - start: '0x02000000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_a1_openamp_reserved_memory: &rpu_a1_openamp_reserved_memory
     - start: '0x02400000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_b0_openamp_reserved_memory: &rpu_b0_openamp_reserved_memory
     - start: '0x02800000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_b1_openamp_reserved_memory: &rpu_b1_openamp_reserved_memory
     - start: '0x02c00000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_c0_openamp_reserved_memory: &rpu_c0_openamp_reserved_memory
     - start: '0x03000000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_c1_openamp_reserved_memory: &rpu_c1_openamp_reserved_memory
     - start: '0x03400000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_d0_openamp_reserved_memory: &rpu_d0_openamp_reserved_memory
     - start: '0x03800000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_d1_openamp_reserved_memory: &rpu_d1_openamp_reserved_memory
     - start: '0x03c00000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_e0_openamp_reserved_memory: &rpu_e0_openamp_reserved_memory
     - start: '0x04000000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_e1_openamp_reserved_memory: &rpu_e1_openamp_reserved_memory
     - start: '0x04400000'
-      size: 4M
+      size: '0x400000'
       no-map: true
   rpu_a0_isp_reserved_memory: &rpu_a0_isp_reserved_memory
     - start: '0x04800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_a1_isp_reserved_memory: &rpu_a1_isp_reserved_memory
     - start: '0x06800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_b0_isp_reserved_memory: &rpu_b0_isp_reserved_memory
     - start: '0x08800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_b1_isp_reserved_memory: &rpu_b1_isp_reserved_memory
     - start: '0x0a800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_c0_isp_reserved_memory: &rpu_c0_isp_reserved_memory
     - start: '0x0c800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_c1_isp_reserved_memory: &rpu_c1_isp_reserved_memory
     - start: '0x0e800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_d0_isp_reserved_memory: &rpu_d0_isp_reserved_memory
     - start: '0x10800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_d1_isp_reserved_memory: &rpu_d1_isp_reserved_memory
     - start: '0x12800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_e0_isp_reserved_memory: &rpu_e0_isp_reserved_memory
     - start: '0x14800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   rpu_e1_isp_reserved_memory: &rpu_e1_isp_reserved_memory
     - start: '0x16800000'
-      size: 32M
+      size: '0x2000000'
       no-map: true
   ddrboot: &ddrboot
     - start: 0x9800000
@@ -113,7 +113,7 @@ definitions:
       no-map: 1
   rsctbl: &rsctbl
     - start: 0x97FFF00
-      size: 0x10 
+      size: 0x10
       no-map: 1
 
 
@@ -126,7 +126,7 @@ domains:
         cpumask: 0xf
         mode:
           secure: false
-          el: 0x3   
+          el: 0x3
     os,type: linux
     domain-to-domain:
         compatible: openamp,domain-to-domain-v1
@@ -181,20 +181,20 @@ domains:
 
     memory:
       - dev: linux_ddr
-        size: 1536M
+        size: '0x60000000'
         spec_name: Linux_DDR
         start: '0x20000000'
       - dev: linux_cma
-        size: 4096M
+        size: '0x100000000'
         spec_name: Linux_CMA
         start: '0x00A00000000'
       - dev: xra_allocator
-        size: 2048M
+        size: '0x80000000'
         spec_name: XRT_Allocator
         start: '0x50000000000'
     sram:
       - dev: axi_bram_ctrl_0@b0000000
-        size: 8 KB
+        size: '0x2000'
         spec_name: axi_bram_ctrl_0
         start: '0xb0000000'
     access:
@@ -356,7 +356,7 @@ domains:
       - dev: gpio@f1a50000
         flags: {}
         label: gpio0
-        spec_name: LPD_GPIO0     
+        spec_name: LPD_GPIO0
       - dev: gpio@b2000000
         flags: {}
         label: axi_gpio_0
@@ -391,13 +391,13 @@ domains:
         spec_name: RTC
   RPU_Zephyr:
     compatible: openamp,domain-v1
-    cpus: 
+    cpus:
       - cluster: cpus_r52_0
         cluster_cpu: cortexr52_0
         cpumask: 0x1
         mode:
           secure: true
-          el: 0x3  
+          el: 0x3
     os,type: zephyr
     xlnx,ddr-boot: true
     domain-to-domain:
@@ -517,7 +517,7 @@ domains:
         cpumask: 0x2
         mode:
           secure: true
-          el: 0x3  
+          el: 0x3
     os,type: baremetal
     memory:
     sram:

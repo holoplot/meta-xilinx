@@ -58,6 +58,17 @@ domains:
               flags: {}
             - dev: psu_r5_0_btcm_global@ffe20000
               flags: {}
+            - dev: amba_pl
+            - dev: gem0
+            - dev: gem1
+            - dev: gem2
+            - dev: dwc3_1
+            - dev: sata
+            - dev: pcie
+            - dev: nand0
+            - dev: mmc@ff160000
+            - dev: "display@fd4a0000/ports"
+              label: zynqmp_dpsub
 
         reserved-memory:
             ranges: true

@@ -47,6 +47,10 @@ domains:
                flags: {}
              - dev: psv_r5_0_btcm_global@ffe20000
                flags: 0
+             - dev: amba_pl
+             - dev: ethernet@ff0d0000
+             - dev: spi@f1030000
+             - dev: mmc@f1040000
 
         reserved-memory:
             ranges: true
