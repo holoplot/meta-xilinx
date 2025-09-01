@@ -11,7 +11,10 @@ DEPENDS += "\
     xilsecure \
     xilsem \
     xilnvm \
+    xiltpm \
     "
+
+TARGET_LDFLAGS:append:pmc_0 = " -T${RECIPE_SYSROOT}${libdir}/xpm_memory_pools.ld"
 
 ESW_COMPONENT_SRC = "/lib/sw_apps/versal_plm/src/"
 

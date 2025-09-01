@@ -10,3 +10,11 @@ DEPENDS += " \
     xilstandalone \
     ${@'xilplmi cframe' if d.getVar('ESW_MACHINE') == 'pmc_0' else ''} \
     "
+
+FILES:${PN} += "${libdir}/xpm_memory_pools.ld"
+
+do_install:append() {
+    if [ -f ${B}/xpm_memory_pools.ld ]; then
+        install -Dm0644 ${B}/xpm_memory_pools.ld ${D}${libdir}/xpm_memory_pools.ld
+    fi
+}
