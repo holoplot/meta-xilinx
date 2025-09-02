@@ -54,6 +54,8 @@ domains:
 
         reserved-memory:
             ranges: true
+            "#size-cells": 2
+            "#address-cells": 2
             <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0 ]
 
         domain-to-domain:
