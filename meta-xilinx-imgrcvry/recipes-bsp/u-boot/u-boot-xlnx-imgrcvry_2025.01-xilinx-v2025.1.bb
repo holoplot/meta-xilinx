@@ -8,6 +8,8 @@ UBOOT_MACHINE_IMGRCVRY_DEF:versal-2ve-2vm ?= "imgrcvry_versal_2ve_2vm_defconfig"
 
 UBOOT_MACHINE_IMGRCVRY ?= "${UBOOT_MACHINE_IMGRCVRY_DEF}"
 
+# Provide a default to avoid parse error with UBOOT_MACHINE not being expandable
+UBOOT_MACHINE ??= "none"
 UBOOT_MACHINE := "${@'${UBOOT_MACHINE_IMGRCVRY}' if d.getVar('UBOOT_MACHINE_IMGRCVRY') else '${UBOOT_MACHINE}'}"
 
 PREBOOT_CFG_FILE ?= "file://preboot_cmd.cfg"
