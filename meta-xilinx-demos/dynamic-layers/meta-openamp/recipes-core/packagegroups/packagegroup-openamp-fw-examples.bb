@@ -2,6 +2,8 @@ DESCRIPTION = "OpenAMP firmware examples"
 
 REQUIRED_DISTRO_FEATURES = "openamp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup
 
 # packages common to all
@@ -31,5 +33,4 @@ OPENAMP_PACKAGES:append:versal-2ve-2vm = " ${OPENAMP_VERSAL_GEN2_FULL_INSTALL}"
 
 RDEPENDS:${PN} = "${OPENAMP_PACKAGES}"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
 INSANE_SKIP:${PN} += "arch"
