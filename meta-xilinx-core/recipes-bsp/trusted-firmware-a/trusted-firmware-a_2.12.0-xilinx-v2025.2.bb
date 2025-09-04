@@ -50,11 +50,7 @@ TFA_CONSOLE_OEMAKE:append:versal-2ve-2vm = "${@' CONSOLE=${TFA_CONSOLE}' if d.ge
 EXTRA_OEMAKE += "${TFA_CONSOLE_OEMAKE}"
 
 ### Debug settings
-DEBUG_ATF_DEFAULT = ""
-DEBUG_ATF_DEFAULT:versal = "1"
-DEBUG_ATF_DEFAULT:versal-net = "1"
-DEBUG_ATF_DEFAULT:versal-2ve-2vm = "1"
-DEBUG_ATF ?= "${DEBUG_ATF_DEFAULT}"
+DEBUG_ATF ?= "0"
 
 # Translate old to new name
 TFA_DEBUG = "${DEBUG_ATF}"
