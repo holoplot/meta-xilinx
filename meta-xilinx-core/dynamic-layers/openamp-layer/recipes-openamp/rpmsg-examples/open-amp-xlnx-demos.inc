@@ -63,7 +63,7 @@ OPENAMP_APP_NAME ?= "echo"
 
 EXTRA_OECMAKE:append:xilinx-standalone = " \
 	-DCMAKE_LIBRARY_PATH=${PKG_CONFIG_SYSROOT_DIR}/usr/lib/ \
-	-DPROJECT_VENDOR=\"xlnx\"  \
+	-DPROJECT_VENDOR=\"xlnx\" -DWITH_VENDOR_CMAKE_SCRIPT=ON \
 	-DOPENAMP_APP_NAME=${OPENAMP_APP_NAME} -DMACHINE=${TOOLCHAIN_FILE_MACHINE} "
 
 # Generate Lopper linker config file before generating toolchain file
@@ -144,8 +144,8 @@ do_configure:prepend() {
     mv *Example.cmake ${LINKER_METADATA_FILE}
     cd -
 
-    sed -i -e 's/CXX//g' ${S}/cmake/vitis.cmake
-    sed -i -e '/find_package(common)/d' ${S}/cmake/vitis.cmake
+    sed -i -e 's/CXX//g' ${S}/cmake/vendor/xlnx/CMakeLists.txt
+    sed -i -e '/find_package(common)/d' ${S}/cmake/vendor/xlnx/CMakeLists.txt
     touch ${S}/UserConfig.cmake
 }
 
