@@ -13,7 +13,7 @@ S = "${WORKDIR}/git"
 
 SRC_BRANCH = "2025.2_freeze"
 SRC_URI = "git://github.com/Xilinx/isp-modules.git;protocol=https;branch=${SRC_BRANCH}"
-SRCREV = "97611bf14eb34c3a4ce333c6e2e46d287a042e9a"
+SRCREV = "6cee6758e3f460078c3a333e86d2bd49b3963da9"
 
 inherit module
 
