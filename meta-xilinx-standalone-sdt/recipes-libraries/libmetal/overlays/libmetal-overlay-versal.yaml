@@ -1,47 +1,20 @@
 # /dts-v1/
 axi:
-    ttc0:
+    shm@3ed80000: &shm:
         compatible: "uio"
-        reg:
-            - 0
-            - 0xFF0E0000 
-            - 0
-            - 0x1000
-    ipi@ff3600000:
-        compatible: "ipi_uio"
-        reg:
-            - 0
-            - 0xff360000 
-            - 0
-            - 0x1000
-        interrupt-parent:
-            - gic
-        interrupts:
-            - 0
-            - 33
-            - 4
-    shm:
-        compatible: "shm_uio"
-        reg:
-            - 0
-            - 0x3ed80000
-            - 0
-            - 0x1000000
+        reg: [ 0, 0x3ed80000, 0, 0x1000000]
+    ipi0@ff360000:
+        compatible: "uio"
+        reg: [ 0, 0xff360000, 0, 0x1000]
+        interrupt-parent: gic
+        interrupts: [ 0, 33, 4]
+    ttc0@FF0E0000:
+        compatible: "uio"
+        reg: [ 0, 0xFF0E0000, 0, 0x1000]
+
 
 definitions:
     OpenAMP:
-         openamp_channel0_access_srams: &openamp_channel0_access_srams # used for access in each domain
-             - dev: psv_r5_0_atcm_global
-               flags: 0
-             - dev: psv_r5_0_btcm_global
-               flags: 0
-
-         openamp_channel1_access_srams: &openamp_channel1_access_srams # used for access in each domain
-             - dev: psv_r5_1_atcm_global
-               flags: 0
-             - dev: psv_r5_1_btcm_global
-               flags: 0
-
          rproc0: &rproc0
              - start: 0x3ed00000
                size: 0x2000000
@@ -58,26 +31,35 @@ domains:
                  secure: true
                  el: 0x3
         access:
-            - <<+: *openamp_channel0_access_srams
-            - <<+: *openamp_channel1_access_srams
-
+             - dev: psv_r5_0_atcm_global@ffe00000
+               flags: 0
+             - dev: psv_r5_0_btcm_global@ffe20000
+               flags: 0
+             - dev: /axi/ipi0@ff360000
+               flags: 0
+             - dev: /axi/ttc0@FF0E0000
+               flags: 0
+             - dev: ps_wizard_0_pmcps_0_psv_rpu_0@ff9a0000
+               flags: 0
+             - dev: CIPS_0_pspmc_0_psv_rpu_0@ff9a0000
+               flags: 0
+             - dev: cpus_r5_0
+               flags: 0
+             - dev: shm
         reserved-memory:
             ranges: true
+            "#size-cells": 2
+            "#address-cells": 2
             <<+: [ *rproc0 ]
 
         domain-to-domain:
             compatible: openamp,domain-to-domain-v1
             remoteproc-relation:
-                libmetal_ipis:
-                  - ipi3
-                  - ipi1
                 compatible: openamp,remoteproc-v2
                 remote:
                      - openamp_r5_0_cluster
-                     - openamp_r5_1_cluster
                 elfload:
                     - [ psv_r5_0_atcm_global, psv_r5_0_btcm_global, rproc0 ]
-                    - [ psv_r5_1_atcm_global, psv_r5_1_btcm_global ]
 
 
     openamp_r5_0_cluster:
@@ -89,20 +71,20 @@ domains:
               mode:
               secure: true
         access:
-            - <<+: *openamp_channel0_access_srams # TCM banks used for firmware memory
+             - dev: psv_r5_0_atcm_global@ffe00000
+               flags: 0
+             - dev: psv_r5_0_btcm_global@ffe20000
+               flags: 0
+             - dev: ipi1
+               flags: 0
+             - dev: ps_wizard_0_pmcps_0_psv_rpu_0@ff9a0000
+               flags: 0
+             - dev: CIPS_0_pspmc_0_psv_rpu_0@ff9a0000
+               flags: 0
+ 
         reserved-memory:
             ranges: true
             <<+: [ *rproc0 ]
 
         domain-to-domain:
              compatible: openamp,domain-to-domain-v1
-    openamp_r5_1_cluster:
-        compatible:
-            - "openamp,domain-v1"
-        cpus:
-            - cluster: cpus_r5_1
-              cpumask: 0x1
-              mode:
-              secure: true
-        access:
-            - <<+: *openamp_channel1_access_srams # TCM banks used for firmware memory
