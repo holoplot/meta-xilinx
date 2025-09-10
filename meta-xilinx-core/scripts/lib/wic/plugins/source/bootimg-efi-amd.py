@@ -17,6 +17,7 @@ import shutil
 import re
 
 from glob import glob
+from fileinput import FileInput
 
 from wic import WicError
 from wic.engine import get_custom_config
@@ -32,7 +33,7 @@ class BootimgEFIPlugin(SourcePlugin):
     This plugin supports GRUB 2 and systemd-boot bootloaders.
     """
 
-    name = 'bootimg-efi'
+    name = 'bootimg-efi-amd'
 
     @classmethod
     def _copy_additional_files(cls, hdddir, initrd, dtb):
@@ -219,7 +220,8 @@ class BootimgEFIPlugin(SourcePlugin):
             if source_params['loader'] == 'grub-efi':
                 cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
             elif source_params['loader'] == 'systemd-boot':
-                cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+                # cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+                pass
             elif source_params['loader'] == 'uefi-kernel':
                 pass
             else:
@@ -411,6 +413,13 @@ class BootimgEFIPlugin(SourcePlugin):
                               % (os.path.join(kernel_dir, src_path),
                                  os.path.join(hdddir, dst_path))
                 exec_cmd(install_cmd)
+
+                rootfs_uuid = source_params.get('rootfs_uuid')
+
+                if dst_path.startswith("loader/") or dst_path == "xen.cfg":
+                    with FileInput(os.path.join(hdddir, dst_path), inplace=True) as file:
+                        for line in file:
+                            print(line.replace("@@ROOTFS_UUID@@", rootfs_uuid), end='')
 
         try:
             if source_params['loader'] == 'grub-efi':
