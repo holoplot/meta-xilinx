@@ -14,6 +14,7 @@
 #M# vpk120-pl-bram-gpio-fw  recipes-firmware/vpk120-pl-bram-gpio-fw/vpk120-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# zcu102-pl-bram-gpio-fw  recipes-firmware/zcu102-pl-bram-gpio-fw/zcu102-pl-bram-gpio-fw_1.0-2025.2.bb
 #M# vrk160-pl-bram-gpio-fw  recipes-firmware/vrk160-pl-bram-gpio-fw/vrk160-pl-bram-gpio-fw_1.0-2025.2.bb
+#M# vek385-revb-pl-bram-gpio-fw recipes-firmware/vek385-revb-pl-bram-gpio-fw/vek385-revb-pl-bram-gpio-fw_1.0-2025.2.bb
 
 this=$(realpath $0)
 
