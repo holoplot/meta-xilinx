@@ -12,7 +12,10 @@ B:xilinx-freertos = "${WORKDIR}/build"
 OECMAKE_SOURCEPATH:xilinx-freertos = "${S}/"
 PROVIDES:xilinx-freertos = "libmetal libmetal-xlnx"
 
-DEPENDS:armv7r:append = " doxygen-native xilstandalone scugic xiltimer  nativesdk-xilinx-lops xilpm "
+
+RPU_DEPENDS = " doxygen-native xilstandalone scugic xiltimer  nativesdk-xilinx-lops "
+DEPENDS:armv7r:append = " ${RPU_DEPENDS} xilpm "
+DEPENDS:armv8r:append = " ${RPU_DEPENDS} xilpm-ng "
 DEPENDS:append:xilinx-freertos = " freertos10-xilinx "
 
 DEPENDS:remove:microblaze = " scugic xiltimer "
