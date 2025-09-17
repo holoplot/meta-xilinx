@@ -1,15 +1,14 @@
 axi:
-    ipi0@ff340000: &uio_ipi
+    ipi@ff340000: &uio_ipi
         compatible: "ipi_uio"
-        reg: [0, 0xff340000, 0, 0x1000 ]
-        interrupt-parent: gic
-        interrupts: [0, 29, 4]
+        device_type: "cpu"
     shm@3ed80000: &uio_shm
         compatible: "shm_uio"
         reg: [0, 0x3ed80000, 0, 0x1000000]
-    ttc0@ff110000: &uio_ttc
+    timer@ff110000: &uio_ttc
         compatible: "ttc_uio"
         reg: [0, 0xff110000, 0, 0x1000]
+        device_type: "cpu"
 
 definitions:
     OpenAMP:
@@ -22,6 +21,7 @@ domains:
     openamp_a53_0_cluster: # host in channel from a53-0
         compatible:
             - "openamp,domain-v1"
+        os,type: linux
         cpus:
             - cluster: cpus_a53
               cpumask: 0x1

@@ -1,17 +1,17 @@
-# /dts-v1/
 axi:
-    shm@3ed80000: &shm:
+    shm@3ed80000:
         compatible: "uio"
         reg: [ 0, 0x3ed80000, 0, 0x1000000]
-    ipi0@ff360000:
+    mailbox@ff360000:
+        compatible: "foo" # this will cause node to be deleted
+    ttc0@ff0e0000:
         compatible: "uio"
+        reg: [ 0, 0xff0e0000, 0, 0x1000]
+    ipi@ff360000:
         reg: [ 0, 0xff360000, 0, 0x1000]
         interrupt-parent: gic
         interrupts: [ 0, 33, 4]
-    ttc0@FF0E0000:
         compatible: "uio"
-        reg: [ 0, 0xFF0E0000, 0, 0x1000]
-
 
 definitions:
     OpenAMP:
@@ -30,6 +30,7 @@ domains:
               mode:
                  secure: true
                  el: 0x3
+        os,type: linux
         access:
              - dev: psv_r5_0_atcm_global@ffe00000
                flags: 0
@@ -37,7 +38,7 @@ domains:
                flags: 0
              - dev: /axi/ipi0@ff360000
                flags: 0
-             - dev: /axi/ttc0@FF0E0000
+             - dev: /axi/ttc0@ff0e0000
                flags: 0
              - dev: ps_wizard_0_pmcps_0_psv_rpu_0@ff9a0000
                flags: 0
@@ -45,7 +46,8 @@ domains:
                flags: 0
              - dev: cpus_r5_0
                flags: 0
-             - dev: shm
+             - dev: /axi/shm@3ed80000
+               flags: 0
         reserved-memory:
             ranges: true
             "#size-cells": 2
@@ -70,6 +72,7 @@ domains:
               cpumask: 0x1
               mode:
               secure: true
+        os,type: freertos
         access:
              - dev: psv_r5_0_atcm_global@ffe00000
                flags: 0
