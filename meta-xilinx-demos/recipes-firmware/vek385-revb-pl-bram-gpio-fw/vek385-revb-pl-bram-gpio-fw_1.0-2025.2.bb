@@ -11,8 +11,8 @@ SRC_URI[sha256sum] = "634940d0c1024fa1da2dedaade4a1ae7224e24f4a798aca5490540c169
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:amd-cortexa78-mali-common = "${MACHINE}"
-COMPATIBLE_MACHINE:versal-2ve-2vm-vek385-sdt-seg = "${MACHINE}"
+COMPATIBLE_MACHINE:versal-2ve-2vm-vek385-revb-sdt-seg = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
-FW_DIR = "vek385-revB-pl-bram-gpio-fw"
+FW_DIR = "vek385-revb-pl-bram-gpio-fw"
