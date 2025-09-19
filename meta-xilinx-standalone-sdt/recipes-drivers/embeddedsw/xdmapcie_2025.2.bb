@@ -4,7 +4,7 @@ REQUIRED_MACHINE_FEATURES = "xdmapcie"
 
 inherit esw python3native
 
-DEPENDS += "xilstandalone"
+DEPENDS += "xilstandalone iicps"
 
 ESW_COMPONENT_SRC = "/XilinxProcessorIPLib/drivers/xdmapcie/src/"
 ESW_COMPONENT_NAME = "libxdmapcie.a"
