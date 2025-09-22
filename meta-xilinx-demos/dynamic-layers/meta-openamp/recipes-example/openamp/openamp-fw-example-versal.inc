@@ -29,7 +29,7 @@ OPENAMPFW_OS:versal ?= "freertos"
 OPENAMPFW_OS:versal-2ve-2vm ?= "zephyr"
 OPENAMPFW_DEMOS ?= ""
 OPENAMPFW_DEMOS:versal ?= "rpmsg-echo matrix-multiply rpc-demo"
-OPENAMPFW_DEMOS:versal-2ve-2vm ?= "rpmsg_service"
+OPENAMPFW_DEMOS:versal-2ve-2vm ?= "rpmsg_multi_services"
 
 do_install() {
     if [ -z "${OPENAMPFW_CORE}" ]; then
