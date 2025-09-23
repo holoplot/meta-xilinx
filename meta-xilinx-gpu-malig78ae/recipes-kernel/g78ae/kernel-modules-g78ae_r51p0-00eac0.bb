@@ -17,6 +17,7 @@ SRC_URI = " \
 	file://0002-Making-arbiter-driver-compatible-with-6.12-kernel.patch \
 	file://0003-Making-gpu-driver-compatible-with-6.12-kernel.patch \
         file://0004-Adding-support-for-fetching-GPU-clk-without-dvfs-ena.patch \
+        file://0005-Fix-translation-faults-by-using-dma_alloc_pages-for-.patch \
         file://load-mali-modules.sh \
         file://99-mali-modules.rules \
         "
