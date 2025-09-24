@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit dfx_user_dts
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/edf_files/2025.2/09220403/external/fwapp/zc702-pl-bram-gpio-fw_2025.2_0921_1_09220403.tar.gz"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/edf_files/2025.2/09240229/external/fwapp/zc702-pl-bram-gpio-fw_2025.2_0923_1_09240229.tar.gz"
 
-SRC_URI[sha256sum] = "5d61404b41b1aa07bdacf87eab0a75de96b71084dbd9d2124ced4607187f00fd"
+SRC_URI[sha256sum] = "d079d952afd1d40adde7ddcfa7162f00770d763fe39b7dcead3df1014afd8da0"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:amd-cortexa9thf-neon-common = "${MACHINE}"
