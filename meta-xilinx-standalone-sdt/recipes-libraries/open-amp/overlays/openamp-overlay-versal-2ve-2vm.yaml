@@ -96,8 +96,8 @@ definitions:
       size: '0x2000000'
       no-map: true
   ddrboot: &ddrboot
-    - start: 0x9800000
-      size: 0x60000
+    - start: 0x9800100
+      size: 0x5FF00
       no-map: 1
   rpu0vdev0vring0: &rpu0vdev0vring0
     - start: 0x9860000
@@ -112,8 +112,8 @@ definitions:
       size: 0x40000
       no-map: 1
   rsctbl: &rsctbl
-    - start: 0x97FFF00
-      size: 0x10
+    - start: 0x9800000
+      size: 0x100
       no-map: 1
 
 
