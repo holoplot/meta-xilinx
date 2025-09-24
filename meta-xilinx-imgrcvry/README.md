@@ -23,6 +23,22 @@ DISTRO = "xilinx-image-recovery"
 bitbake image-recovery-tiny-initramfs
 ```
 
+# Alternative Build Instructions
+A machine may also include the provided enable-xilinx-imgrcvry.conf file similar to:
+
+   include conf/enable-xilinx-imgrcvry.conf
+
+Which will automatically configure the multiconfig system to include the appropriate
+configuration for this layer.
+
+The user may then use:
+```
+bitbake imgrcry
+```
+
+This will follow the steps and trigger a multiconfig build, and copy the resulting
+binary into the default multiconfig.
+
 ## Dependencies
 
 This layer depends on:
