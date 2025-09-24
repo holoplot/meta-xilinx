@@ -5,7 +5,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 SRC_URI += " git://github.com/Xilinx/opencv_modules_xlnx.git;protocol=https;branch=main;name=xlnx-modules;destsuffix=git/contrib_xlnx"
 
 # Update this hash when you make changes to the opencv_modules_xlnx repository
-SRCREV_xlnx-modules = "1a4a19f174cb87b09acda2bb3cdb3eacbbe484c1"
+SRCREV_xlnx-modules = "7d48256b371034cdaeed97e3df6128763235a31e"
 
 # This extends the existing OPENCV_EXTRA_MODULES_PATH to include both official contrib and contrib_xlnx modules
 EXTRA_OECMAKE += "-DOPENCV_EXTRA_MODULES_PATH='${S}/contrib/modules;${S}/contrib_xlnx/modules'"
@@ -16,11 +16,14 @@ EXTRA_OECMAKE += "-DOPENCV_EXTRA_MODULES_PATH='${S}/contrib/modules;${S}/contrib
 # VDU support - for machines with 'vdu' feature
 PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vdu', ' vcucodec-vdu', '', d)}"
 PACKAGECONFIG[vcucodec-vdu] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VDU_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vdu-ctrlsw,vdu-ctrlsw"
+DEPENDS += "${@bb.utils.contains('MACHINE_FEATURES', 'vdu', 'vdu-ctrlsw', '', d)}"
 
 # VCU support - for machines with 'vcu' feature
 PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' vcucodec-vcu', '', d)}"
 PACKAGECONFIG[vcucodec-vcu] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VCU_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vcu-ctrlsw,vcu-ctrlsw"
+DEPENDS += "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', 'vcu-ctrlsw', '', d)}"
 
 # VCU2 support - for machines with 'vcu2' feature
 PACKAGECONFIG:append = "${@bb.utils.contains('MACHINE_FEATURES', 'vcu2', ' vcucodec-vcu2', '', d)}"
 PACKAGECONFIG[vcucodec-vcu2] = "-DBUILD_opencv_vcucodec=ON -DHAVE_VCU2_CTRLSW=1 -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF,,vcu2-ctrlsw,vcu2-ctrlsw"
+DEPENDS += "${@bb.utils.contains('MACHINE_FEATURES', 'vcu2', 'vcu2-ctrlsw', '', d)}"
