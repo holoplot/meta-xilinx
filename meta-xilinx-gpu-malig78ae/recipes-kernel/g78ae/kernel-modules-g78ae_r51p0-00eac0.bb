@@ -20,6 +20,7 @@ SRC_URI = " \
         file://0005-Fix-translation-faults-by-using-dma_alloc_pages-for-.patch \
         file://load-mali-modules.sh \
         file://99-mali-modules.rules \
+        file://mali_kbase.conf \
         "
 
 SRC_URI[kernel.sha256sum] = "614818481f2d0335e48f9b2bca0714e43555b0c6e3b02f8f111233ec1ef8cf37"
@@ -56,6 +57,10 @@ do_install() {
         # Install the udev rules file to /etc/udev/rules.d/
         install -d ${D}/etc/udev/rules.d
         install -m 0644 ${WORKDIR}/99-mali-modules.rules ${D}/etc/udev/rules.d
+
+        # Install the mali_kbase conf
+        install -d ${D}/etc/modprobe.d/
+        install -m 0644 ${WORKDIR}/mali_kbase.conf ${D}/etc/modprobe.d/
 }
 
 
@@ -78,6 +83,7 @@ FILES:${PN} = "\
 	${INSTALL_DIR}/kernel-module-memory-group-manager.ko \
         /etc/udev/rules.d/99-mali-modules.rules \
         /usr/bin/load-mali-modules.sh \
+        /etc/modprobe.d/mali_kbase.conf \
 "
 RPROVIDES:${PN} = "\
 	kernel-module-dma-buf-test-exporter \
