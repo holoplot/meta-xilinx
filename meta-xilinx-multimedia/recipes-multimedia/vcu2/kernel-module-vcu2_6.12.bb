@@ -10,9 +10,9 @@ S = "${WORKDIR}/git"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-BRANCH = "xlnx_rel_v2025.1"
+BRANCH = "master"
 REPO = "git://github.com/Xilinx/vcu2-modules.git;protocol=https"
-SRCREV = "6c756c89987df38def21219dd2749a71a1f36e07"
+SRCREV = "6c02718b50c9c4ed6125493b5398847ec1852e8b"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = " \
