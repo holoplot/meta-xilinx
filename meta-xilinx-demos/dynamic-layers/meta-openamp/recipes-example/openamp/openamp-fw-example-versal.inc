@@ -50,8 +50,6 @@ do_install() {
     fi
 
     install -d ${D}${OPENAMPFW_BASEDIR}
-    install -Dm 0644 ${S}/shell.json ${D}${OPENAMPFW_BASEDIR}
-
     for DEMO in ${OPENAMPFW_DEMOS}; do
         FULL_NAME=${OPENAMPFW_BOARD}-${OPENAMPFW_CORE}-${OPENAMPFW_SLOT}-${DEMO}-${OPENAMPFW_OS}
 
