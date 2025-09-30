@@ -23,6 +23,7 @@ BOOTGEN_FLAGS ?= " -arch ${SOC_FAMILY} -w ${@bb.utils.contains('SOC_FAMILY','zyn
 
 S ?= "${WORKDIR}"
 FW_DIR ?= ""
+FW_INSTALL_DIR ?= "${PN}"
 DTSI_PATH ?= ""
 DTBO_PATH ?= ""
 BIT_PATH ?= ""
@@ -246,7 +247,7 @@ python find_user_dts_overlay_file() {
 do_install[prefuncs] += "find_user_dts_overlay_file"
 
 do_install() {
-    install -d ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+    install -d ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
 
     # Install dtbo
     # In case of dtbo as input, dtbo will be copied from directly from ${S}
@@ -255,15 +256,15 @@ do_install() {
     # If no dtbo file is found add warning message as in some use case if IP
     # doesn't have any driver then user can load pdi/bit/bin file.
     if [ `ls ${S}/*.dtbo | wc -l` -eq 1 ]; then
-        install -Dm 0644 ${S}/*.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+        install -Dm 0644 ${S}/*.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
     elif [ `ls ${S}/${DTBO_PATH}/*.dtbo | wc -l` -eq 1 ]; then
-        install -Dm 0644 ${S}/${DTBO_PATH}/*.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+        install -Dm 0644 ${S}/${DTBO_PATH}/*.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
     elif [ `ls ${S}/*.dtbo | wc -l` -gt 1 ]; then
         bbfatal "Multiple DTBO found, use the right DTBO in SRC_URI from the following:\n$(basename -a ${S}/*.dtbo)"
     elif [ `ls ${S}/${DTBO_PATH}/*.dtbo | wc -l` -gt 1 ]; then
         bbfatal "Multiple DTBO found, use the right DTBO in SRC_URI from the following:\n$(basename -a ${S}/${DTBO_PATH}/*.dtbo)"
     elif [ -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-        install -Dm 0644 ${B}/${USER_DTS_FILE}.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/${PN}.dtbo
+        install -Dm 0644 ${B}/${USER_DTS_FILE}.dtbo ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/${PN}.dtbo
     else
         bbnote "A dtbo ending '.dtbo' expected but not found in ${S} or ${B}, This means firmware can be loaded without dtbo dependency."
     fi
@@ -284,15 +285,15 @@ do_install() {
         elif [ `ls ${S}/${BIN_PATH}/*.bin | wc -l` -gt 1 ]; then
             bbfatal "Multiple .bin found, use the right .bin in SRC_URI from the following:\n$(basename -a ${S}/${BIN_PATH}/*.bin)"
         elif [ `ls ${S}/*.bit | wc -l` -eq 1 ] && [ ! -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/*.bit ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/*.bit ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ `ls ${S}/${BIT_PATH}/*.bit | wc -l` -eq 1 ] && [ ! -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/${BIT_PATH}/*.bit ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/${BIT_PATH}/*.bit ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ `ls ${S}/*.bin | wc -l` -eq 1 ]; then
-            install -Dm 0644 ${S}/*.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/*.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ `ls ${S}/${BIN_PATH}/*.bin | wc -l` -eq 1 ]; then
-            install -Dm 0644 ${S}/${BIN_PATH}/*.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/${BIN_PATH}/*.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ -f ${B}/${PN}.bin ] && [ -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${B}/${PN}.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/${PN}.bin
+            install -Dm 0644 ${B}/${PN}.bin ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/${PN}.bin
         else
             bbfatal "A bitstream file with '.bit' or '.bin' expected but not found"
         fi
@@ -307,17 +308,17 @@ do_install() {
     # whether it is static pdi or not, hence change fatal to warn if no PDI is found.
     if [ "${SOC_FAMILY}" != "zynq" ] && [ "${SOC_FAMILY}" != "zynqmp" ]; then
         if [ `ls ${S}/*.pdi | wc -l` -eq 1 ] && [ ! -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ `ls ${S}/${PDI_PATH}/*.pdi | wc -l` -eq 1 ] && [ ! -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/${PDI_PATH}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+            install -Dm 0644 ${S}/${PDI_PATH}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
         elif [ `ls ${S}/*.pdi | wc -l` -gt 1 ]; then
             bbfatal "Multiple PDI found, use the right PDI in SRC_URI from the following:\n$(basename -a ${S}/*.pdi)"
         elif [ `ls ${S}/${PDI_PATH}/*.pdi | wc -l` -gt 1 ]; then
             bbfatal "Multiple PDI found, use the right PDI in SRC_URI from the following:\n$(basename -a ${S}/${PDI_PATH}/*.pdi)"
         elif [ `ls ${S}/*.pdi | wc -l` -eq 1 ] && [ -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/${PN}.pdi
+            install -Dm 0644 ${S}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/${PN}.pdi
         elif [ `ls ${S}/${PDI_PATH}/*.pdi | wc -l` -eq 1 ] && [ -f ${B}/${USER_DTS_FILE}.dtbo ]; then
-            install -Dm 0644 ${S}/${PDI_PATH}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/${PN}.pdi
+            install -Dm 0644 ${S}/${PDI_PATH}/*.pdi ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/${PN}.pdi
         else
             bbwarn "A PDI file with '.pdi' expected but not found"
         fi
@@ -325,15 +326,15 @@ do_install() {
 
     # Install xclbin
     if ls ${S}/${XCL_PATH}/*.xclbin >/dev/null 2>&1; then
-        install -Dm 0644 ${S}/${XCL_PATH}/*.xclbin ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/${PN}.xclbin
+        install -Dm 0644 ${S}/${XCL_PATH}/*.xclbin ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/${PN}.xclbin
     fi
 
     # Install shell.json or accel.json
     if [ -f ${S}/${JSON_PATH}/shell.json ] || [ -f ${S}/${JSON_PATH}/accel.json ]; then
-        install -Dm 0644 ${S}/${JSON_PATH}/*.json ${D}/${nonarch_base_libdir}/firmware/xilinx/${PN}/
+        install -Dm 0644 ${S}/${JSON_PATH}/*.json ${D}/${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}/
     fi
 }
 
 do_deploy[noexec] = "1"
 
-FILES:${PN} += "${nonarch_base_libdir}/firmware/xilinx/${PN}"
+FILES:${PN} += "${nonarch_base_libdir}/firmware/xilinx/${FW_INSTALL_DIR}"
