@@ -16,3 +16,4 @@ COMPATIBLE_MACHINE:versal-2ve-2vm-vek385-sdt-seg = "${MACHINE}"
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
 FW_DIR = "vek385-pl-bram-gpio-fw"
+FW_INSTALL_DIR = "vek385/pl/${FW_DIR}"

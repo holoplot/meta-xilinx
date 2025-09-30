@@ -16,4 +16,4 @@ COMPATIBLE_MACHINE:zynqmp-zcu102-sdt-full = "${MACHINE}"
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
 FW_DIR = "zcu102-pl-bram-gpio-fw"
-
+FW_INSTALL_DIR = "zcu102/pl/${FW_DIR}"

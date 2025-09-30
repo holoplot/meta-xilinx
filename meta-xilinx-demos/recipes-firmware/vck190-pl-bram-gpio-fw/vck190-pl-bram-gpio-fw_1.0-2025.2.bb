@@ -16,3 +16,4 @@ COMPATIBLE_MACHINE:versal-vck190-sdt-seg = "${MACHINE}"
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
 FW_DIR = "vck190-pl-bram-gpio-fw"
+FW_INSTALL_DIR = "vck190/pl/${FW_DIR}"

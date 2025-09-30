@@ -16,3 +16,4 @@ COMPATIBLE_MACHINE:versal-vrk160-sdt-seg = "${MACHINE}"
 # When do_upack is exectuted it will extract tar file with original directory
 # name so set the FW_DIR pointing to pdi and dtsi files.
 FW_DIR = "vrk160-pl-bram-gpio-fw"
+FW_INSTALL_DIR = "vrk160/pl/${FW_DIR}"
