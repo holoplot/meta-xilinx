@@ -1,6 +1,10 @@
-SC_ADDITIONAL_INCLUDE = ""
+LMSENSOR_ADDITIONAL_INCLUDE = ""
 
-# The following change is only for system controller boards
-SC_ADDITIONAL_INCLUDE:eval-brd-sc-zynqmp = "${@'sc-fancontrol.inc' if d.getVar('MACHINE') == 'eval-brd-sc-zynqmp' else ''}"
+# Make the changes only apply to AMD FPGA boards
+LMSENSOR_ADDITIONAL_INCLUDE:eval-brd-sc-zynqmp = "amd-fpga-fancontrol.inc"
+LMSENSOR_ADDITIONAL_INCLUDE:zynqmp         = "amd-fpga-fancontrol.inc"
+LMSENSOR_ADDITIONAL_INCLUDE:versal         = "amd-fpga-fancontrol.inc"
+LMSENSOR_ADDITIONAL_INCLUDE:versal-net     = "amd-fpga-fancontrol.inc"
+LMSENSOR_ADDITIONAL_INCLUDE:versal-2ve-2vm = "amd-fpga-fancontrol.inc"
 
-require ${SC_ADDITIONAL_INCLUDE}
+require ${LMSENSOR_ADDITIONAL_INCLUDE}
