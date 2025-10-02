@@ -38,7 +38,9 @@ do_install() {
         exit 1
     fi
 
+    elf_found=0
     for DEMO in $(ls ${S}/*elf); do
+        elf_found=1
         DEMO=$(basename -s .elf ${DEMO})
         FULL_NAME=${OPENAMPFW_BOARD}-${OPENAMPFW_CORE}-${OPENAMPFW_SLOT}-${DEMO}
         bbnote "DEMO:  ${DEMO}"
@@ -51,6 +53,10 @@ do_install() {
         install -d ${D}${OPENAMPFW_BASEDIR}/${OPENAMPFW_BOARD}/rpu/${FULL_NAME}/${FULL_NAME}_slot${OPENAMPFW_SLOT}
         install -Dm 0644 ${S}/${DEMO}.elf ${D}${OPENAMPFW_BASEDIR}/${OPENAMPFW_BOARD}/rpu/${FULL_NAME}/${FULL_NAME}_slot${OPENAMPFW_SLOT}/${FULL_NAME}.elf
    done
+   if [ ${elf_found} -ne 1 ]; then
+       bberror "no *elf files found to deploy"
+       exit 1
+   fi
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
