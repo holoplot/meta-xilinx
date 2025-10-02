@@ -11,15 +11,21 @@ DEPENDS += " \
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE ?= "^$"
-COMPATIBLE_MACHINE:aarch64 = "aarch64"
+COMPATIBLE_MACHINE:zynqmp = ".*"
+COMPATIBLE_MACHINE:versal = ".*"
+COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
-# Default XEN_TEMPLATE_CONFIG is set to u-boot-xen-scr-dom0-template-cfg file
-# User can change to u-boot-xen-scr-dom0-template-cfg or a custom config.
+# Default XEN_TEMPLATE_CONFIG is set to <soc>-xen-scr-dom0-template-cfg file
+# User can change to <soc>-xen-scr-dom0-template-cfg or a custom config.
 
-XEN_TEMPLATE_CONFIG ?= "u-boot-xen-scr-dom0-template-cfg"
+XEN_TEMPLATE_CONFIG_DEFAULT = ""
+XEN_TEMPLATE_CONFIG_DEFAULT:zynqmp = "zynqmp-xen-scr-dom0-template-cfg"
+XEN_TEMPLATE_CONFIG_DEFAULT:versal = "versal-xen-scr-dom0-template-cfg"
+XEN_TEMPLATE_CONFIG_DEFAULT:versal-2ve-2vm = "versal-2ve-2vm-xen-scr-dom0-template-cfg"
+XEN_TEMPLATE_CONFIG ?= "${XEN_TEMPLATE_CONFIG_DEFAULT}"
 
 SRC_URI = " \
-    file://${XEN_TEMPLATE_CONFIG} \
+    ${@'file://${XEN_TEMPLATE_CONFIG}' if d.getVar('XEN_TEMPLATE_CONFIG') else ''} \
     "
 
 do_configure[noexec] = "1"

@@ -1,4 +1,4 @@
-# Xen image-builder Dom0less boot load configurations without dtb file.
+# ZynqMP Xen image-builder Dom0 boot load configurations without dtb file.
 
 # This config file serves as template based on edf platform disk image layout.
 # User can refer this can create their own config. For more details on variable
@@ -16,19 +16,9 @@ DOM0_KERNEL="Image"
 
 # User configurable bootparams
 DOM0_CMD="console=hvc0 clk_ignore_unused root=/dev/mmcblk0p3 ro rootwait"
-DOM0_MEM="1500"
-DOM0_VCPUS=1
-DOM0_LOAD="ext4load mmc 0:2"
+XEN_CMD="console=dtuart dom0_mem=1500M dom0_max_vcpus=2 bootscrub=0 vwfi=native sched=null"
 
-# Xen Dom0-less load configurations
-NUM_DOMUS=1
-
-DOMU_KERNEL[0]="Image"
-DOMU_RAMDISK[0]="root/core-image-minimal-amd-cortexa72-common.rootfs.cpio.gz"
-DOMU_MEM[0]="800"
-DOMU_VCPUS[0]=1
-DOMU_CMD[0]="console=hvc0 init=/bin/sh root=/dev/ram0"
-DOMU_LOAD[0]="ex4load mmc 0:4"
+NUM_DOMUS=0
 
 # User configurable image load boot medium.
 LOAD_CMD="ext4load mmc 0:2"
