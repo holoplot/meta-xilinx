@@ -11,7 +11,7 @@ tool and boot using QEMU or Hardware.
 2. [u-boot-xen-scr reciep](./recipes-bsp/u-boot/u-boot-xen-scr.bb) provides xen
    dom0 and dom0less template configs. User can use these template configs to
    generate the xen_boot.scr file or create your own config. Default config is
-   u-boot-xen-scr-dom0-template-cfg.
+   <soc>-xen-scr-dom0-template-cfg.
    See [Image Builder README](https://gitlab.com/xen-project/imagebuilder/-/blob/master/README.md?ref_type=heads)
    for variable usage.
 
@@ -19,15 +19,19 @@ tool and boot using QEMU or Hardware.
    template as shown below.
     ```
     $ touch ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/custom-cfg
-    $ cp -r ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/custom-cfg ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/u-boot-xen-scr-dom0-template-cfg
+    $ cp -r ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/custom-cfg ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/<soc>-xen-scr-dom0-template-cfg
+
+    # versal-2ve-2vm example
+    $ cp -r ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/custom-cfg ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr/versal-2ve-2vm-xen-scr-dom0-template-cfg
     ```
-    > **Note:** If you are using xen dom0less boot then copy your ccustom-cfg to
-    > u-boot-xen-scr-dom0less-template-cfg and update XEN_TEMPLATE_CONFIG variable
+    > **Note:** If you are using xen dom0less boot then copy your custom-cfg to
+    > <soc>-xen-scr-dom0less-template-cfg and update XEN_TEMPLATE_CONFIG_DEFAULT variable
     > in ./<path-to-layer>/meta-xilinx/meta-xilinx-virtualization/recipes-bsp/u-boot/u-boot-xen-scr.bb
     > file as shown below.
 
     ```
-    XEN_TEMPLATE_CONFIG ?= "u-boot-xen-scr-dom0less-template-cfg"
+    # versal-2ve-2vm example
+    XEN_TEMPLATE_CONFIG_DEFAULT:versal-2ve-2vm = "versal-2ve-2vm-xen-scr-dom0less-template-cfg"
     ```
 
 4. Now build the target image to deploy the xen_boot.scr to target image.
