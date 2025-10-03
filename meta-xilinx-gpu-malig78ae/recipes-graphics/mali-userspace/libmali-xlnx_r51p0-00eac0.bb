@@ -18,26 +18,31 @@ S = "${WORKDIR}/git"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-DEPENDS += "libdrm wayland opencl-headers"
+DEPENDS += "libdrm wayland opencl-headers opencl-icd-loader"
 
 RDEPENDS:${PN} = " kernel-modules-g78ae"
 
 do_compile[noexec] = "1"
 
-PROVIDES += "virtual/libgles1 virtual/libgles2 virtual/libgles3 virtual/egl virtual/libgbm virtual/opencl-icd"
-RREPLACES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
-RPROVIDES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
-RCONFLICTS:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm virtual-opencl-icd"
+PROVIDES += "virtual/libgles1 virtual/libgles2 virtual/libgles3 virtual/egl virtual/libgbm"
+RREPLACES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm"
+RPROVIDES:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm"
+RCONFLICTS:${PN} = "libegl libglesv1-cm1 libgles2 libgles3 libglesv2-2 libgbm"
 
 do_install() {
     install_include_dir="${D}${includedir}"
     install_lib_dir="${D}${libdir}"
     install_pkgconfig_dir="${D}${libdir}/pkgconfig"
     install_vulkan_dir="${D}/${datadir}/vulkan"
+    install_opencl_dir="${D}/${sysconfdir}/OpenCL/vendors"
 
     # libraries
     install -d ${install_lib_dir}
-    cp -r ${S}/lib/* ${install_lib_dir}/.
+    cp -r ${S}/lib/libEGL.so* ${install_lib_dir}/.
+    cp -r ${S}/lib/libgbm.so* ${install_lib_dir}/.
+    cp -r ${S}/lib/libGLESv1_CM.so* ${install_lib_dir}/.
+    cp -r ${S}/lib/libGLESv2.so* ${install_lib_dir}/.
+    cp -r ${S}/lib/libmali.so* ${install_lib_dir}/.
 
     # headers
     install -d -m 0655 ${install_include_dir}/EGL
@@ -65,6 +70,10 @@ do_install() {
     install -m 0644 ${S}/vulkan/icd.d/mali_icd.json ${install_vulkan_dir}/icd.d/mali_icd.json
     install -d ${install_vulkan_dir}/implicit_layer.d
     install -m 0644 ${S}/vulkan/implicit_layer.d/* ${install_vulkan_dir}/implicit_layer.d/
+
+    # opencl icd
+    install -d ${install_opencl_dir}
+    echo ${libdir}/libmali.so.0 > ${install_opencl_dir}/mali.icd
 }
 
 # Package gets renamed on the debian class, but we want to keep -xlnx
