@@ -5,3 +5,9 @@ FILESEXTRAPATHS:append := "${THISDIR}/lmsensors:"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 SYSTEMD_AUTO_ENABLE = "enable"
+
+# Do not include default (dummy) fancontrol config package.
+# Force the user to provide a board-specific package instead.
+# By default, the fancontrol service will be inactive if no
+# fancontrol config file is found.
+RRECOMMENDS:${PN}-fancontrol = ""
