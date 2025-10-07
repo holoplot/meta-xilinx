@@ -28,6 +28,13 @@ SRC_URI_XEN:class-target = " \
     file://0025-hw-xen-xenpvh-Add-pci-intx-irq-base-property.patch \
     file://0026-hw-arm-xenpvh-Enable-PCI-for-ARM-PVH.patch \
     file://0027-memory-Fix-use-of-uninitialized-variable.patch \
+    file://0028-virtio-Introduce-notify_queue.patch \
+    file://0029-virtio-Add-virtio_queue_get_rings.patch \
+    file://0030-virtio-Add-the-virtio-msg-transport.patch \
+    file://0031-hw-xen-Add-xendevicemodel_virtio_msg_bus_xen_connect.patch \
+    file://0032-virtio-Add-a-virtio-msg-bus-between-backend-and-Xen.patch \
+    file://0033-hw-arm-xenpvh-Enable-virtio-msg.patch \
+    file://0034-hw-x86-xenpvh-Enable-virtio-msg.patch \
     "
 
 FILESEXTRAPATHS:prepend:class-target := "${THISDIR}/qemu-xilinx-8.2:"
