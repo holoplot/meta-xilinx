@@ -6,8 +6,8 @@ COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.2/09192025/isp_fw.tar.gz"
-SRC_URI[sha256sum]="f06b09e35196bbe2613bde1d47ca15991c7332c68fd25d38bf4b6f180fb7b760"
+SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-firmware/2025.2/10062025/isp_fw.tar.gz"
+SRC_URI[sha256sum]="df603a08abf45b2b9e37dbd9c86c8c4a057f16a42ceb6bf972aeb8b4f3c58137"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
