@@ -13,7 +13,7 @@ COMPATIBLE_MACHINE:versal-2ve-2vm = "${MACHINE}"
 do_compile[noexec] = "1"
 
 OPENAMPFW_BASEDIR = "${nonarch_base_libdir}/firmware/xilinx"
-OPENAMPFW_BOARD = "${@d.getVar("BPN").split("-")[0]}"
+OPENAMPFW_BOARD ?= "${@d.getVar("BPN").split("-")[0]}"
 OPENAMPFW_CORE ?= "r5"
 OPENAMPFW_SLOT ?= "0"
 OPENAMPFW_PKGDIR ?= ""
