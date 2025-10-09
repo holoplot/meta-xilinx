@@ -1,5 +1,8 @@
 inherit esw python3native esw_apps_common deploy
 
+PE = "1"
+ESW_VER = "2025.2"
+
 IMGSEL_DEPENDS ?= ""
 IMGSEL_DEPENDS:zynqmp ?= "libxil xiltimer bootgen-native"
 IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs bootgen-native base-pdi"
