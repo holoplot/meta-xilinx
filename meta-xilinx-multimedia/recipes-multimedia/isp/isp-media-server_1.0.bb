@@ -6,7 +6,7 @@ COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://petalinux.xilinx.com/sswreleases/isp-media-server/2025.2/10102025/isp-media-server_10102025.tar.gz"
+SRC_URI = "https://edf.amd.com/sswreleases/isp-media-server/2025.2/10102025/isp-media-server_10102025.tar.gz"
 SRC_URI[sha256sum] = "05afbdec82ec8ede0f9c4425d3cdcc57b80ff7d0ab38628e5cd976b0d7d4886c"
 
 RDEPENDS:${PN} += "kernel-module-isp"
