@@ -1,3 +1,7 @@
+# Somewhere we need to verify the LIC_FILES_CHKSUM
+# normally part of deployment, but there is no deployment
+do_patch[postfuncs] += "populate_lic_qa_checksum"
+
 python do_configure () {
     externalsrc = d.getVar('EXTERNALSRC')
     if externalsrc:
@@ -14,6 +18,10 @@ deltask do_compile
 deltask do_install
 deltask do_populate_sysroot
 deltask do_populate_lic
+
+addtask configure before do_build after do_patch
+addtask patch before do_build after do_unpack
+
 RM_WORK_EXCLUDE += "${PN}"
 
 inherit xlnx-embeddedsw nopackages
