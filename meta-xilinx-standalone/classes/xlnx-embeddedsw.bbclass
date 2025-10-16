@@ -2,7 +2,7 @@
 # Automatically determnine the version from the bb file
 ESW_VER ?= "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or 'master'}"
 
-REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
+REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https;name=embeddedsw"
 
 ESW_BRANCH[git] = "master"
 ESW_BRANCH[2022.1] = "xlnx_rel_v2022.1_update"
@@ -24,7 +24,7 @@ ESW_REV[2024.1] = "b173d246826f662b9a98215d8f39e93d39d699b4"
 ESW_REV[2024.2] = "6e4d0b89d2958994ab9b3531eb4c6e648a63f201"
 ESW_REV[2025.1] = "cc89abdc1c394c19f0b72d5b498c0b5ed7403442"
 ESW_REV[2025.2] = "9a1c70475111656d7b8d5823705066ba12b8c92d"
-SRCREV ??= "${@d.getVarFlag('ESW_REV', d.getVar('ESW_VER')) or 'INVALID'}"
+SRCREV_embeddedsw ??= "${@d.getVarFlag('ESW_REV', d.getVar('ESW_VER')) or 'INVALID'}"
 
 EMBEDDEDSW_BRANCHARG ?= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 EMBEDDEDSW_SRCURI ?= "${REPO};${EMBEDDEDSW_BRANCHARG}"
