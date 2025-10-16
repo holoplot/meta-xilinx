@@ -1,6 +1,8 @@
 # all recipes using this *inc need to define the following variables
 # the following variables have the specified defaults
-# (some of which can be overridden)
+# (which can be overridden)
+#    OPENAMPFW_BOARD: the board name for these demos
+#        default: first string of parent recipe up to first "-"
 #    OPENAMPFW_CORE: the core on which the demo is to run
 #        default: "r5"
 #    OPENAMPFW_SLOT: the core slot on which the demo is to run
@@ -9,6 +11,7 @@
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:versal = "${MACHINE}"
 COMPATIBLE_MACHINE:versal-2ve-2vm = "${MACHINE}"
+COMPATIBLE_MACHINE:kria = "${MACHINE}"
 
 do_compile[noexec] = "1"
 
@@ -19,10 +22,12 @@ OPENAMPFW_SLOT ?= "0"
 OPENAMPFW_PKGDIR ?= ""
 OPENAMPFW_PKGDIR:versal ?= "versal-${OPENAMPFW_BOARD}-sdt-seg_packagegroup-openamp-fw-examples"
 OPENAMPFW_PKGDIR:versal-2ve-2vm ?= "versal-2ve-2vm-${OPENAMPFW_BOARD}-sdt-seg_openamp-zephyr-demo"
+OPENAMPFW_PKGDIR:kria ?= "${OPENAMPFW_BOARD}-smk-sdt_packagegroup-openamp-fw-examples"
 
 S = "${WORKDIR}/files"
 S:versal = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
 S:versal-2ve-2vm = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
+S:kria = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
 
 do_install() {
     if [ -z "${OPENAMPFW_CORE}" ]; then

@@ -6,4 +6,4 @@ SRC_URI = "https://petalinux.xilinx.com/sswreleases/rel-v2025.2/edf_files/2025.2
 SRC_URI[sha256sum] = "d5dc4fc270477b254348acc848a7525745368bcc7b7b97810a58bac8cbd06b5a"
 
 OPENAMPFW_BOARD = "vek385-revb"
-require openamp-fw-example-versal.inc
+require conf/includes/openamp-fw-example.inc
