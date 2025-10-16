@@ -3,7 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI = "\
-    https://petalinux.xilinx.com/sswreleases/rel-v2025.2/misc/2025.2/zephyr-synchronization-xenvmgicv3_2025.2_1007_1_10081140.tar.gz;name=tarball \
+    https://edf.amd.com/sswreleases/rel-v2025.2/misc/2025.2/zephyr-synchronization-xenvmgicv3_2025.2_1007_1_10081140.tar.gz;name=tarball \
     file://zephyr-synchronization-xenvmgicv3.cfg \
     "
 SRC_URI[tarball.sha256sum] = "c9ba448b0f03846cb49e1039bb2085502e314853bffcb21c2e24edc3e25af042"
