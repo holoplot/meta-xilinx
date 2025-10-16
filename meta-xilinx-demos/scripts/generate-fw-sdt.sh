@@ -77,7 +77,7 @@ for mach in ${!MACHINES[@]}; do
   echo
 
   url=${URLS[${mach}]}
-  url=$(echo $url | sed 's,https://petalinux.xilinx.com/sswreleases/.*/sdt,https://artifactory.xilinx.com/artifactory/petalinux-hwproj-dev/sdt,')
+  url=$(echo $url | sed 's,https://edf.amd.com/sswreleases/.*/sdt,https://artifactory.xilinx.com/artifactory/petalinux-hwproj-dev/sdt,')
 
   wget $url -O ${conf_path}/output.sdt
   sha=$(sha256sum ${conf_path}/output.sdt | cut -d ' ' -f 1)
