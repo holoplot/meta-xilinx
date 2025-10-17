@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=eb723b61539feef013de476e68b5c50a"
 
 inherit module
 
-SRC_BRANCH = "master"
+SRC_BRANCH = "xlnx_rel_v2025.2"
 INHIBIT_PACKAGE_STRIP = "1"
 
 SRC_URI = "git://github.com/Xilinx/hdmi21-modules.git;protocol=https;branch=${SRC_BRANCH}"

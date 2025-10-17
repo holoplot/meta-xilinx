@@ -10,7 +10,7 @@ COMPATIBLE_HOST:arm = "null"
 # x86_64 is needed to build nativesdks
 QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 riscv64 x86_64"
 
-BRANCH = "master"
+BRANCH = "xlnx_rel_v2025.2"
 SRCREV = "8f9951a4290fc4ff207e57245e7ddd23b4fb697d"
 
 # qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2019-12067

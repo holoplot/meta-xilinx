@@ -10,7 +10,7 @@ PE = "1"
 
 PV .= "+git"
 
-BRANCH ?= "master"
+BRANCH ?= "xlnx_rel_v2025.2"
 REPO   ?= "git://github.com/Xilinx/vcu-ctrl-sw.git;protocol=https"
 SRCREV = "5e72948e842537ca9c0aef1bf1981059e122d332"
 
