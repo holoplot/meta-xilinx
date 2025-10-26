@@ -41,4 +41,5 @@ RDEPENDS:${PN}:append = " \
 	packagegroup-openamp-echo-test \
 	packagegroup-openamp-matrix-mul \
 	packagegroup-openamp-rpc-demo \
+	rpmsg-utils \
 	"
