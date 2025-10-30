@@ -8,8 +8,9 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSES/MIT;md5=2ac09a7a37dd6ee0ba23c
 
 BRANCH = "master"
 SRC_URI = "git://github.com/Xilinx/linux-image_update.git;branch=${BRANCH};protocol=https"
-SRCREV = "aa56986dc060e86b0cb0b3334ff902242e855809"
+SRCREV = "9e21a6b18c022aaa6414593e749a30b5778a7bce"
 
+inherit autotools-brokensep
 RDEPENDS:${PN} += "freeipmi"
 
 S = "${WORKDIR}/git"
@@ -24,7 +25,3 @@ PACKAGE_ARCH:zynqmp = "${MACHINE_ARCH}"
 # Force the make system to use the flags we want!
 EXTRA_OEMAKE = 'CC="${CC} ${TARGET_CFLAGS} ${TARGET_LDFLAGS}" all'
 
-do_install () {
-    install -d ${D}${bindir}
-    install -m 0755 ${S}/image_update ${D}${bindir}/
-}
