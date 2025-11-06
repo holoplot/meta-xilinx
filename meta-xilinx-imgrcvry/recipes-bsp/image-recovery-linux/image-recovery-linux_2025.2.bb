@@ -9,7 +9,7 @@ BRANCH ??= "xlnx_rel_v2025.2"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 SRC_URI = "${REPO};${BRANCHARG}"
-SRCREV ??= "a95578267360c3e2ee8f4ec22cc8b1c26dc6e2c1"
+SRCREV ??= "a38f20e793e69af4b767f630532b6650a33453de"
 
 S = "${WORKDIR}/git"
 
