@@ -2,5 +2,5 @@
 require qemu-devicetrees.inc
 
 BRANCH ?= "xlnx_rel_v2025.2"
-SRCREV ?= "f9d46405bd9212f2e73a801fd0d77a78e252d6d2"
+SRCREV ?= "075383c583d3c4ed7ed19b8dc45cd12e391eca1b"
 
