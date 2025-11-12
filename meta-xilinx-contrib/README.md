@@ -19,7 +19,7 @@ The following boards are supported by the meta-xilinx-contrib layer:
 
 This layer depends on:
 
-	URI: https:///git.yoctoproject.org/poky
+	URI: https://git.yoctoproject.org/poky
 	layers: meta, meta-poky
 	branch: scarthgap
 
