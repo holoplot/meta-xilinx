@@ -1,6 +1,6 @@
 # meta-amd-zephyr
 
-This layer enables AMD Apdative SoC's Zephyr configurations and features for
+This layer enables AMD Adaptive SoC's Zephyr configurations and features for
 Microblaze-V and Versal devices and also provides related metadata such as system
 device tree(SDT) build metadata such as machine configurations files, multiconfig
 files, system device tree files, kernel configuration fragments, amd zephyr
