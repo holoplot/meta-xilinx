@@ -576,7 +576,7 @@ yocto-vck190-versal:/#
 
 ### Testing PL functionality 
 
-* This examples uses PL GPIO DIP switches and Push buttons to capture interrupts.
+* This example uses PL GPIO DIP switches and Push buttons to capture interrupts.
 * Verify PL GPIO DIP switches and Push buttons are registered.
 * Move the DIP Switches ON/OFF and verify the interrupt counts.
 ```
