@@ -1,4 +1,4 @@
-DESCRIPTION = "Required packges for running jupyter notebook with python3 "
+DESCRIPTION = "Required packages for running jupyter notebook with python3"
 
 inherit packagegroup
 
