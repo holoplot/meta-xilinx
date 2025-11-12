@@ -3,7 +3,7 @@
 This layer contains multimedia related recipes and bbappends for AMD Adaptive
 SoC's and specific FPGA targets.
 
-Inclusion of this layer does not necessarily introduced teh additional
+Inclusion of this layer does not necessarily introduce the additional
 hardware support.  See the bbappends for specific rules on enabling VCU, VDU,
 VCU2 and ISP specific software, usually through MACHINE_FEATURES.
 
