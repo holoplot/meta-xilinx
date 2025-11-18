@@ -12,6 +12,7 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:versal = "${MACHINE}"
 COMPATIBLE_MACHINE:versal-2ve-2vm = "${MACHINE}"
 COMPATIBLE_MACHINE:kria = "${MACHINE}"
+COMPATIBLE_MACHINE:zynqmp = "${MACHINE}"
 
 do_compile[noexec] = "1"
 
@@ -23,11 +24,13 @@ OPENAMPFW_PKGDIR ?= ""
 OPENAMPFW_PKGDIR:versal ?= "versal-${OPENAMPFW_BOARD}-sdt-seg_packagegroup-openamp-fw-examples"
 OPENAMPFW_PKGDIR:versal-2ve-2vm ?= "versal-2ve-2vm-${OPENAMPFW_BOARD}-sdt-seg_openamp-zephyr-demo"
 OPENAMPFW_PKGDIR:kria ?= "${OPENAMPFW_BOARD}-smk-sdt_packagegroup-openamp-fw-examples"
+OPENAMPFW_PKGDIR:zynqmp ?= "${OPENAMPFW_BOARD}-smk-sdt_packagegroup-openamp-fw-examples"
 
 S = "${WORKDIR}/files"
 S:versal = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
 S:versal-2ve-2vm = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
 S:kria = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
+S:zynqmp = "${WORKDIR}/${OPENAMPFW_PKGDIR}"
 
 do_install() {
     if [ -z "${OPENAMPFW_CORE}" ]; then
