@@ -11,6 +11,7 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '
 SRC_URI = "${REPO};${BRANCHARG}"
 SRCREV ??= "49ac073a61da83278f793948ffa44dd5cb7471ec"
 
+inherit autotools-brokensep
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE ?= "^$"
@@ -21,10 +22,3 @@ COMPATIBLE_MACHINE:zynqmp = ".*"
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
-do_install() {
-	# install image-recovery-linux files
-	install -d ${D}${localstatedir}
-	install -d ${D}${localstatedir}/imgrcry_web/
-	cp -rf ${S}/* ${D}${localstatedir}/imgrcry_web/
-	chmod -R 775 ${D}${localstatedir}/imgrcry_web/cgi-bin
-}
