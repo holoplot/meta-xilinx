@@ -11,4 +11,4 @@ PACKAGE_INSTALL = "imgrcvry-initramfs-live-boot-tiny packagegroup-core-boot drop
 		${VIRTUAL-RUNTIME_base-utils} ${VIRTUAL-RUNTIME_dev_manager} base-passwd \
 		image-recovery-linux-dev mtd-utils i2c-tools libubootenv-bin ufs-utils bmap-writer bash \
 		"
-
+PACKAGE_INSTALL += " fwenv-initramfs "
