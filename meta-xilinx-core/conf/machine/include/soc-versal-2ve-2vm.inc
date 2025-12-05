@@ -7,7 +7,7 @@ require conf/machine/include/soc-family.inc
 require conf/machine/include/soc-tune-include.inc
 
 # Linux Configuration
-KERNEL_IMAGETYPE ?= "Image"
+ARCH_DEFAULT_KERNELIMAGETYPE:versal-2ve-2vm = "Image"
 
 UBOOT_ELF ?= "u-boot.elf"
 

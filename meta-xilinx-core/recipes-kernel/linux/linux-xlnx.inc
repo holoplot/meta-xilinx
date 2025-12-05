@@ -34,6 +34,11 @@ SRCREV_machine ?= "${SRCREV}"
 SRCREV_meta ?= "eeb5d0c9dd5e2928835c633644426ee357fbce12"
 SRCREV_FORMAT = "machine"
 
+# The following inherits kernel.bbclass which overrides the system ??= value
+# for KERNEL_IMAGETYPE.  Expand things here as KERNEL_IMAGETYPE is now
+# fixed.
+KERNEL_IMAGETYPE := "${KERNEL_IMAGETYPE}"
+
 require recipes-kernel/linux/linux-yocto.inc
 
 LINUX_MB_INC = ""

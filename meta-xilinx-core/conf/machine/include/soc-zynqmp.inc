@@ -11,7 +11,7 @@ require conf/machine/include/soc-family.inc
 require soc-tune-include.inc
 
 # Linux Configuration
-KERNEL_IMAGETYPE ?= "Image"
+ARCH_DEFAULT_KERNELIMAGETYPE:zynqmp = "Image"
 
 # Support multilib on zynqmp
 DEFAULTTUNE:virtclass-multilib-lib32 ?= "armv7vethf-neon-vfpv4"

@@ -5,7 +5,7 @@ require conf/machine/include/soc-family.inc
 require soc-tune-include.inc
 
 # Linux Configuration
-KERNEL_IMAGETYPE ?= "Image"
+ARCH_DEFAULT_KERNELIMAGETYPE:versal-net = "Image"
 
 UBOOT_ELF ?= "u-boot.elf"
 
