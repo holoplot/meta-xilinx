@@ -16,6 +16,11 @@ SRC_URI:append:versal-2ve-2vm = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://linux-optee.cfg', '', d)}\
     "
 
+# MicroBlaze-V (MicroBlaze RISC-V) include file.
+LINUX_MBV_INC = ""
+LINUX_MBV_INC:microblaze-v = "linux-mbv.inc"
+require ${LINUX_MBV_INC}
+
 SRC_URI_RISCV = "\
     file://risc-v-isa-clear.cfg \
     ${@bb.utils.contains(    "TUNE_FEATURES", "rv 32 i m a", "file://risc-v-isa-rv32i.cfg", "", d)} \
