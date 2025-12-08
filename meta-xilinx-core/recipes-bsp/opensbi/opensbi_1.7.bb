@@ -13,6 +13,8 @@ SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
 
 S = "${WORKDIR}/git"
 
+COMPATIBLE_HOST = "(riscv64|riscv32).*"
+
 TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
@@ -48,8 +50,9 @@ do_deploy () {
 
 addtask deploy before do_build after do_install
 
-FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
-FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
-FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_dynamic.*"
-
-COMPATIBLE_HOST = "(riscv64|riscv32).*"
+SYSROOT_DIRS += "/share"
+FILES:${PN} += "\
+	/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump.* \
+	/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.* \
+	/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_dynamic.* \
+	"
