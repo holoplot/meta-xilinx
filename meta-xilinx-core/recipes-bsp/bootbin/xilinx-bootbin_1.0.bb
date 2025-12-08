@@ -24,9 +24,31 @@ PROVIDES = "virtual/boot-bin"
 
 DEPENDS += "bootgen-native"
 
-# There is no bitstream recipe, so really depend on virtual/bitstream
-# We need to refer to virtual/arm-trusted-firmware and not arm-trusted-firmware as there may be multiple providers
-DEPENDS += "${@(d.getVar('BIF_PARTITION_ATTR') or "").replace('bitstream', 'virtual/bitstream').replace('arm-trusted-firmware', 'virtual/arm-trusted-firmware')}"
+# Need to convert from BIF_PARTITION_ATTR to DEPENDS format
+def bif_partition_attr_to_depends(d):
+    depends = (d.getVar('BIF_PARTITION_ATTR') or "").split()
+
+    # Covert bitream to virtual/bitstream
+    try:
+        depends[depends.index("bitstream")] = "virtual/bitstream"
+    except ValueError:
+        pass
+
+    # Covert arm-trusted-firmware to virtual/arm-trusted-firmware
+    try:
+        depends[depends.index("arm-trusted-firmware")] = "virtual/arm-trusted-firmware"
+    except ValueError:
+        pass
+
+    # Covert u-boot-xlnx to virtual/bootloader
+    try:
+        depends[depends.index("u-boot-xlnx")] = "virtual/bootloader"
+    except ValueError:
+        pass
+
+    return ' '.join(depends)
+
+DEPENDS += "${@bif_partition_attr_to_depends(d)}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
