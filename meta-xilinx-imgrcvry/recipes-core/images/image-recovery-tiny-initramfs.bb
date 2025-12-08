@@ -3,6 +3,12 @@ LICENSE = "MIT"
 
 require recipes-core/images/core-image-tiny-initramfs.bb
 
+# Do not include boot files in the image
+IMAGE_BOOT_FILES = ""
+
+# Make sure the corresponding kernel is also built and deployed
+EXTRA_IMAGEDEPENDS += "${KERNEL_DEPLOY_DEPEND}"
+
 IMAGE_CLASSES += "image-types-imgrcvry"
 
 INITRAMFS_FSTYPES += "cpio.gz.u-boot imagercvry"
