@@ -14,3 +14,6 @@ RPROVIDES:${PN}-dev += "libmetal-dev"
 RPROVIDES:${PN}-lic += "libmetal-lic"
 RPROVIDES:${PN}-src += "libmetal-src"
 RPROVIDES:${PN}-staticdev += "libmetal-staticdev"
+
+# Zynq is no longer supported
+COMPATIBLE_MACHINE:zynq = "$^"
