@@ -65,3 +65,8 @@ python do_compare_config_files() {
 }
 
 do_kernel_configme[prefuncs] += "do_compare_config_files"
+
+# Config required for systemd boot.
+KERNEL_FEATURES:append = " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', ' features/microblaze-v-systemd/microblaze-v-systemd.scc', '', d)} \
+    "
