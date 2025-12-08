@@ -25,12 +25,15 @@ BIF_PARTITION_ID[u-boot-xlnx-imgrcvry] ?= "${@d.getVarFlag('BIF_PARTITION_ID', '
 
 # specify BIF partition attributes for linux-xlnx-imgrcvry
 BIF_PARTITION_ATTR[linux-xlnx-imgrcvry] ?= "type=raw, load=${IMGRCVRY_KERNEL_ADDR}"
-BIF_PARTITION_IMAGE[linux-xlnx-imgrcvry] ?= "${DEPLOY_DIR_IMAGE}/Image.gz"
+BIF_PARTITION_IMAGE[linux-xlnx-imgrcvry] ?= "${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
 BIF_PARTITION_ID[linux-xlnx-imgrcvry] ?= "0x1c000000"
 
 # specify BIF partition attributes for tiny-rootfs
+# Allow the type to be overwritten easily
+IMAGE_TYPEDEP:imagercvry ?= "cpio.gz.u-boot"
+
 BIF_PARTITION_ATTR[rootfs] ?= "type=raw, load=${IMGRCVRY_ROOTFS_ADDR}"
-BIF_PARTITION_IMAGE[rootfs] ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.cpio.gz.u-boot"
+BIF_PARTITION_IMAGE[rootfs] ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${IMAGE_TYPEDEP:imagercvry}"
 BIF_PARTITION_ID[rootfs] ?= "0x1c000000"
 
 BOOTGEN_ARCH_DEFAULT = ""
@@ -156,5 +159,3 @@ do_imgrcvry_bif[vardeps] += "IMGRCVRY_OPTIONAL_DATA IMGRCVRY_ATTR IMGRCVRY_BIFFI
 IMGRCVRY_ATTR_DEP = "${@(d.getVar('IMGRCVRY_ATTR') or "").replace('arm-trusted-firmware', 'virtual/arm-trusted-firmware').replace('bitstream', 'virtual/bitstream')}"
 do_imgrcvry_bif[depends] += "${@' '.join('%s:do_populate_sysroot' % r for r in d.getVar('IMGRCVRY_ATTR_DEP').split())}"
 do_imgrcvry_bif[depends] += "bootgen-native:do_populate_sysroot virtual/kernel:do_deploy"
-
-IMAGE_TYPEDEP:imagercvry = "cpio.gz.u-boot"
