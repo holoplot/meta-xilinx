@@ -29,7 +29,8 @@ def uboot_boot_cmd(d):
         return "bootm"
     if (d.getVar("KERNEL_IMAGETYPE") or '') in ["zImage"]:
         return "bootz"
-    if (d.getVar("KERNEL_IMAGETYPE") or '') in ["Image"]:
+    # Match kernels like Image.gz, Image.lzma, etc.
+    if (d.getVar("KERNEL_IMAGETYPE") or '').startswith("Image"):
         return "booti"
     raise bb.parse.SkipRecipe("Unsupport kernel image type")
 
