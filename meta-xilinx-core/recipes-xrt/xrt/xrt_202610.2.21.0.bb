@@ -35,6 +35,7 @@ EXTRA_OECMAKE += " \
 		-DCMAKE_EXPORT_COMPILE_COMANDS=ON \
 		-DXRT_LIBDFX=true \
                 -DXRT_EDGE=1 \
+                -DXRT_YOCTO=1 \
 		"
 
 EXTRA_OECMAKE .= "${@bb.utils.contains('PACKAGECONFIG', 'aie', ' -DXRT_AIE_BUILD=true', '', d)}"
