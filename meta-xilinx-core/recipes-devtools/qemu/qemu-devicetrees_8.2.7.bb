@@ -1,3 +1,4 @@
+PE = "1"
 
 require qemu-devicetrees.inc
 
