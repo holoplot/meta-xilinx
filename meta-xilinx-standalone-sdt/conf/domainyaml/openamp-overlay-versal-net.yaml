@@ -1,172 +1,119 @@
-definitions:
-    OpenAMP:
-         openamp_channel0_access_srams: &openamp_channel0_access_srams # used for access in each domain
-             - dev: psx_wizard_0_psxl_0_psx_r52_0a_atcm_global
-               flags: 0
-             - dev: psx_wizard_0_psxl_0_psx_r52_0a_btcm_global
-               flags: 0
-             - dev: psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global
-               flags: 0
+reserved-memory:
+  ranges: true
+  "#size-cells": 2
+  "#address-cells": 2
 
-         openamp_channel1_access_srams: &openamp_channel1_access_srams # used for access in each domain
-             - dev: psx_wizard_0_psxl_0_psx_r52_1a_atcm_global
-               flags: 0
-             - dev: psx_wizard_0_psxl_0_psx_r52_1a_btcm_global
-               flags: 0
-             - dev: psx_wizard_0_psxl_0_psx_r52_1a_ctcm_global
-               flags: 0
-
-         rproc0: &rproc0
-             - start: 0x9800000
-               size: 0x60000
-               no-map: 1
-
-         rpu0vdev0vring0: &rpu0vdev0vring0
-             - start: 0x9860000
-               size: 0x2000
-               no-map: 1
-
-         rpu0vdev0vring1: &rpu0vdev0vring1
-             - start: 0x9864000
-               size: 0x4000
-               no-map: 1
-
-         rpu0vdev0buffer: &rpu0vdev0buffer
-             - start: 0x9868000
-               size: 0x40000
-               no-map: 1
-
-         rproc1: &rproc1
-             - start: 0x9e00000
-               size: 0x60000
-               no-map: 1
-
-         rpu1vdev0vring0: &rpu1vdev0vring0
-             - start: 0x9e60000
-               size: 0x2000
-               no-map: 1
-
-         rpu1vdev0vring1: &rpu1vdev0vring1
-             - start: 0x9e64000
-               size: 0x4000
-               no-map: 1
-
-         rpu1vdev0buffer: &rpu1vdev0buffer
-             - start: 0x9e68000
-               size: 0x40000
-               no-map: 1
+  ddrboot@9800100:
+    no-map: 1
+    start: 0x9800100
+    size: 0x5FF00
+    device_type: "memory"
+  vdev0vring0@9860000:
+    start: 0x9860000
+    size: 0x4000
+    no-map: 1
+  vdev0vring1@9864000:
+    start: 0x9864000
+    size: 0x4000
+    no-map: 1
+  vdev0buffer@9868000:
+    size: 0x40000
+    start: 0x9868000
+    no-map: 1
+  rsctbl@9800000:
+    start: 0x9800000
+    size: 0x100
+    no-map: 1
+  ipc@9860000:
+    start: 0x9860000
+    size: 0x48000
+    compatible: "mmio-sram"
 
 domains:
-    openamp_a78_0_cluster: # host in channel from a78-0
-        compatible:
-            - "openamp,domain-v1"
-        cpus:
-            - cluster: cpus_a78
-              cpumask: 0x1
-              mode:
-                 secure: true
-                 el: 0x3
-        access:
-            - dev:
-                - ipi3
-                - ipi3  # used for Open AMP RPMsg IPC
-              flags:
-                - 0
-                - 0
-            - <<+: *openamp_channel0_access_srams
-            - <<+: *openamp_channel1_access_srams
+  APU_Linux:
+    compatible: openamp,domain-v1
+    cpus:
+      - cluster: cpus_a78
+        cpumask: 0xff
+        mode:
+          secure: false
+          el: 0x3
+    os,type: linux
 
-        reserved-memory:
-            ranges: true
-            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0, *rpu1vdev0vring1, *rpu1vdev0vring0, *rpu1vdev0buffer, *rproc1 ]
+    memory:
+      - dev: linux_ddrmc0
+        start: '0x0'
+        size: '0x80000000'
+      - dev: linux_ddrmc1
+        start: '0x800000000'
+        size: '0x80000000'
+      - dev: linux_ddrmc2
+        start: '0x50000000000'
+        size: '0x100000000'
+      - dev: linux_ddrmc3
+        start: '0x60000000000'
+        size: '0x80000000'
 
-        domain-to-domain:
-            compatible: openamp,domain-to-domain-v1
-            remoteproc-relation:
-                compatible: openamp,remoteproc-v2
-                remote:
-                    - openamp_r52_0_cluster
-                    - openamp_r52_1_cluster
-                elfload:
-                    - [ psx_wizard_0_psxl_0_psx_r52_0a_atcm_global, psx_wizard_0_psxl_0_psx_r52_0a_btcm_global, psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global, rproc0 ]
-                    - [ psx_wizard_0_psxl_0_psx_r52_1a_atcm_global, psx_wizard_0_psxl_0_psx_r52_1a_btcm_global, psx_wizard_0_psxl_0_psx_r52_1a_ctcm_global, rproc1 ]
+    reserved-memory:
+      - vdev0vring0@9860000
+      - vdev0vring1@9864000
+      - vdev0buffer@9868000
+      - ddrboot@9800100
+      - rsctbl@9800000
 
-            rpmsg-relation:
-                compatible: openamp,rpmsg-v1
-                openamp-xlnx-native: [ false, false ] # use native OpenAMP implementation
-                remote:
-                    - openamp_r52_0_cluster
-                    - openamp_r52_1_cluster
-                carveouts:
-                     - rpu0vdev0vring0
-                     - rpu0vdev0vring1
-                     - rpu0vdev0buffer
-                     - rpu1vdev0vring0
-                     - rpu1vdev0vring1
-                     - rpu1vdev0buffer
-                mbox:
-                    - ipi3
-                    - ipi3
+    domain-to-domain:
+      compatible: openamp,domain-to-domain-v1
+      remoteproc-relation:
+        compatible: openamp,remoteproc-v2
+        relation0:
+            remote: RPU_Zephyr
+            elfload: [ psx_wizard_0_psxl_0_psx_r52_0a_atcm_global, psx_wizard_0_psxl_0_psx_r52_0a_btcm_global, psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global, ddrboot@9800100, rsctbl@9800000 ]
 
-    openamp_r52_1_cluster:
-        compatible:
-            - "openamp,domain-v1"
-        cpus:
-            - cluster: cpus_r52_1
-              cpumask: 0x2
-              mode: 0x1
-              secure: true
-        access:
-            - dev:
-                - ipi2 # used for Open AMP RPMsg IPC
-              flags:
-                  - 0
-            - <<+: *openamp_channel1_access_srams # TCM banks used for firmware memory
-        reserved-memory:
-            ranges: true
-            <<+: [ *rpu1vdev0vring1, *rpu1vdev0vring0, *rpu1vdev0buffer, *rproc1 ]
+      rpmsg-relation:
+        compatible: openamp,rpmsg-v1
+        relation0:
+            remote: RPU_Zephyr
+            carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
+            mbox: ipi_nobuf3_to_ipi_nobuf1
 
-        domain-to-domain:
-             compatible: openamp,domain-to-domain-v1
-             rpmsg-relation:
-                 compatible: openamp,rpmsg-v1
-                 host:
-                     - openamp_a78_0_cluster
-                 mbox:
-                     - ipi2
-                 carveouts:
-                     - rpu1vdev0vring0
-                     - rpu1vdev0vring1
-                     - rpu1vdev0buffer
-
-    openamp_r52_0_cluster:
-        compatible:
-            - "openamp,domain-v1"
-        cpus:
-            - cluster: cpus_r52_0
-              cpumask: 0x1
-              mode:
-              secure: true
-        access:
-            - dev:
-                - ipi1 # used for Open AMP RPMsg IPC
-              flags: 0
-            - <<+: *openamp_channel0_access_srams # TCM banks used for firmware memory
-        reserved-memory:
-            ranges: true
-            <<+: [ *rpu0vdev0vring1, *rpu0vdev0vring0, *rpu0vdev0buffer, *rproc0 ]
-
-        domain-to-domain:
-             compatible: openamp,domain-to-domain-v1
-             rpmsg-relation:
-                 compatible: openamp,rpmsg-v1
-                 host:
-                     - openamp_a78_0_cluster
-                 mbox:
-                     - ipi1
-                 carveouts:
-                     - rpu0vdev0vring0
-                     - rpu0vdev0vring1
-                     - rpu0vdev0buffer
-
-
+  RPU_Zephyr:
+    compatible: openamp,domain-v1
+    cpus: 
+      - cluster: cpus_r52_0
+        cluster_cpu: cortexr52_0
+        cpumask: 0x1
+        mode:
+          secure: true
+          el: 0x3  
+    os,type: zephyr
+    xlnx,ddr-boot: true
+    domain-to-domain:
+      compatible: openamp,domain-to-domain-v1
+      rpmsg-relation:
+        compatible: openamp,rpmsg-v1
+        relation0:
+            host: APU_Linux
+            mbox: ipi_nobuf1_to_ipi_nobuf3
+            carveouts: [ ipc@9860000 ]
+    sram:
+      - dev: ddrboot@9800100
+        start: 0x9800100
+        size: 0x5FF00
+      - dev: psx_wizard_0_psxl_0_psx_r52_0a_atcm_global@eba00000
+        label: psx_wizard_0_psxl_0_psx_r52_0a_atcm_global
+        size: 64K
+        spec_name: psx_wizard_0_psxl_0_psx_r52_0a_atcm_global
+        start: '0xeba00000'
+      - dev: psx_wizard_0_psxl_0_psx_r52_0a_btcm_global@eba10000
+        label: psx_wizard_0_psxl_0_psx_r52_0a_btcm_global
+        size: 32K
+        spec_name: psx_wizard_0_psxl_0_psx_r52_0a_btcm_global
+        start: '0xeba10000'
+      - dev: psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global@eba20000
+        label: psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global
+        size: 32K
+        spec_name: psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global
+        start: '0xeba20000'
+    reserved-memory:
+        - ipc@9860000
+        - ddrboot@9800100

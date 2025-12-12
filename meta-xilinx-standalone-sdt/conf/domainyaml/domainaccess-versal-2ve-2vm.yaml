@@ -1,0 +1,129 @@
+domains:
+  APU_Linux:
+    compatible: openamp,domain-v1
+    cpus:
+      - cluster: cpus_a78
+        cpumask: 0xff
+        mode:
+          secure: false
+          el: 0x3
+    os,type: linux
+    access:
+      - dev: amba_pl
+        label: amba_pl
+      - dev: i2c0
+      - dev: memory@00000000
+      - dev: memory@50000000000
+      - dev: memory@60000000000
+      - dev: physical-memory-group-manager
+      - dev: gpu@ed000000
+      - dev: mmi_dptx@ede00000
+      - dev: dma-controller@edd10000
+      - dev: mmi_dc@edd00000
+      - dev: dma-controller@ebd00000
+      - dev: dma-controller@ebd10000
+      - dev: dma-controller@ebd20000
+      - dev: dma-controller@ebd30000
+      - dev: dma-controller@ebd40000
+      - dev: dma-controller@ebd50000
+      - dev: dma-controller@ebd60000
+      - dev: dma-controller@ebd70000
+      - dev: can@f19e0000
+      - dev: can@f19f0000
+      - dev: can@f1a00000
+      - dev: can@f1a10000
+      - dev: pmcdma@f11c0000
+      - dev: pmcdma@f11d0000
+      - dev: asudma@ebe8c000
+      - dev: ethernet@f1a60000
+      - dev: ethernet@ed920000
+      - dev: gpio@f1a50000
+      - dev: gpio@f1020000
+      - dev: i2c@f1950000
+      - dev: i2c@f1940000
+      - dev: spi@f1010000
+      - dev: pmc_trng@f1230000
+      - dev: rtc@f12a0000
+      - dev: serial@f1920000
+      - dev: serial@f1930000
+      - dev: sysmon@f1270000
+      - dev: timer@f1e60000
+        label: ttc0
+      - dev: timer@f1e70000
+      - dev: timer@f1e80000
+      - dev: timer@f1e90000
+      - dev: timer@f1ea0000
+      - dev: timer@f1eb0000
+      - dev: timer@f1ec0000
+      - dev: timer@f1ed0000
+      - dev: usb@f1ef0000
+      - dev: mmi-usb
+      - dev: pcie@ed931000
+      - dev: coresight@f0800000
+      - dev: mailbox@eb330000
+      - dev: mailbox@eb360000
+      - dev: mailbox@eb370000
+      - dev: mailbox@eb380000
+      - dev: mailbox@eb3a0000
+      - dev: mailbox@eb3b0000
+      - dev: ps_wizard_0_mmi_0_cpm_cdx_dpu_high@100000000000
+      - dev: ps_wizard_0_mmi_0_mmi_dpdma@edd10000
+      - dev: ps_wizard_0_mmi_0_mmi_gtyp_cfg@ed900000
+      - dev: ps_wizard_0_mmi_0_mmi_hdcp@edeb0000
+      - dev: ps_wizard_0_mmi_0_mmi_pcie0@ed800000
+      - dev: ps_wizard_0_mmi_0_mmi_trng@ede80000
+      - dev: ps_wizard_0_mmi_0_mmi_pcie_region_0@a0000000
+      - dev: ps_wizard_0_ps11_0_cpm_cdx_dpu_high@100000000000
+      - dev: ps_wizard_0_ps11_0_noc_pcie_0@a0000000
+      - dev: ps_wizard_0_ps11_0_pmc_ufs_0@f10a0000
+      - dev: interrupt-controller@e2000000
+        label: interrupt-controllere2000000
+
+      # OpenAMP specific Linux nodes
+      - dev: vdev0vring0@9860000
+      - dev: vdev0vring1@9864000
+      - dev: vdev0buffer@9868000
+      - dev: ddrboot@9800100
+      - dev: rsctbl@9800000
+      - dev: r52_0a_atcm_global@eba00000
+      - dev: r52_0a_btcm_global@eba10000
+      - dev: r52_0a_ctcm_global@eba20000
+
+
+  RPU_Zephyr:
+    compatible: openamp,domain-v1
+    cpus: 
+      - cluster: cpus_r52_0
+        cluster_cpu: cortexr52_0
+        cpumask: 0x1
+        mode:
+          secure: true
+          el: 0x3  
+    os,type: zephyr
+
+    access:
+      - dev: serial@f1920000
+        label: serial0
+      - dev: memory@00000000
+        label: NoC_C0_C1_ddr_memory
+      - dev: memory@BBF00000
+        label: ps_wizard_0_ps11_0_ocm_ram_0_memory
+      - dev: memory@BBF80000
+        label: ps_wizard_0_ps11_0_ocm_ram_1_memory
+      - dev: memory@BBE00000
+        label: ps_wizard_0_ps11_0_ocm_ram_2_memory
+      - dev: memory@BBE80000
+        label: ps_wizard_0_ps11_0_ocm_ram_3_memory
+      - dev: ddrboot@9800100
+        flags: {}
+      - dev: ipc@9860000
+        flags: {}
+      - dev: timer@f1e80000
+        flags: {}
+        label: ttc2
+      - dev: mailbox@eb340000
+        flags: {}
+        label: ipi1
+      - dev: mailbox@eb3b1000
+        flags: {}
+        label: ipi_nobuf2

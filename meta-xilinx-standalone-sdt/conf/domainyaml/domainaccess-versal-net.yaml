@@ -1,0 +1,63 @@
+domains:
+  APU_Linux:
+    compatible: openamp,domain-v1
+    cpus:
+      - cluster: cpus_a78
+        cpumask: 0xff
+        mode:
+          secure: false
+          el: 0x3
+    os,type: linux
+    access:
+      - dev: amba_pl
+        label: amba_pl
+      - dev: memory@00000000
+      - dev: memory@50000000000
+      - dev: memory@60000000000
+      - dev: timer@f1dc0000
+      - dev: timer@f1dd0000
+      - dev: timer@f1de0000
+      - dev: timer@f1df0000
+      - dev: mailbox@eb3b2000
+      - dev: /axi/interrupt-controller@e2000000
+
+      # OpenAMP specific Linux nodes
+      - dev: vdev0vring0@9860000
+      - dev: vdev0vring1@9864000
+      - dev: vdev0buffer@9868000
+      - dev: ddrboot@9800100
+      - dev: rsctbl@9800000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_atcm_global@eba00000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_btcm_global@eba10000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global@eba20000
+
+  RPU_Zephyr:
+    compatible: openamp,domain-v1
+    cpus: 
+      - cluster: cpus_r52_0
+        cluster_cpu: cortexr52_0
+        cpumask: 0x1
+        mode:
+          secure: true
+          el: 0x3  
+    os,type: zephyr
+    access:
+      - dev: serial@f1920000
+        label: serial0
+      - dev: memory@00000000
+        label: NoC_C0_C1_ddr_memory
+      - dev: memory@BBF00000
+        label: ps_wizard_0_ps11_0_ocm_ram_0_memory
+      - dev: memory@BBF80000
+        label: ps_wizard_0_ps11_0_ocm_ram_1_memory
+      - dev: memory@BBE00000
+        label: ps_wizard_0_ps11_0_ocm_ram_2_memory
+      - dev: memory@BBE80000
+        label: ps_wizard_0_ps11_0_ocm_ram_3_memory
+      - dev: ddrboot@9800100
+      - dev: ipc@9860000
+      - dev: timer@f1df0000
+      - dev: mailbox@eb3b0000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_atcm_global@eba00000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_btcm_global@eba10000
+      - dev: /axi/psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global@eba20000
