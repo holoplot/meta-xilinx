@@ -9,7 +9,7 @@ BRANCH ??= "main"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 SRC_URI = "${REPO};${BRANCHARG}"
-SRCREV ??= "6dbd9bbaf8f7208abea2c3333880a1faafa3a9bb"
+SRCREV ??= "b9c709e96d8e36553096f250fee16c1a1ab6f793"
 
 inherit autotools-brokensep
 S = "${WORKDIR}/git"
