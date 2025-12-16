@@ -24,12 +24,8 @@ reserved-memory:
     start: 0x9800000
     size: 0x100
     no-map: 1
-  ipc@9860000:
-    start: 0x9860000
-    size: 0x48000
-    compatible: "mmio-sram"
 
-domains:
+  domains:
   APU_Linux:
     compatible: openamp,domain-v1
     cpus:
@@ -94,7 +90,7 @@ domains:
         relation0:
             host: APU_Linux
             mbox: ipi_nobuf1_to_ipi_nobuf3
-            carveouts: [ ipc@9860000 ]
+            carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
     sram:
       - dev: ddrboot@9800100
         start: 0x9800100
@@ -115,5 +111,4 @@ domains:
         spec_name: psx_wizard_0_psxl_0_psx_r52_0a_ctcm_global
         start: '0xeba20000'
     reserved-memory:
-        - ipc@9860000
         - ddrboot@9800100
