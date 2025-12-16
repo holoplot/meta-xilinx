@@ -94,7 +94,7 @@ domains:
         relation0:
             host: APU_Linux
             mbox: ipi_2_nobuf_to_ipi_1_nobuf #IPI_NO_BUF2 OpenAMP example app (RPU)
-            carveouts: [ ipc@9860000 ]
+            carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
     sram:
       - dev: ddrboot@9800100
         start: 0x9800100
@@ -116,4 +116,3 @@ domains:
         start: '0xeba20000'
     reserved-memory:
         - ipc@9860000
-        - ddrboot@9800100
