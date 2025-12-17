@@ -11,7 +11,8 @@ EXTRA_IMAGEDEPENDS += "${KERNEL_DEPLOY_DEPEND}"
 
 IMAGE_CLASSES += "image-types-imgrcvry"
 
-INITRAMFS_FSTYPES += "cpio.gz.u-boot imagercvry"
+IMAGE_TYPEDEP:imagercvry = "cpio.lzma.u-boot"
+INITRAMFS_FSTYPES += "${IMAGE_TYPEDEP:imagercvry} imagercvry"
 
 PACKAGE_INSTALL = "imgrcvry-initramfs-live-boot-tiny packagegroup-core-boot dropbear \
 		${VIRTUAL-RUNTIME_base-utils} ${VIRTUAL-RUNTIME_dev_manager} base-passwd \
