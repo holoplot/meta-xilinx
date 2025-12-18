@@ -1,5 +1,10 @@
 require optee-test-amd.inc
 
+BRANCH ?= "xlnx_rebase_v4.9.0"
+REPO ?= "git://github.com/Xilinx/optee_test.git;protocol=https"
+BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
+SRC_URI = "${REPO};${BRANCHARG}"
+
 SRCREV = "956f12fbc88df050b61ecfd33753cb3f07dc847c"
 
 # Include ffa_spmc test group if the SPMC test is enabled.
