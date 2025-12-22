@@ -94,3 +94,22 @@ do_deploy:prepend() {
         fi
     fi
 }
+
+# Output the generated ITB file. MicroBlaze-V platforms can use this ITB directly
+# for TFTP, NOR flash(QSPI/OSPI) boot.
+UBOOT_SPL_FITIMAGE ?= "u-boot"
+UBOOT_SPL_FITIMAGE_SUFFIX ?= "itb"
+UBOOT_SPL_FITIMAGE_IMAGE ?= "${UBOOT_SPL_FITIMAGE}-fitImage-${MACHINE}-${UBOOT_VERSION}.${UBOOT_SPL_FITIMAGE_SUFFIX}"
+UBOOT_SPL_FITIMAGE_BINARY ?= "${UBOOT_SPL_FITIMAGE}.${UBOOT_SPL_FITIMAGE_SUFFIX}"
+UBOOT_SPL_FITIMAGE_SYMLINK ?= "${UBOOT_SPL_FITIMAGE}-fitImage-${MACHINE}.${UBOOT_SPL_FITIMAGE_SUFFIX}"
+
+do_deploy:prepend:microblaze-v (){
+    cd ${B}
+
+    # Deploy u-boot.itb file
+    if [ -f "${UBOOT_SPL_FITIMAGE_BINARY}" ]; then
+            install ${UBOOT_SPL_FITIMAGE_BINARY} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_IMAGE}
+            ln -sf ${UBOOT_SPL_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_BINARY}
+            ln -sf ${UBOOT_SPL_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_SYMLINK}
+    fi
+}
