@@ -152,4 +152,7 @@ python() {
     elif soc_family and soc_family == "versal-net":
         if not tfa_console in [ 'pl011', 'pl011_0', 'pl011_1', 'dcc' ]:
             raise bb.parse.SkipRecipe('TFA_CONSOLE (%s) is not configured properly for Versal-Net, only pl011, pl011_0, pl011_1, and dcc are valid options.' % (tfa_console))
+    elif soc_family and soc_family == "versal-2ve-2vm":
+        if not tfa_console in [ 'pl011', 'pl011_0', 'pl011_1', 'dcc' ]:
+            raise bb.parse.SkipRecipe('TFA_CONSOLE (%s) is not configured properly for Versal-2ve-2vm, only pl011, pl011_0, pl011_1, and dcc are valid options.' % (tfa_console))
 }
