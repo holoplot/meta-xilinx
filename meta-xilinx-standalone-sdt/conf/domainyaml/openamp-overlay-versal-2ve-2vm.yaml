@@ -116,3 +116,4 @@ domains:
         start: '0xeba20000'
     reserved-memory:
         - ipc@9860000
+        - ddrboot@9800100
