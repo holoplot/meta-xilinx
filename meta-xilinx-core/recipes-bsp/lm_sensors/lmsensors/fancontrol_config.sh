@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# SPDX-License-Identifier: GPL-2.0-or-later AND LGPL-2.1-or-later
-#
 # Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
 
 eeprom=$(ls /sys/bus/i2c/devices/*/eeprom_cc*/nvmem 2> /dev/null)
