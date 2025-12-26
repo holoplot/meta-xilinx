@@ -1,4 +1,4 @@
-SRCBRANCH ?= "2025"
+SRCBRANCH ?= "2026"
 SRCREV = "604cdf9a4561bda7c2274fee64c0f5c90933b9d4"
 BRANCH = "xlnx_rel_v2026.1"
 LIC_FILES_CHKSUM ?= "file://LICENSE.md;md5=dfc0adf4d04cc738ba65b7d3f587dca5"
