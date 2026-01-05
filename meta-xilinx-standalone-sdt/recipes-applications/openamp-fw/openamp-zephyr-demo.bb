@@ -4,7 +4,6 @@ FW_MC_MACHINE ?= ""
 FW_MC_MACHINE:versal-2ve-2vm-vek385-sdt-seg = "versal-2ve-2vm-vek385-sdt-seg-cortexr52-0-zephyr"
 FW_MC_MACHINE:versal-2ve-2vm-vek385-revb-sdt-seg = "versal-2ve-2vm-vek385-revb-sdt-seg-cortexr52-0-zephyr"
 FW_MC_MACHINE:versal-vn-p-b2197-00-reva-x-prc-09-reva-sdt-full = "versal-vn-p-b2197-00-reva-x-prc-09-reva-sdt-full-cortexr52-0-zephyr"
-FW_MC_MACHINE:versal-vn-p-b2197-00-reva-x-prc-09-reva-sdt-full = "versal-vn-p-b2197-00-reva-x-prc-09-reva-sdt-full-cortexr52-0-zephyr"
 FW_MC_MACHINE:versal-vn-p-b2197-00-reva-x-prc-07-reva-sdt-full = "versal-vn-p-b2197-00-reva-x-prc-07-reva-sdt-full-cortexr52-0-zephyr"
 
 FW_MCDEPENDS = "mc::${FW_MC_MACHINE}:zephyr-openamp-rpmsg-multi-srv:do_deploy"
