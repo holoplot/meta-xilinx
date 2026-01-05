@@ -1,4 +1,4 @@
-DESCRIPTION = "Launch Image recivery Web"
+DESCRIPTION = "Launch Image recovery Web"
 SUMMARY = "Image recovery web"
 
 LICENSE = "MIT"
