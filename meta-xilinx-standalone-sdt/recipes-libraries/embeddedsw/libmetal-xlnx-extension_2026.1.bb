@@ -11,4 +11,7 @@ do_install() {
     install -m 0755  ${B}/lib/${ESW_COMPONENT_NAME} ${D}${libdir}
 }
 
-EXTRA_OECMAKE += "-DMACHINE=zynqmp_r5"
+# this is same for zynqmp and versal
+# only used for these 2 platforms
+EXTRA_OECMAKE:zynqmp += "-DMACHINE=zynqmp_r5"
+EXTRA_OECMAKE:versal += "-DMACHINE=zynqmp_r5"
