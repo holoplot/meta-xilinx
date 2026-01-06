@@ -10,7 +10,7 @@ SRC_URI = "https://edf.amd.com/sswreleases/rel-v2026.1/edf_files/2026.1/01070000
 SRC_URI[sha256sum] = "17267e0e1df03038ea1196b4875589ecf7663d1190b4927359a31a4a26c3ab03"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:amd-cortexa53-common = "${MACHINE}"
+COMPATIBLE_MACHINE:amd-cortexa53-mali-common = "${MACHINE}"
 COMPATIBLE_MACHINE:zynqmp-zcu102-sdt-full = "${MACHINE}"
 
 # When do_upack is exectuted it will extract tar file with original directory
