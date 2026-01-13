@@ -4,8 +4,6 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:k26-smk-sdt = "${MACHINE}"
-COMPATIBLE_MACHINE:k24-smk-sdt = "${MACHINE}"
 COMPATIBLE_MACHINE:k26-smk-kr-sdt = "${MACHINE}"
 COMPATIBLE_MACHINE:k26-smk-kv-sdt = "${MACHINE}"
 COMPATIBLE_MACHINE:k24-smk-kd-sdt = "${MACHINE}"
