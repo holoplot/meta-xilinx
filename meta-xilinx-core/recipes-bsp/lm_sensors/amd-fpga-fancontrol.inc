@@ -17,6 +17,8 @@ SYSTEMD_AUTO_ENABLE:${PN}-fancontrol = "enable"
 # fancontrol config file is found.
 RRECOMMENDS:${PN}-fancontrol = ""
 
+RDEPENDS:${PN}-fancontrol += "freeipmi"
+
 do_install:append() {
     install -D -m 0755 ${WORKDIR}/fancontrol_config.sh ${D}${sbindir}/fancontrol_config.sh
 }

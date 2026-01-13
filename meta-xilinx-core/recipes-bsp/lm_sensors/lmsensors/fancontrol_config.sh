@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
+
+# Script exits with 0 to prevent disruption of fancontrol service and continue
+# with defualt configuration.
 
 eeprom=$(ls /sys/bus/i2c/devices/*/eeprom_cc*/nvmem 2> /dev/null)
 if [ -n "${eeprom}" ]; then
