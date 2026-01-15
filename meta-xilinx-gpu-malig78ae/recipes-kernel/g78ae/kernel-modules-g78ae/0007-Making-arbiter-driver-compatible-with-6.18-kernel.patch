@@ -1,0 +1,67 @@
+From 0b17e95fc55d4d330f4cde7079558e137f5c122e Mon Sep 17 00:00:00 2001
+From: Parth Gajjar <parth.gajjar@amd.com>
+Date: Mon, 12 Jan 2026 04:56:42 -0800
+Subject: [PATCH] Making arbiter driver compatible with 6.18 kernel
+
+Rename hrtimer_init API with hrtimer_setup
+
+Upstream-Status: Inappropriate [Xilinx Specific]
+Signed-off-by: Parth Gajjar <parth.gajjar@amd.com>
+---
+ .../arm/arbitration/arbiter/mali_arbiter/mali_arbiter_core.c | 5 +++++
+ .../arbiter/mali_arbiter/mali_arbiter_scheduler_rr.c         | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_core.c b/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_core.c
+index 19435fe..f197f28 100644
+--- a/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_core.c
++++ b/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_core.c
+@@ -14,6 +14,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/workqueue.h>
++ #include <linux/version.h>
+ 
+ #include <mali_arbiter/mali_arbiter.h>
+ #include "mali_arbiter_core.h"
+@@ -1693,8 +1694,12 @@ static int init_slices(struct mali_arb *arb)
+ 
+ 		arb->slices[i]->arb = arb;
+ 		arb->slices[i]->index = i;
++#if (KERNEL_VERSION(6, 15, 0) <= LINUX_VERSION_CODE)
++		hrtimer_setup(&arb->slices[i]->slice_tmr, slice_timer_isr, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++#else
+ 		hrtimer_init(&arb->slices[i]->slice_tmr, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+ 		arb->slices[i]->slice_tmr.function = slice_timer_isr;
++#endif
+ 		arb->slices[i]->timer_running = false;
+ 		INIT_WORK(&arb->slices[i]->slice_timeout_work, slice_timeout_worker);
+ 
+diff --git a/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_scheduler_rr.c b/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_scheduler_rr.c
+index 7a9d2f3..161ce61 100644
+--- a/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_scheduler_rr.c
++++ b/drivers/gpu/arm/arbitration/arbiter/mali_arbiter/mali_arbiter_scheduler_rr.c
+@@ -14,6 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/workqueue.h>
++ #include <linux/version.h>
+ 
+ #include "mali_arbiter_scheduler.h"
+ #include "mali_arbiter_internal.h"
+@@ -946,8 +947,12 @@ void *mali_arbiter_sched_create_rr(struct device *dev, void *gsi_ptr, u32 gsi_id
+ 	sched_ptr_rr->gsi_time_sliced = false;
+ 	sched_ptr_rr->gsi_stopping = false;
+ 	spin_lock_init(&sched_ptr_rr->sched_tmr_lock);
++#if (KERNEL_VERSION(6, 15, 0) <= LINUX_VERSION_CODE)
++	hrtimer_setup(&sched_ptr_rr->sched_tmr, timer_isr, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++#else
+ 	hrtimer_init(&sched_ptr_rr->sched_tmr, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+ 	sched_ptr_rr->sched_tmr.function = timer_isr;
++#endif
+ 	INIT_LIST_HEAD(&sched_ptr_rr->req_list);
+ 	sched_ptr_rr->sched_tmr_wq =
+ 		alloc_workqueue("mali_arb_D%uP%u", WQ_UNBOUND, 0, dev->id, gsi_idx);
+-- 
+2.43.0
+

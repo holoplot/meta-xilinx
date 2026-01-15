@@ -375,7 +375,7 @@ class Compiler:
 			# build the .ko
 			subprocess.run([*make_cmd, '-C', kernel_dir,
 				f'M={module_dir}',
-				f'EXTRA_CFLAGS={" ".join(include_args + define_args + common_cflags)}',
+				f'KCFLAGS={" ".join(include_args + define_args + common_cflags)}',
 				*options,
 				f'ARCH={arch}',
 				f'CROSS_COMPILE={get_abspath(cross_compile)}',
