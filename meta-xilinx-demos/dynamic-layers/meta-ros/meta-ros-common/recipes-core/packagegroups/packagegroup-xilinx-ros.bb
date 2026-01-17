@@ -86,6 +86,13 @@ ROS_BUILDESSENTIAL_PACKAGES = "\
     rosidl-typesupport-introspection-cpp \
 "
 
+# TODO: Temporarily disable packages that depend on zocl because
+# these modules do not build with the 6.18 kernel. Re-enable them once
+# zocl is buildable with the 6.18 kernel.
+#    xrt-dev
+#    xrt
+#    kernel-module-zocl
+
 SUMMARY:${PN}-base = "ROS_BASE_PACKAGES includes ROS base packages"
 ROS_BASE_PACKAGES = "\
     ros-base \
@@ -97,9 +104,6 @@ ROS_BASE_PACKAGES = "\
     localedef \
     rt-tests \
     stress \
-    xrt-dev \
-    xrt \
-    kernel-module-zocl \
     opencl-headers-dev \
     opencl-clhpp-dev \
 "
