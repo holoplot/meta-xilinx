@@ -20,6 +20,7 @@ REQUIRED_MACHINE_FEATURES = "vcu2"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
+DEPENDS += "kernel-module-vcu2"
 RDEPENDS:${PN} = "kernel-module-vcu2"
 RDEPENDS:libvcu2-ctrlsw = "kernel-module-vcu2"
 
