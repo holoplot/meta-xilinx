@@ -8,7 +8,7 @@ require opensbi-payloads.inc
 
 inherit deploy
 
-SRCREV = "a32a91069119e7a5aa31e6bc51d5e00860be3d80"
+SRCREV = "74434f255873d74e56cc50aa762d1caf24c099f8"
 SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https"
 
 S = "${WORKDIR}/git"
