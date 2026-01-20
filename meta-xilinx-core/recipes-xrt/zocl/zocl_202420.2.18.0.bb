@@ -26,3 +26,5 @@ pkg_postinst_ontarget:${PN}() {
   echo "Loading new XRT Linux kernel modules"
   modprobe zocl
 }
+
+SKIP_RECIPE[zocl] = "${@'Only kernel 6.6 and before are supported.' if bb.utils.vercmp_string(d.getVarFlag('XILINX_LINUX_VERSION', d.getVar('XILINX_RELEASE_VERSION')) or 'undefined', "6.7") >= 0 else ''}"
