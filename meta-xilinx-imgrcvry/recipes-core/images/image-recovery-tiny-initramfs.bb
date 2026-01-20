@@ -28,5 +28,5 @@ PACKAGE_INSTALL = " \
         packagegroup-core-boot \
         dropbear image-recovery-linux-dev mtd-utils \
         i2c-tools libubootenv-bin ufs-utils \
-        bmap-writer bash fwenv-initramfs image-recovery-launcher \
+        bmap-writer bash fwenv-initramfs mac-address-config image-recovery-launcher \
         "
