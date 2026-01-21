@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835ad
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:k26-smk-sdt = "${MACHINE}"
 COMPATIBLE_MACHINE:k24-smk-sdt = "${MACHINE}"
+COMPATIBLE_MACHINE:k26-smk-kr-sdt = "${MACHINE}"
+COMPATIBLE_MACHINE:k26-smk-kv-sdt = "${MACHINE}"
+COMPATIBLE_MACHINE:k24-smk-kd-sdt = "${MACHINE}"
 
 DEPENDS += "bootgen-native virtual/fsbl"
 
