@@ -1,4 +1,4 @@
-UBRANCH = "xlnx_rebase_v2026.01-next"
+UBRANCH = "xlnx_rebase_v2026.01"
 
 SRCREV = "d3687094f93144171bf042c4f661ec4104030790"
 
