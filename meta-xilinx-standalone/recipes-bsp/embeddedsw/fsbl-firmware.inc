@@ -1,6 +1,6 @@
 DESCRIPTION = "First Stage Bootloader"
 
-inherit xlnx-embeddedsw deploy
+inherit xlnx-embeddedsw deploy shared-manifest
 
 COMPATIBLE_HOST = ".*-(elf|.*eabi)"
 COMPATIBLE_MACHINE = "none"
@@ -13,6 +13,9 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 FSBL_IMAGE_NAME ??= "fsbl-${MACHINE}"
 
 inherit image-artifact-names
+
+MANIFEST_COMPONENT_NAME ?= "fsbl"
+MANIFEST_SRCREV_VARS = "SRCREV SRCREV_embeddedsw ESW_REV"
 
 FSBL_BASE_NAME ?= "${FSBL_IMAGE_NAME}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 

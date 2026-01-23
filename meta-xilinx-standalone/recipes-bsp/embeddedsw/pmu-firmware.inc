@@ -1,6 +1,6 @@
 DESCRIPTION = "PMU Firmware"
 
-inherit xlnx-embeddedsw deploy
+inherit xlnx-embeddedsw deploy shared-manifest
 
 COMPATIBLE_HOST = "microblaze.*-elf"
 COMPATIBLE_MACHINE = "none"
@@ -12,6 +12,9 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 PMU_FIRMWARE_IMAGE_NAME ??= "pmu-firmware-${MACHINE}"
 
 inherit image-artifact-names
+
+MANIFEST_COMPONENT_NAME ?= "pmu-firmware"
+MANIFEST_SRCREV_VARS = "SRCREV SRCREV_embeddedsw ESW_REV"
 
 PMU_FIRMWARE_BASE_NAME ?= "${PMU_FIRMWARE_IMAGE_NAME}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 

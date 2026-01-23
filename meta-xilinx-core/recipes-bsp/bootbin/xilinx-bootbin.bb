@@ -10,7 +10,22 @@ include machine-xilinx-${SOC_FAMILY}.inc
 
 BOOTBIN_INCLUDE ?= ""
 
-inherit deploy bootgen-bif
+inherit deploy bootgen-bif shared-manifest-aggregate
+
+
+MANIFEST_AGGREGATE_COMPONENTS:zynq = "device-tree u-boot fsbl"
+MANIFEST_AGGREGATE_COMPONENTS:zynqmp = "device-tree u-boot fsbl trusted-firmware-a pmu-firmware"
+MANIFEST_AGGREGATE_COMPONENTS:versal = "device-tree u-boot trusted-firmware-a plm psm-firmware"
+MANIFEST_AGGREGATE_COMPONENTS:versal-net = "device-tree u-boot trusted-firmware-a plm psm-firmware"
+MANIFEST_AGGREGATE_COMPONENTS:versal-2ve-2vm = "device-tree u-boot trusted-firmware-a plm"
+
+MANIFEST_AGGREGATE_DEPLOY_NAME = "${BOOTBIN_BASE_NAME}.manifest.json"
+
+MANIFEST_AGGREGATE_DEPENDS:zynq = "device-tree virtual/bootloader fsbl"
+MANIFEST_AGGREGATE_DEPENDS:zynqmp = "device-tree virtual/bootloader fsbl pmufw virtual/arm-trusted-firmware"
+MANIFEST_AGGREGATE_DEPENDS:versal = "device-tree virtual/bootloader plmfw psmfw virtual/arm-trusted-firmware virtual/base-pdi"
+MANIFEST_AGGREGATE_DEPENDS:versal-net = "device-tree virtual/bootloader plmfw psmfw virtual/arm-trusted-firmware virtual/base-pdi"
+MANIFEST_AGGREGATE_DEPENDS:versal-2ve-2vm = "device-tree virtual/bootloader plmfw virtual/arm-trusted-firmware virtual/base-pdi"
 
 # Don't allow building for microblaze MACHINE
 COMPATIBLE_MACHINE ?= "^$"
@@ -28,19 +43,19 @@ DEPENDS += "bootgen-native"
 def bif_partition_attr_to_depends(d):
     depends = (d.getVar('BIF_PARTITION_ATTR') or "").split()
 
-    # Covert bitream to virtual/bitstream
+    # Convert bitstream to virtual/bitstream
     try:
         depends[depends.index("bitstream")] = "virtual/bitstream"
     except ValueError:
         pass
 
-    # Covert arm-trusted-firmware to virtual/arm-trusted-firmware
+    # Convert arm-trusted-firmware to virtual/arm-trusted-firmware
     try:
         depends[depends.index("arm-trusted-firmware")] = "virtual/arm-trusted-firmware"
     except ValueError:
         pass
 
-    # Covert u-boot-xlnx to virtual/bootloader
+    # Convert u-boot-xlnx to virtual/bootloader
     try:
         depends[depends.index("u-boot-xlnx")] = "virtual/bootloader"
     except ValueError:

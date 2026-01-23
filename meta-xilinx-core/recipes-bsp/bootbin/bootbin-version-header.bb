@@ -25,7 +25,7 @@ BOOTBIN_VER_MAX_LEN:versal-2ve-2vm ?= "60"
 inherit deploy image-artifact-names shared-manifest
 
 IMAGE_NAME_SUFFIX = ""
-MANIFEST_COMPONENT_NAME = "bootbin-version-header-${MACHINE}"
+MANIFEST_COMPONENT_NAME = "bootbin-version-header"
 MANIFEST_COMPONENT_FIELDS = "version"
 MANIFEST_COMPONENT_FIELD_version = "${BOOTBIN_VERSION_STRING}"
 

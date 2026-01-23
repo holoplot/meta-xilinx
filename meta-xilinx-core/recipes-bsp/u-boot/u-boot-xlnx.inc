@@ -8,6 +8,9 @@ DEPENDS:append:riscv32 = " opensbi"
 DEPENDS:append:riscv64 = " opensbi"
 
 require u-boot-xlnx-common.inc
+inherit shared-manifest
+
+MANIFEST_COMPONENT_NAME ?= "u-boot"
 
 SYSROOT_DIRS += "/boot"
 
