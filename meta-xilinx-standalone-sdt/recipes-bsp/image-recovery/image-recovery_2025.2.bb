@@ -37,16 +37,11 @@ do_install () {
 
 do_compile () {
     bootgen -image ${WORKDIR}/${PN}.bif -arch ${SOC_FAMILY} -w -o ${WORKDIR}/${PN}.bin
-
-    printf "* ${PN} static file: ${IR_PATH}\n" > ${S}/${PN}.manifest
-    printf "SHA256SUM: $(sha256sum ${WORKDIR}/ImgRecovery.elf | cut -d " " -f 1)\n\n"  >> ${S}/${PN}.manifest
 }
 
 do_deploy() {
     install -m 0644 ${WORKDIR}/${PN}.bin ${DEPLOYDIR}/${PN}-${MACHINE}.bin
     ln -sf ${PN}-${MACHINE}.bin ${DEPLOYDIR}/${PN}.bin
-
-    install -Dm 0644 ${S}/${PN}.manifest ${DEPLOYDIR}/${PN}-${MACHINE}.manifest
 }
 
 addtask do_deploy after do_install

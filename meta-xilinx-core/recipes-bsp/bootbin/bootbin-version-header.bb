@@ -22,11 +22,12 @@ BOOTBIN_VER_MAX_LEN:versal ?= "50"
 BOOTBIN_VER_MAX_LEN:versal-net ?= "50"
 BOOTBIN_VER_MAX_LEN:versal-2ve-2vm ?= "60"
 
-BOOTBIN_MANIFEST_FILE ?= "bootbin-version-header.manifest"
-
-inherit deploy image-artifact-names
+inherit deploy image-artifact-names shared-manifest
 
 IMAGE_NAME_SUFFIX = ""
+MANIFEST_COMPONENT_NAME = "bootbin-version-header-${MACHINE}"
+MANIFEST_COMPONENT_FIELDS = "version"
+MANIFEST_COMPONENT_FIELD_version = "${BOOTBIN_VERSION_STRING}"
 
 python do_configure() {
     version = d.getVar('BOOTBIN_VERSION_STRING')
@@ -39,15 +40,6 @@ python do_configure() {
     else:
         with open(d.expand("${B}/${BOOTBIN_VER_FILE}"), 'wb') as f:
             f.write(int(version).to_bytes(4, 'little'))
-
-
-    with open(d.expand("${B}/${BOOTBIN_MANIFEST_FILE}"), "w") as f:
-        f.write("* %s\n" % d.getVar('PN'))
-        f.write("VERSION: %s\n" % version)
-        f.write("PV: %s\n" % d.getVar('PV'))
-        f.write("XILINX_VER_MAIN: %s\n" % d.getVar('XILINX_VER_MAIN'))
-        f.write("XILINX_VER_UPDATE: %s\n" % d.getVar('XILINX_VER_UPDATE'))
-        f.write("XILINX_VER_BUILD: %s\n\n" % d.getVar('XILINX_VER_BUILD'))
 }
 
 do_install() {
@@ -58,8 +50,6 @@ do_install() {
 do_deploy() {
     install -m 0644 ${B}/${BOOTBIN_VER_FILE} ${DEPLOYDIR}/${IMAGE_NAME}.txt
     ln -s ${IMAGE_NAME}.txt ${DEPLOYDIR}/${IMAGE_LINK_NAME}.txt
-    install -m 0644 ${B}/${BOOTBIN_MANIFEST_FILE} ${DEPLOYDIR}/${IMAGE_NAME}.manifest
-    ln -s ${IMAGE_NAME}.manifest ${DEPLOYDIR}/${IMAGE_LINK_NAME}.manifest
 }
 
 addtask deploy after do_compile
