@@ -24,11 +24,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake update-rc.d systemd
 
-# TODO: Temporarily disable packages that depend on zocl because
-# these modules do not build with the 6.18 kernel. Re-enable them once
-# zocl is buildable with the 6.18 kernel.
-#    zocl
-DEPENDS += " libwebsockets inotify-tools libdfx libdrm systemd"
+DEPENDS += " libwebsockets inotify-tools libdfx zocl libdrm systemd"
 RDEPENDS:${PN} += " freeipmi"
 EXTRA_OECMAKE += " \
                -DCMAKE_SYSROOT:PATH=${RECIPE_SYSROOT} \
