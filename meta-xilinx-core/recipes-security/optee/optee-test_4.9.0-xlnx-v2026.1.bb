@@ -5,7 +5,7 @@ REPO ?= "git://github.com/Xilinx/optee_test.git;protocol=https"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-SRCREV = "956f12fbc88df050b61ecfd33753cb3f07dc847c"
+SRCREV = "b27648ea8472cceceb8dda368a965c709066f7aa"
 
 # Include ffa_spmc test group if the SPMC test is enabled.
 # Supported after op-tee v3.20
