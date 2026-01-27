@@ -71,19 +71,6 @@ BIF_FILE_PATH ?= "${B}/bootgen.bif"
 
 SRC_URI += "${@('file://' + d.getVar("BIF_FILE_PATH")) if d.getVar("BIF_FILE_PATH") != (d.getVar('B') + '/bootgen.bif') else ''}"
 
-# bootgen command -arch option for different SOC architectures
-# zynq7000   : zynq
-# zynqmp     : zynqmp
-# versal     : versal
-# versal-net : versalnet
-# versal-2ve-2vm : versal_2ve_2vm
-BOOTGEN_ARCH_DEFAULT = "undefined"
-BOOTGEN_ARCH_DEFAULT:zynq = "zynq"
-BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
-BOOTGEN_ARCH_DEFAULT:versal = "versal"
-BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
-BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
-BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_EXTRA_ARGS ?= ""
 
 QEMU_FLASH_TYPE_DEFAULT = "undefined"

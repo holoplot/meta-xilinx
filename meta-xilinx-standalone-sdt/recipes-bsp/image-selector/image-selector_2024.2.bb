@@ -1,4 +1,4 @@
-inherit esw python3native esw_apps_common deploy
+inherit esw python3native esw_apps_common deploy bootgen-bif
 
 DEPENDS += "libxil xiltimer bootgen-native"
 
@@ -29,7 +29,7 @@ cat > ${WORKDIR}/${PN}.bif << EOF
     }
 EOF
 
-    bootgen -image ${WORKDIR}/${PN}.bif -arch ${SOC_FAMILY} -w -o ${B}/${PN}.bin
+    bootgen -image ${WORKDIR}/${PN}.bif -arch ${BOOTGEN_ARCH} -w -o ${B}/${PN}.bin
 }
 
 do_install[noexec] = "1"

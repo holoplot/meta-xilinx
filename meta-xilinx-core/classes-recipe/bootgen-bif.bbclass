@@ -22,6 +22,14 @@
 # Two files with the same basename (e.g., /a/fw.elf and /b/fw.elf) will fail
 # with a collision error. Empty partition files are skipped with a warning.
 #
+# Map SOC_FAMILY to bootgen -arch argument
+# Most map directly, some need hyphen adjustments for bootgen
+BOOTGEN_ARCH = ""
+BOOTGEN_ARCH:zynq = "zynq"
+BOOTGEN_ARCH:zynqmp = "zynqmp"
+BOOTGEN_ARCH:versal = "versal"
+BOOTGEN_ARCH:versal-net = "versalnet"
+BOOTGEN_ARCH:versal-2ve-2vm = "versal_2ve_2vm"
 
 def bootgen_bif_create_zynq(common_attrs, partitions, local_files, biffd, d):
     """Generate BIF content for Zynq/ZynqMP (flat partition list)."""

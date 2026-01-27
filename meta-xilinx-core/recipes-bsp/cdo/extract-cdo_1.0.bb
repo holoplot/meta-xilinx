@@ -2,7 +2,8 @@ DESCRIPTION = "Recipe to extract boot_files for qemu usage"
 
 LICENSE = "CLOSED"
 
-inherit deploy
+inherit deploy bootgen-bif
+# bootgen-bif provides BOOTGEN_ARCH definitions
 
 PROVIDES = "virtual/cdo"
 
@@ -20,11 +21,6 @@ PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 B = "${WORKDIR}/build"
 
 BOOTGEN_CMD ?= "bootgen"
-BOOTGEN_ARCH_DEFAULT = "undefined"
-BOOTGEN_ARCH_DEFAULT:versal = "versal"
-BOOTGEN_ARCH_DEFAULT:versal-net = "versalnet"
-BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
-BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 BOOTGEN_OUTFILE ?= "${DEPLOY_DIR_IMAGE}/boot.bin"
 
 # bootgen extracts the boot_files from the boot.bin. By default this happens in

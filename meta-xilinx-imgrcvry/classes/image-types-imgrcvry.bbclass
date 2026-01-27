@@ -1,5 +1,7 @@
 # Image types class to generate the image-recovery bin file
 
+# Inherit bootgen-bif for BOOTGEN_ARCH definitions (also adds versal-net support)
+inherit bootgen-bif
 IMAGE_TYPES += "imagercvry"
 
 include recipes-bsp/bootbin/machine-xilinx-${SOC_FAMILY}.inc
@@ -36,11 +38,6 @@ BIF_PARTITION_ATTR[rootfs] ?= "type=raw, load=${IMGRCVRY_ROOTFS_ADDR}"
 BIF_PARTITION_IMAGE[rootfs] ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${IMAGE_TYPEDEP:imagercvry}"
 BIF_PARTITION_ID[rootfs] ?= "0x1c000000"
 
-BOOTGEN_ARCH_DEFAULT = ""
-BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
-BOOTGEN_ARCH_DEFAULT:versal = "versal"
-BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
-BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 IMGRCVRY_BIFFILE ?= "${B}/imgrcvry.bif"
 

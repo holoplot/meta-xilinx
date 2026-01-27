@@ -1,4 +1,4 @@
-inherit esw python3native esw_apps_common deploy
+inherit esw python3native esw_apps_common deploy bootgen-bif
 
 PE = "1"
 ESW_VER = "2026.1"
@@ -8,10 +8,6 @@ IMGSEL_DEPENDS:zynqmp ?= "libxil xiltimer bootgen-native"
 IMGSEL_DEPENDS:versal ?= "xilpdi xilplmi xilloader xilpm xilsecure xilpuf xiltimer xilffs bootgen-native base-pdi"
 IMGSEL_DEPENDS:versal-2ve-2vm ?= "xilpdi xilplmi xilloader xilpm-ng xilsecure xilpuf xiltimer xilffs xilocp xilcert bootgen-native base-pdi"
 
-BOOTGEN_ARCH_DEFAULT:zynqmp = "zynqmp"
-BOOTGEN_ARCH_DEFAULT:versal = "versal"
-BOOTGEN_ARCH_DEFAULT:versal-2ve-2vm = "versal_2ve_2vm"
-BOOTGEN_ARCH ?= "${BOOTGEN_ARCH_DEFAULT}"
 
 DEPENDS += "${IMGSEL_DEPENDS}"
 

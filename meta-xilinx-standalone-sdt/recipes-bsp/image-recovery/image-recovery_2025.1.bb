@@ -12,7 +12,7 @@ DEPENDS += "bootgen-native virtual/fsbl"
 
 do_compile[depends] += "virtual/fsbl:do_deploy"
 
-inherit deploy
+inherit deploy bootgen-bif
 include image-recovery-repository.inc
 
 SRC_URI = "${IR_PATH};name=${MACHINE}_ir ${WEB_PATH};name=${MACHINE}_web"
@@ -36,7 +36,7 @@ do_install () {
 }
 
 do_compile () {
-    bootgen -image ${WORKDIR}/${PN}.bif -arch ${SOC_FAMILY} -w -o ${WORKDIR}/${PN}.bin
+    bootgen -image ${WORKDIR}/${PN}.bif -arch ${BOOTGEN_ARCH} -w -o ${WORKDIR}/${PN}.bin
 }
 
 do_deploy() {

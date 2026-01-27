@@ -7,7 +7,7 @@
 # dfx_user_dts.bbclass expects user to generate pl dtsi for flat, DFx Static
 # and DFx RP xsa outside of yocto.
 
-inherit devicetree
+inherit devicetree bootgen-bif
 
 DEPENDS = "dtc-native bootgen-native"
 
@@ -19,7 +19,7 @@ PROVIDES = ""
 do_fetch[cleandirs] = "${B}"
 
 DT_PADDING_SIZE = "0x1000"
-BOOTGEN_FLAGS ?= " -arch ${SOC_FAMILY} -w ${@bb.utils.contains('SOC_FAMILY','zynqmp','','-process_bitstream bin',d)}"
+BOOTGEN_FLAGS ?= " -arch ${BOOTGEN_ARCH} -w ${@bb.utils.contains('SOC_FAMILY','zynqmp','','-process_bitstream bin',d)}"
 
 S ?= "${WORKDIR}"
 FW_DIR ?= ""
