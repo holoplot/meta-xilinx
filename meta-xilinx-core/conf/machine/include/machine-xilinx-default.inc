@@ -5,6 +5,9 @@ INHERIT += "xilinx-deprecated"
 
 MACHINE_FEATURES_BACKFILL_CONSIDERED += "rtc"
 
+# aarch64 machines support EFI via U-Boot (enables fwupd UEFI capsule plugin)
+MACHINE_FEATURES:append:aarch64 = " efi"
+
 # File System Configuration
 IMAGE_FSTYPES ?= "tar.gz cpio cpio.gz cpio.gz.u-boot"
 
