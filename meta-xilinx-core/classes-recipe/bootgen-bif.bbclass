@@ -7,7 +7,7 @@
 #
 # Supported: zynq, zynqmp, versal, versal-net, versal-2ve-2vm
 #
-# Variables:
+# Variables (used as defaults when not passed as parameters):
 #   BIF_FILE_PATH          - Output path for generated BIF file
 #   BIF_COMMON_ATTR        - Space-separated common attribute names
 #   BIF_COMMON_ATTR[name]  - Flags for common attribute
@@ -18,9 +18,12 @@
 #   BIF_PARTITION_ID[p]    - Subsystem ID for partition 'p' (Versal only)
 #   BIF_PARTITION_NAME[id] - Subsystem name for ID (Versal only)
 #
-# Note: All partition and optional-data files are copied to workdir by basename.
-# Two files with the same basename (e.g., /a/fw.elf and /b/fw.elf) will fail
-# with a collision error. Empty partition files are skipped with a warning.
+# Note:
+# - All partition and optional-data files are copied to workdir by basename.
+# - Two files with the same basename (e.g., /a/fw.elf and /b/fw.elf) will fail
+#   with a collision error.
+# - Empty partition files are skipped with a warning.
+# - Use skip_check parameter for files that don't exist yet (e.g., rootfs).
 #
 # Map SOC_FAMILY to bootgen -arch argument
 # Most map directly, some need hyphen adjustments for bootgen
@@ -139,7 +142,8 @@ def bootgen_bif_write_optional_data(biffd, optional_data, workdir, seen_basename
             bb.fatal('BIF_OPTIONAL_DATA entry "%s" invalid, expected: <filepath>, id=<id>' % entry)
 
         if not os.path.exists(filepath):
-            bb.fatal('BIF_OPTIONAL_DATA file does not exist: %s' % filepath)
+            bb.warn('BIF_OPTIONAL_DATA file does not exist, skipping: %s' % filepath)
+            continue
 
         basename = os.path.basename(filepath)
         if basename in seen_basenames:
@@ -148,17 +152,25 @@ def bootgen_bif_write_optional_data(biffd, optional_data, workdir, seen_basename
         seen_basenames[basename] = "BIF_OPTIONAL_DATA entry '%s'" % entry
 
         dest = os.path.join(workdir, basename)
-        shutil.copyfile(filepath, dest)
+        if filepath != dest:
+            shutil.copyfile(filepath, dest)
         biffd.write("\toptionaldata { %s, %s }\n" % (basename, id_part))
 
-def bootgen_bif_copy_partition_files(partitions, partition_attrimage, workdir, seen_basenames, d):
+def bootgen_bif_copy_partition_files(partitions, partition_attrimage, workdir, seen_basenames, d, skip_check=None):
     """
     Copy partition files to workdir for bootgen.
 
-    Returns dict mapping partition name to local basename. Empty files are
-    skipped with a warning. Updates seen_basenames dict (shared with optional-data).
+    Returns dict mapping partition name to the path to use in the BIF file
+    (basename for copied files, full path for skip_check files).
+    Updates seen_basenames dict (shared with optional-data).
+    Empty files are skipped with a warning.
     Raises bb.fatal on basename collision or missing files.
+
+    Args:
+        skip_check: List of partition names to skip file existence check and copy.
+                    These files use full paths in the BIF (for files built later).
     """
+    skip_check = skip_check or []
 
     import os
     import shutil
@@ -170,15 +182,27 @@ def bootgen_bif_copy_partition_files(partitions, partition_attrimage, workdir, s
             bb.fatal("BIF_PARTITION_IMAGE[%s] not defined, but '%s' is listed in BIF_PARTITION_ATTR" % (name, name))
 
         filepath = d.expand(partition_attrimage[name])
+        basename = os.path.basename(filepath)
+
+        # Skip file checks for partitions in skip_check (e.g., rootfs built later)
+        if name in skip_check:
+            # Use full path in BIF (file will exist when bootgen runs)
+            if basename in seen_basenames:
+                bb.fatal("Basename collision: '%s' from BIF_PARTITION_IMAGE[%s] (%s) "
+                         "would overwrite file from %s" %
+                         (basename, name, filepath, seen_basenames[basename]))
+            seen_basenames[basename] = "BIF_PARTITION_IMAGE[%s]" % name
+            local_files[name] = filepath  # full path since file is not copied (skip_check)
+            continue
+
         if not os.path.exists(filepath):
             bb.fatal("Partition file does not exist: %s" % filepath)
 
-        # Skip empty files with warning (matches original behavior)
+        # Skip empty files with warning
         if os.stat(filepath).st_size == 0:
             bb.warn("Empty file %s, excluding from BIF" % filepath)
             continue
 
-        basename = os.path.basename(filepath)
         if basename in seen_basenames:
             bb.fatal("Basename collision: '%s' from BIF_PARTITION_IMAGE[%s] (%s) "
                      "would overwrite file from %s" %
@@ -187,18 +211,34 @@ def bootgen_bif_copy_partition_files(partitions, partition_attrimage, workdir, s
 
         dest = os.path.join(workdir, basename)
         bb.note("Copying BIF_PARTITION_IMAGE[%s]: %s -> %s" % (name, filepath, dest))
-        shutil.copyfile(filepath, dest)
-        local_files[name] = basename
+        if filepath != dest:
+            shutil.copyfile(filepath, dest)
+        local_files[name] = basename  # basename since file is copied to workdir
 
     return local_files
 
-def bootgen_bif_generate(bif_path, workdir, d):
+def bootgen_bif_generate(d, bif_path=None, workdir=None, partitions=None, optional_data=None, skip_check=None):
     """
-    Generate a complete BIF file based on BIF_* variables.
+    Generate a complete BIF file, copying partition files to workdir.
 
-    Main entry point. Copies partition files to workdir and generates
-    arch-specific BIF content using the local basenames.
+    Main entry point for BIF generation. Copies all partition files to workdir
+    and generates arch-specific BIF content using local basenames.
+
+    Args:
+        d: BitBake datastore
+        bif_path: Output BIF file path (default: BIF_FILE_PATH variable)
+        workdir: Directory to copy partition files to (default: B variable)
+        partitions: List of partition names (default: BIF_PARTITION_ATTR variable)
+        optional_data: Semicolon-separated optional data entries
+                       (default: BIF_OPTIONAL_DATA variable)
+        skip_check: Partition names to skip file existence check
+                    (for files built later, e.g., rootfs)
     """
+    # Apply defaults from datastore
+    if bif_path is None:
+        bif_path = d.getVar('BIF_FILE_PATH')
+    if workdir is None:
+        workdir = d.getVar('B')
 
     soc_family = d.getVar("SOC_FAMILY") or ""
 
@@ -209,26 +249,29 @@ def bootgen_bif_generate(bif_path, workdir, d):
         biffd.write("the_ROM_image:\n")
         biffd.write("{\n")
 
-        # Optional data (Versal version strings, user data)
-        optional_data = d.getVar("BIF_OPTIONAL_DATA") or ""
-        if optional_data:
-            bootgen_bif_write_optional_data(biffd, optional_data, workdir, seen_basenames, d)
+        # Optional data (Versal version strings, user data) - use parameter or variable
+        opt_data = optional_data if optional_data is not None else (d.getVar("BIF_OPTIONAL_DATA") or "")
+        if opt_data:
+            bootgen_bif_write_optional_data(biffd, opt_data, workdir, seen_basenames, d)
 
         common_attrs = (d.getVar("BIF_COMMON_ATTR") or "").split()
-        partitions = (d.getVar("BIF_PARTITION_ATTR") or "").split()
+
+        # Partitions - use parameter or variable
+        part_list = partitions if partitions is not None else (d.getVar("BIF_PARTITION_ATTR") or "").split()
 
         # Copy files and get list of valid (non-empty) partitions
         partition_attrimage = d.getVarFlags("BIF_PARTITION_IMAGE") or {}
-        local_files = bootgen_bif_copy_partition_files(partitions, partition_attrimage, workdir, seen_basenames, d)
+        local_files = bootgen_bif_copy_partition_files(part_list, partition_attrimage, workdir,
+                                                       seen_basenames, d, skip_check=skip_check)
 
         if not local_files:
             bb.fatal("No valid partition files found - cannot generate BIF")
 
         if soc_family in ('zynq', 'zynqmp'):
-            bootgen_bif_create_zynq(common_attrs, partitions, local_files, biffd, d)
+            bootgen_bif_create_zynq(common_attrs, part_list, local_files, biffd, d)
         elif soc_family in ('versal', 'versal-net', 'versal-2ve-2vm'):
-            bootgen_bif_create_versal(common_attrs, partitions, local_files, biffd, d)
+            bootgen_bif_create_versal(common_attrs, part_list, local_files, biffd, d)
         else:
             bb.fatal("bootgen_bif_generate: unsupported SOC_FAMILY '%s'" % soc_family)
 
-        biffd.write("}")
+        biffd.write("}\n")

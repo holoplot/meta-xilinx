@@ -90,7 +90,7 @@ python do_configure() {
     
     # If using a custom BIF file, nothing to generate
     if fp == (d.getVar('B') + '/bootgen.bif'):
-        bootgen_bif_generate(fp, d.getVar('B'), d)
+        bootgen_bif_generate(d)
     else:
         bb.note("Using custom BIF file: %s" % fp)
 }
