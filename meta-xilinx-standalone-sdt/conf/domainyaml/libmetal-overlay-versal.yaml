@@ -41,7 +41,7 @@ axi:
     compatible: "uio"
 
 domains:
-    openamp_a72_0_cluster: # host in channel from a72-0
+    APU_Linux: # host in channel from a72-0
         compatible:
             - "openamp,domain-v1"
         cpus:
@@ -58,12 +58,12 @@ domains:
             libmetal-relation:
                 compatible: libmetal,ipc-v1
                 relation0:
-                    remote: openamp_r5_1_cluster
+                    remote: R5_1_BAREMETAL
                     carveouts: [ libmetal_uio_desc0@9908000, libmetal_uio_desc1@990c000, libmetal_uio_data@9910000 ]
                     mbox: ipi_5_to_ipi_2 # IPI3 OpenAMP example app (APU)
                     timer: ttc2
 
-    openamp_r5_1_cluster:
+    R5_1_BAREMETAL:
         compatible: openamp,domain-v1
         cpus:
           - cluster: cpus_r5_1
@@ -78,7 +78,7 @@ domains:
             libmetal-relation:
                 compatible: libmetal,ipc-v1
                 relation0:
-                    host: openamp_a72_0_cluster
+                    host: APU_Linux
                     carveouts: [ libmetal_uio_desc0@9908000, libmetal_uio_desc1@990c000, libmetal_uio_data@9910000 ]
                     mbox: ipi_2_to_ipi_5 #IPI2 Libmetal example app (RPU)
                     timer: ttc2
