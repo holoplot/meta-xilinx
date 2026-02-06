@@ -6,8 +6,9 @@ inherit amd-zephyr-sdt
 require amd-zephyr-kernel-src_${PREFERRED_VERSION_zephyr-kernel}_${XILINX_RELEASE_VERSION}.inc
 
 SRC_URI_ZEPHYR_OPEN_AMP_SYS_REF = "git://github.com/Xilinx/openamp-system-reference.git;protocol=https"
-BRANCH  = "main"
-SRCREV_open-amp-sys-ref = "e1590054897e8a21bf8d1d808944b18690cb9dce"
+SRCREV_default = "5a6ba5735889e32edfb8a2d029757cf8e0469f54"
+BRANCH  = "2026"
+SRCREV_open-amp-sys-ref = "f71199f8ff873d5ba9f3af18fef28c2807dc88d5"
 
 ZEPHYR_SDT_SOC_KCONFIG="${ZEPHYR_SOC_KCONFIG}"
 ZEPHYR_SDT_SOC_KCONFIG_DEFCONFIG="${ZEPHYR_SOC_KCONFIG_DEFCONFIG}"
