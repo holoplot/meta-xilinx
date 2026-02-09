@@ -100,6 +100,8 @@ KERNEL_FEATURES:append:versal-2ve-2vm = "${@bb.utils.contains('DISTRO_FEATURES',
 
 KERNEL_FEATURES:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', ' features/ocicontainer/ocicontainer.scc', '', d)}"
 
+SRC_URI:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'file://extra-configs.cfg', '', d)}"
+
 # To enable lttng, we need kprobes
 KERNEL_FEATURES_KPROBES = " features/kprobes"
 
