@@ -26,7 +26,7 @@ MANIFEST_COMPONENT_FIELD_version = "${BOOTBIN_VERSION_STRING}"
 python do_configure() {
     version = d.getVar('BOOTBIN_VERSION_STRING')
     if len(version) > int(d.getVar("BOOTBIN_VER_MAX_LEN")):
-        bb.fatal("version string too long")
+        bb.fatal("version string too long (%s) [%d > %d]" % (version, len(version), int(d.getVar("BOOTBIN_VER_MAX_LEN"))))
 
     with open(d.expand("${B}/${BOOTBIN_VER_FILE}"), 'w') as f:
         f.write(version.encode("utf-8").hex())
