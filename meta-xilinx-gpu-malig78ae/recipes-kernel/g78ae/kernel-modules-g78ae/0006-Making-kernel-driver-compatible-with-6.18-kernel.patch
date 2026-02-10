@@ -1,4 +1,4 @@
-From b3c33250b3a0c1ecaea7488c91b92ac0666f6f2c Mon Sep 17 00:00:00 2001
+From e3457f2840a29f8efa93ec1d72efb548914942c6 Mon Sep 17 00:00:00 2001
 From: Parth Gajjar <parth.gajjar@amd.com>
 Date: Mon, 12 Jan 2026 05:03:23 -0800
 Subject: [PATCH] Making kernel driver compatible with 6.18 kernel
@@ -17,22 +17,24 @@ __ClearPageMovable
 Upstream-Status: Inappropriate [Xilinx Specific]
 Signed-off-by: Parth Gajjar <parth.gajjar@amd.com>
 ---
- drivers/gpu/arm/midgard/Kbuild                |  19 +++-
- .../midgard/arbiter/mali_kbase_arbiter_pm.c   |   5 +
- .../backend/gpu/mali_kbase_irq_linux.c        |   7 +-
- .../midgard/backend/gpu/mali_kbase_jm_hw.c    |   5 +
- .../backend/gpu/mali_kbase_js_backend.c       |   5 +
- .../backend/gpu/mali_kbase_pm_driver.c        |   9 ++
- .../backend/gpu/mali_kbase_pm_metrics.c       |   5 +
- .../midgard/csf/mali_kbase_csf_scheduler.c    |   8 +-
- .../gpu/arm/midgard/mali_kbase_fence_ops.c    |  12 ++-
- drivers/gpu/arm/midgard/mali_kbase_jd.c       |   5 +
- drivers/gpu/arm/midgard/mali_kbase_js.c       |   5 +
- .../arm/midgard/mali_kbase_kinstr_prfcnt.c    |   5 +
- .../gpu/arm/midgard/mali_kbase_mem_migrate.c  | 100 +++++++++++++++---
- drivers/gpu/arm/midgard/mali_kbase_softjobs.c |   8 +-
- .../gpu/arm/midgard/tl/mali_kbase_timeline.c  |   6 ++
- 15 files changed, 180 insertions(+), 24 deletions(-)
+ drivers/gpu/arm/midgard/Kbuild                | 19 +++++++--
+ .../midgard/arbiter/mali_kbase_arbiter_pm.c   |  5 +++
+ .../backend/gpu/mali_kbase_irq_linux.c        |  7 +++-
+ .../midgard/backend/gpu/mali_kbase_jm_hw.c    |  5 +++
+ .../backend/gpu/mali_kbase_js_backend.c       |  5 +++
+ .../backend/gpu/mali_kbase_pm_driver.c        |  9 +++++
+ .../backend/gpu/mali_kbase_pm_metrics.c       |  5 +++
+ .../midgard/csf/mali_kbase_csf_scheduler.c    |  8 +++-
+ .../gpu/arm/midgard/mali_kbase_fence_ops.c    | 12 +++++-
+ drivers/gpu/arm/midgard/mali_kbase_jd.c       |  5 +++
+ drivers/gpu/arm/midgard/mali_kbase_js.c       |  5 +++
+ .../arm/midgard/mali_kbase_kinstr_prfcnt.c    |  5 +++
+ .../gpu/arm/midgard/mali_kbase_mem_migrate.c  | 40 ++++++++++++++-----
+ .../gpu/arm/midgard/mali_kbase_mem_migrate.h  | 23 +++++++++++
+ drivers/gpu/arm/midgard/mali_kbase_softjobs.c |  8 +++-
+ drivers/gpu/arm/midgard/mmu/mali_kbase_mmu.c  |  1 +
+ .../gpu/arm/midgard/tl/mali_kbase_timeline.c  |  6 +++
+ 17 files changed, 149 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/arm/midgard/Kbuild b/drivers/gpu/arm/midgard/Kbuild
 index 3d1d0a5..213a75a 100644
@@ -377,262 +379,161 @@ index 57e077c..1e97306 100644
  
  	*out_kinstr_ctx = kinstr_ctx;
 diff --git a/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c b/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c
-index 0be9603..7dc22a7 100644
+index 0be9603..b44aa2b 100644
 --- a/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c
 +++ b/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.c
-@@ -23,7 +23,8 @@
-  * DOC: Base kernel page migration implementation.
-  */
- #include <linux/migrate.h>
--
-+#include <linux/version.h>
-+#include <linux/workqueue.h>
- #include <mali_kbase.h>
- #include <mali_kbase_mem_migrate.h>
- #include <mmu/mali_kbase_mmu.h>
-@@ -53,7 +54,8 @@ MODULE_PARM_DESC(kbase_page_migration_enabled,
- 
- KBASE_EXPORT_TEST_API(kbase_page_migration_enabled);
- 
--#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
-+#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE) && \
-+     (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
+@@ -57,6 +57,26 @@ KBASE_EXPORT_TEST_API(kbase_page_migration_enabled);
  static const struct movable_operations movable_ops;
  #endif
  
-@@ -87,9 +89,14 @@ bool kbase_alloc_page_metadata(struct kbase_device *kbdev, struct page *p, dma_a
- 	spin_lock_init(&page_md->migrate_lock);
++void kbase_clear_page_movable(struct page *p)
++{
++#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
++	__ClearPageMovable(p);
++#endif
++}
++KBASE_EXPORT_TEST_API(kbase_clear_page_movable);
++
++#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
++void kbase_set_page_movable(struct page *p, const struct movable_operations *ops)
++{
++#if (KERNEL_VERSION(6, 17, 0) <= LINUX_VERSION_CODE)
++	SetPageMovableOps(p);
++	CSTD_UNUSED(ops);
++#else
++	__SetPageMovable(p, &movable_ops);
++#endif
++}
++#endif
++
+ bool kbase_alloc_page_metadata(struct kbase_device *kbdev, struct page *p, dma_addr_t dma_addr,
+ 			       u8 group_id)
+ {
+@@ -88,7 +108,7 @@ bool kbase_alloc_page_metadata(struct kbase_device *kbdev, struct page *p, dma_a
  
  	lock_page(p);
--#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
+ #if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
 -	__SetPageMovable(p, &movable_ops);
--	page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE) && \
-+	(KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
-+         __SetPageMovable(p, &movable_ops);
-+         page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+#elif (KERNEL_VERSION(6, 17, 0) <= LINUX_VERSION_CODE)
-+	  /* On 6.17+ do not call upstream helpers; maintain driver status only. */
-+	 page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+	 SetPageMovableOps(p);
++	kbase_set_page_movable(p, &movable_ops);
+ 	page_md->status = PAGE_MOVABLE_SET(page_md->status);
  #else
  	/* In some corner cases, the driver may attempt to allocate memory pages
- 	 * even before the device file is open and the mapping for address space
-@@ -118,6 +125,7 @@ bool kbase_alloc_page_metadata(struct kbase_device *kbdev, struct page *p, dma_a
- 	return true;
- }
- 
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- static void kbase_free_page_metadata(struct kbase_device *kbdev, struct page *p, u8 *group_id)
- {
- 	struct device *const dev = kbdev->dev;
-@@ -139,6 +147,7 @@ static void kbase_free_page_metadata(struct kbase_device *kbdev, struct page *p,
- 	set_page_private(p, 0);
- 	ClearPagePrivate(p);
- }
-+#endif
- 
- #if IS_ENABLED(CONFIG_PAGE_MIGRATION_SUPPORT)
- /* This function is only called when page migration
-@@ -163,12 +172,27 @@ static void kbase_free_pages_worker(struct work_struct *work)
+@@ -163,7 +183,7 @@ static void kbase_free_pages_worker(struct work_struct *work)
  		lock_page(p);
  		page_md = kbase_page_private(p);
  		if (page_md && IS_PAGE_MOVABLE(page_md->status)) {
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 			__ClearPageMovable(p);
-+#endif
+-			__ClearPageMovable(p);
++			kbase_clear_page_movable(p);
  			page_md->status = PAGE_MOVABLE_CLEAR(page_md->status);
  		}
  		unlock_page(p);
- 
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		kbase_free_page_metadata(kbdev, p, &group_id);
-+#else
-+		/* 6.17+: inline free to avoid unused helper while keeping correctness. */
-+		page_md = kbase_page_private(p);
-+		if (page_md) {
-+			dma_addr_t dma_addr = kbase_dma_addr(p);
-+			dma_unmap_page(kbdev->dev, dma_addr, PAGE_SIZE, DMA_BIDIRECTIONAL);
-+			group_id = page_md->group_id;
-+			kmem_cache_free(kbdev->page_metadata_slab, page_md);
-+			set_page_private(p, 0);
-+			ClearPagePrivate(p);
-+		}
-+#endif
- 		kbdev->mgm_dev->ops.mgm_free_page(kbdev->mgm_dev, group_id, p, 0);
- 	}
- }
-@@ -204,6 +228,7 @@ void kbase_free_page_later(struct kbase_device *kbdev, struct page *p)
-  * Return: 0 on migration success, or -EAGAIN for a later retry. Otherwise it's a failure
-  *          and the migration is aborted.
-  */
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- static int kbasep_migrate_page_pt_mapped(struct page *old_page, struct page *new_page)
- {
- 	struct kbase_page_metadata *page_md = kbase_page_private(old_page);
-@@ -233,13 +258,20 @@ static int kbasep_migrate_page_pt_mapped(struct page *old_page, struct page *new
+@@ -233,12 +253,12 @@ static int kbasep_migrate_page_pt_mapped(struct page *old_page, struct page *new
  
  	if (ret == 0) {
  		dma_unmap_page(kbdev->dev, old_dma_addr, PAGE_SIZE, DMA_BIDIRECTIONAL);
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(old_page);
-+#endif
+-		__ClearPageMovable(old_page);
++		kbase_clear_page_movable(old_page);
  		ClearPagePrivate(old_page);
  		put_page(old_page);
  
--#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
-+#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE) && \
-+		(KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__SetPageMovable(new_page, &movable_ops);
+ #if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
+-		__SetPageMovable(new_page, &movable_ops);
++		kbase_set_page_movable(new_page, &movable_ops);
  		page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+#elif (KERNEL_VERSION(6, 17, 0) <= LINUX_VERSION_CODE)
-+		/* On 6.17+ do not call upstream helpers; maintain driver status only. */
-+		page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+		SetPageMovableOps(new_page);
  #else
  		if (kbdev->mem_migrate.inode->i_mapping) {
- 			__SetPageMovable(new_page, kbdev->mem_migrate.inode->i_mapping);
-@@ -256,6 +288,7 @@ static int kbasep_migrate_page_pt_mapped(struct page *old_page, struct page *new
- 
- 	return ret;
- }
-+#endif
- 
- /*
-  * kbasep_migrate_page_allocated_mapped - Migrate a memory page that is both
-@@ -274,6 +307,7 @@ static int kbasep_migrate_page_pt_mapped(struct page *old_page, struct page *new
-  * This function returns early with an error if called when not compiled with
-  * CONFIG_PAGE_MIGRATION_SUPPORT.
-  */
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- static int kbasep_migrate_page_allocated_mapped(struct page *old_page, struct page *new_page)
- {
- 	struct kbase_page_metadata *page_md = kbase_page_private(old_page);
-@@ -311,13 +345,20 @@ static int kbasep_migrate_page_allocated_mapped(struct page *old_page, struct pa
+@@ -311,12 +331,12 @@ static int kbasep_migrate_page_allocated_mapped(struct page *old_page, struct pa
  
  		/* Clear PG_movable from the old page and release reference. */
  		ClearPagePrivate(old_page);
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(old_page);
-+#endif
+-		__ClearPageMovable(old_page);
++		kbase_clear_page_movable(old_page);
  		put_page(old_page);
  
  		/* Set PG_movable to the new page. */
--#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
-+#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE) && \
-+		(KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__SetPageMovable(new_page, &movable_ops);
+ #if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
+-		__SetPageMovable(new_page, &movable_ops);
++		kbase_set_page_movable(new_page, &movable_ops);
  		page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+#elif (KERNEL_VERSION(6, 17, 0) <= LINUX_VERSION_CODE)
-+		/* On 6.17+ do not call upstream helpers; maintain driver status only. */
-+		page_md->status = PAGE_MOVABLE_SET(page_md->status);
-+		SetPageMovableOps(new_page);
  #else
  		if (kctx->kbdev->mem_migrate.inode->i_mapping) {
- 			__SetPageMovable(new_page, kctx->kbdev->mem_migrate.inode->i_mapping);
-@@ -392,7 +433,9 @@ static bool kbase_page_isolate(struct page *p, isolate_mode_t mode)
+@@ -392,7 +412,7 @@ static bool kbase_page_isolate(struct page *p, isolate_mode_t mode)
  		break;
  	case NOT_MOVABLE:
  		/* Opportunistically clear the movable property for these pages */
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(p);
-+#endif
+-		__ClearPageMovable(p);
++		kbase_clear_page_movable(p);
  		page_md->status = PAGE_MOVABLE_CLEAR(page_md->status);
  		break;
  	default:
-@@ -513,9 +556,23 @@ static int kbase_page_migrate(struct page *new_page, struct page *old_page, enum
- 	if (status_mem_pool || status_free_isolated_in_progress ||
- 	    status_free_pt_isolated_in_progress) {
+@@ -515,7 +535,7 @@ static int kbase_page_migrate(struct page *new_page, struct page *old_page, enum
  		struct kbase_mem_migrate *mem_migrate = &kbdev->mem_migrate;
--
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
+ 
  		kbase_free_page_metadata(kbdev, old_page, NULL);
-+#else
-+		/* 6.17+: inline free for old_page */
-+		do {
-+			dma_addr_t dma_addr = kbase_dma_addr(old_page);
-+			dma_unmap_page(kbdev->dev, dma_addr, PAGE_SIZE, DMA_BIDIRECTIONAL);
-+			if (kbase_page_private(old_page)) {
-+				kmem_cache_free(kbdev->page_metadata_slab, kbase_page_private(old_page));
-+				set_page_private(old_page, 0);
-+				ClearPagePrivate(old_page);
-+			}
-+		} while (0);
-+#endif
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(old_page);
-+#endif
+-		__ClearPageMovable(old_page);
++		kbase_clear_page_movable(old_page);
  		put_page(old_page);
  
  		/* Just free new page to avoid lock contention. */
-@@ -527,9 +584,13 @@ static int kbase_page_migrate(struct page *new_page, struct page *old_page, enum
- 	} else if (status_not_movable) {
- 		err = -EINVAL;
- 	} else if (status_mapped) {
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		err = kbasep_migrate_page_allocated_mapped(old_page, new_page);
-+#endif
- 	} else if (status_pt_mapped) {
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		err = kbasep_migrate_page_pt_mapped(old_page, new_page);
-+#endif
- 	}
- 
- 	/* While we want to preserve the movability of pages for which we return
-@@ -538,7 +599,9 @@ static int kbase_page_migrate(struct page *new_page, struct page *old_page, enum
+@@ -538,7 +558,7 @@ static int kbase_page_migrate(struct page *new_page, struct page *old_page, enum
  	 * expect.
  	 */
  	if (err < 0 && err != -EAGAIN) {
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(old_page);
-+#endif
+-		__ClearPageMovable(old_page);
++		kbase_clear_page_movable(old_page);
  		page_md->status = PAGE_MOVABLE_CLEAR(page_md->status);
  	}
  
-@@ -614,7 +677,9 @@ static void kbase_page_putback(struct page *p)
+@@ -614,7 +634,7 @@ static void kbase_page_putback(struct page *p)
  	 */
  	if (status_mem_pool || status_free_isolated_in_progress ||
  	    status_free_pt_isolated_in_progress) {
-+#if (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- 		__ClearPageMovable(p);
-+#endif
+-		__ClearPageMovable(p);
++		kbase_clear_page_movable(p);
  		page_md->status = PAGE_MOVABLE_CLEAR(page_md->status);
  		if (!WARN_ON_ONCE(!kbdev)) {
  			struct kbase_mem_migrate *mem_migrate = &kbdev->mem_migrate;
-@@ -624,21 +689,26 @@ static void kbase_page_putback(struct page *p)
- 		}
- 	}
- }
-+#endif
+diff --git a/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h b/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h
+index 70c3135..67cf90f 100644
+--- a/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h
++++ b/drivers/gpu/arm/midgard/mali_kbase_mem_migrate.h
+@@ -24,6 +24,7 @@
+ #include <linux/version_compat_defs.h>
  
--#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
-+#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE) && \
-+			   (KERNEL_VERSION(6, 17, 0) > LINUX_VERSION_CODE)
- static const struct movable_operations movable_ops = {
--	.isolate_page = kbase_page_isolate,
--	.migrate_page = kbase_page_migrate,
--	.putback_page = kbase_page_putback,
-+        .isolate_page = kbase_page_isolate,
-+        .migrate_page = kbase_page_migrate,
-+        .putback_page = kbase_page_putback,
- };
-+#elif (KERNEL_VERSION(6, 17, 0) <= LINUX_VERSION_CODE)
-+/* Do nothing */
- #else
- static const struct address_space_operations kbase_address_space_ops = {
--	.isolate_page = kbase_page_isolate,
--	.migratepage = kbase_page_migrate,
--	.putback_page = kbase_page_putback,
-+        .isolate_page = kbase_page_isolate,
-+        .migratepage = kbase_page_migrate,
-+        .putback_page = kbase_page_putback,
- };
+ #include <linux/types.h>
++#include <linux/migrate.h>
+ 
+ struct kbase_device;
+ struct file;
+@@ -59,6 +60,28 @@ extern const int kbase_page_migration_enabled;
+ extern int kbase_page_migration_enabled;
  #endif
  
++/**
++ * kbase_clear_page_movable - Clear the "movable" property from the page
++ * @p: Page to clear the "movable" property from.
++ *
++ * This function is supposed to be called just before releasing
++ * the page and will take care of removing the "movable" property
++ * from the page, if necessary.
++ */
++void kbase_clear_page_movable(struct page *p);
 +
- #if (KERNEL_VERSION(6, 0, 0) > LINUX_VERSION_CODE)
- void kbase_mem_migrate_set_address_space_ops(struct kbase_device *kbdev, struct file *const filp)
- {
++#if (KERNEL_VERSION(6, 0, 0) <= LINUX_VERSION_CODE)
++/**
++ * kbase_set_page_movable - Set the "movable" property for the page
++ * @p:   Page to set the "movable" property for.
++ * @ops: Movable operations to be set for the page.
++ *
++ * This function will set the "movable" property for the page and,
++ * if necessary, it will also set and initialize the movable operations.
++ */
++void kbase_set_page_movable(struct page *p, const struct movable_operations *ops);
++#endif
++
+ /**
+  * kbase_alloc_page_metadata - Allocate and initialize page metadata
+  * @kbdev:    Pointer to kbase device.
 diff --git a/drivers/gpu/arm/midgard/mali_kbase_softjobs.c b/drivers/gpu/arm/midgard/mali_kbase_softjobs.c
 index f2ee559..77c7e9e 100644
 --- a/drivers/gpu/arm/midgard/mali_kbase_softjobs.c
@@ -658,6 +559,18 @@ index f2ee559..77c7e9e 100644
 +#endif
 +	}
  	spin_unlock_irqrestore(&kctx->waiting_soft_jobs_lock, lflags);
+ }
+ 
+diff --git a/drivers/gpu/arm/midgard/mmu/mali_kbase_mmu.c b/drivers/gpu/arm/midgard/mmu/mali_kbase_mmu.c
+index 8a8b4df..f328dad 100644
+--- a/drivers/gpu/arm/midgard/mmu/mali_kbase_mmu.c
++++ b/drivers/gpu/arm/midgard/mmu/mali_kbase_mmu.c
+@@ -4541,6 +4541,7 @@ static void kbase_mmu_mark_non_movable(struct kbase_device *const kbdev, struct
+ 	if (IS_PAGE_MOVABLE(page_md->status))
+ 		page_md->status = PAGE_MOVABLE_CLEAR(page_md->status);
+ 
++	kbase_clear_page_movable(page);
+ 	spin_unlock(&page_md->migrate_lock);
  }
  
 diff --git a/drivers/gpu/arm/midgard/tl/mali_kbase_timeline.c b/drivers/gpu/arm/midgard/tl/mali_kbase_timeline.c

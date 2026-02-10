@@ -20,6 +20,7 @@ SRC_URI = " \
         file://0005-Fix-translation-faults-by-using-dma_alloc_pages-for-.patch \
         file://0006-Making-kernel-driver-compatible-with-6.18-kernel.patch \
         file://0007-Making-arbiter-driver-compatible-with-6.18-kernel.patch \
+        file://0008-Using-Upstream-For-MT-Unmapped-Area.patch \
         file://load-mali-modules.sh \
         file://99-mali-modules.rules \
         file://mali_kbase.conf \
