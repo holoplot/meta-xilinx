@@ -23,5 +23,3 @@ EXTRA_OEMAKE += "O=${STAGING_KERNEL_BUILDDIR}"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 COMPATIBLE_MACHINE:versal = "versal"
-
-SKIP_RECIPE[kernel-module-hdmi] = "${@'Only kernel 6.12 and before are supported.' if bb.utils.vercmp_string(d.getVarFlag('XILINX_LINUX_VERSION', d.getVar('XILINX_RELEASE_VERSION')) or 'undefined', "6.13") >= 0 else ''}"
