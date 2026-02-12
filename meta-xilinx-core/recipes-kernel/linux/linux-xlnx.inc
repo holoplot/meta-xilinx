@@ -81,14 +81,17 @@ COMPATIBLE_MACHINE:versal-2ve-2vm = ".*"
 
 # Use DEFCONFIGs for configuring linux-xlnx kernels
 KCONFIG_MODE ?= "alldefconfig"
-KBUILD_DEFCONFIG:microblaze ?= "mmu_defconfig"
-KBUILD_DEFCONFIG:riscv32 ?= "defconfig"
-KBUILD_DEFCONFIG:riscv64 ?= "defconfig"
-KBUILD_DEFCONFIG:zynq ?= "xilinx_zynq_defconfig"
-KBUILD_DEFCONFIG:zynqmp ?= "xilinx_defconfig"
-KBUILD_DEFCONFIG:versal ?= "xilinx_defconfig"
-KBUILD_DEFCONFIG:versal-net ?= "xilinx_defconfig"
-KBUILD_DEFCONFIG:versal-2ve-2vm ?= "xilinx_defconfig"
+KBUILD_DEFCONFIG_DEFAULT ?= ""
+KBUILD_DEFCONFIG_DEFAULT:microblaze ?= "mmu_defconfig"
+KBUILD_DEFCONFIG_DEFAULT:riscv32 ?= "defconfig"
+KBUILD_DEFCONFIG_DEFAULT:riscv64 ?= "defconfig"
+KBUILD_DEFCONFIG_DEFAULT:zynq ?= "xilinx_zynq_defconfig"
+KBUILD_DEFCONFIG_DEFAULT:zynqmp ?= "xilinx_defconfig"
+KBUILD_DEFCONFIG_DEFAULT:versal ?= "xilinx_defconfig"
+KBUILD_DEFCONFIG_DEFAULT:versal-net ?= "xilinx_defconfig"
+KBUILD_DEFCONFIG_DEFAULT:versal-2ve-2vm ?= "xilinx_defconfig"
+
+KBUILD_DEFCONFIG ?= "${KBUILD_DEFCONFIG_DEFAULT}"
 
 KERNEL_FEATURES:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' features/xen/xen.scc', '', d)}"
 
