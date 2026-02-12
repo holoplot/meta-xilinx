@@ -8,12 +8,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 include machine-xilinx-${SOC_FAMILY}.inc
 
-# Include RPU1 BIF partition attributes per SOC family.
-# To enable RPU1 hello-world in the boot image, set:
-#   BIF_APPS_ATTR:append = " rpu1-hello-world"
-# in your machine conf or local.conf.
-include rpu1-xilinx.inc
-
 BOOTBIN_INCLUDE ?= ""
 
 inherit deploy bootgen-bif shared-manifest-aggregate
