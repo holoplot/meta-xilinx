@@ -3,34 +3,34 @@ reserved-memory:
   "#size-cells": 2
   "#address-cells": 2
 
-  libmetal_elf@98a8000:
-    start: 0x98a8000
+  libmetal_elf@9968000:
+    start: 0x9968000
     size: 0x60000
     no-map: 1
-  libmetal_desc0@9908000:
-    start: 0x9908000
+  libmetal_desc0@99C8000:
+    start: 0x99C8000
     size: 0x4000
     no-map: 1
-  libmetal_desc1@990c000:
-    start: 0x990c000
+  libmetal_desc1@99CC000:
+    start: 0x99CC000
     size: 0x4000
     no-map: 1
-  libmetal_data@9910000:
-    start: 0x9910000
+  libmetal_data@99D0000:
+    start: 0x99D0000
     size: 0x40000
     no-map: 1
 
 axi:
-  libmetal_uio_desc0@9908000:
-    start: 0x9908000
+  libmetal_uio_desc0@99C8000:
+    start: 0x99C8000
     size: 0x4000
     compatible: "uio"
-  libmetal_uio_desc1@990c000:
-    start: 0x990c000
+  libmetal_uio_desc1@99CC000:
+    start: 0x99CC000
     size: 0x4000
     compatible: "uio"
-  libmetal_uio_data@9910000:
-    start: 0x9910000
+  libmetal_uio_data@99D0000:
+    start: 0x99D0000
     size: 0x40000
     compatible: "uio"
 
@@ -58,7 +58,7 @@ domains:
         compatible: libmetal,ipc-v1
         relation0:
             remote: RPU_1_BM
-            carveouts: [ libmetal_uio_desc0@9908000, libmetal_uio_desc1@990c000, libmetal_uio_data@9910000 ]
+            carveouts: [ libmetal_uio_desc0@99C8000, libmetal_uio_desc1@99CC000, libmetal_uio_data@99D0000 ]
             mbox: ipi_5_to_ipi_2
             timer: ttc2
 
@@ -80,10 +80,10 @@ domains:
         compatible: libmetal,ipc-v1
         relation0:
             host: APU_Linux
-            carveouts: [ libmetal_uio_desc0@9908000, libmetal_uio_desc1@990c000, libmetal_uio_data@9910000 ]
+            carveouts: [ libmetal_uio_desc0@99C8000, libmetal_uio_desc1@99CC000, libmetal_uio_data@99D0000 ]
             mbox: ipi_2_to_ipi_5
             timer: ttc2
-            elfload: [ libmetal_elf@98a8000 ]
+            elfload: [ libmetal_elf@9968000 ]
 
     sram:
       - dev: psx_wizard_0_psxl_0_psx_r52_1a_atcm_global@eba40000
@@ -101,6 +101,6 @@ domains:
         size: 32K
         spec_name: psx_wizard_0_psxl_0_psx_r52_1a_ctcm_global
         start: '0xeba60000'
-      - dev: libmetal_elf@98a8000
-        start: 0x98a8000
+      - dev: libmetal_elf@9968000
+        start: 0x9968000
         size: 0x60000
