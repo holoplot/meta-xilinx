@@ -50,6 +50,7 @@ domains:
                     remote: R5_0_FREERTOS
                     mbox: ipi_3_to_ipi_1
                     carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
+                    timer: [ ttc0, ttc1 ]
 
     R5_0_FREERTOS:
         compatible:
@@ -83,3 +84,4 @@ domains:
                      host: APU_Linux
                      mbox: ipi_1_to_ipi_3
                      carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
+                     timer: ttc3
