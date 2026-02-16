@@ -148,7 +148,7 @@ do_configure:prepend() {
     lopper -f -O . ${CONFIG_DTFILE} -- baremetallinker_xlnx ${ESW_MACHINE} ${S} openamp
     cd -
 
-    touch ${S}/machine/xlnx/UserConfig.cmake
+    touch ${S}/UserConfig.cmake
 }
 
 do_compile_rpu() {
