@@ -41,7 +41,7 @@ python do_manifest_aggregate() {
 }
 
 do_manifest_aggregate[vardeps] = "MANIFEST_AGGREGATE_COMPONENTS MANIFEST_AGGREGATE_OUTPUT"
-addtask manifest_aggregate after do_prepare_recipe_sysroot before do_deploy
+addtask manifest_aggregate after do_prepare_recipe_sysroot before do_configure
 
 do_deploy:append() {
     if [ -f "${MANIFEST_AGGREGATE_OUTPUT}" ]; then
