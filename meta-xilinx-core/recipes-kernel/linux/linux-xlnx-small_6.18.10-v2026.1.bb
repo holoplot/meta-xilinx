@@ -1,4 +1,4 @@
-require linux-xlnx_6.18.0-v2026.1.bb
+require linux-xlnx_6.18.10-v2026.1.bb
 
 DESCRIPTION = "Xilinx Kernel - Alternative smaller configuration"
 
