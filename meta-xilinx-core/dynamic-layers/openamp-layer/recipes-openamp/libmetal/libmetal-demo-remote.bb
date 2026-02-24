@@ -6,8 +6,9 @@ inherit ccmake cmake python3-dir deploy
 SYSTEM_DTFILE_DEPENDS ??= ""
 LIBMETAL_DEPENDS ?= "${SYSTEM_DTFILE_DEPENDS}"
 LIBMETAL_DTFILE ?= "${CONFIG_DTFILE}"
+
 DEPENDS:append = "${LIBMETAL_DEPENDS}"
-DEPENDS:append = " libmetal-xlnx device-tree python3-native python3-pyyaml-native  python3-dtc-native libmetal-xlnx-extension xiltimer libxil xilstandalone xiltimer ipipsu "
+DEPENDS:append = " libmetal-xlnx device-tree python3-native python3-pyyaml-native  python3-dtc-native libmetal-xlnx-extension xiltimer ttcps libxil xilstandalone xiltimer ipipsu "
 
 PM_DEPENDS ?= " xilpm "
 PM_DEPENDS:versal-2ve-2vm = " xilpm-ng "
