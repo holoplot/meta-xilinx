@@ -72,7 +72,6 @@ domains:
           secure: true
           el: 0x3
     os,type: baremetal
-    xlnx,ddr-boot: true
     domain-to-domain:
       compatible: openamp,domain-to-domain-v1
 
@@ -82,7 +81,7 @@ domains:
             host: APU_Linux
             carveouts: [ libmetal_uio_desc0@99C8000, libmetal_uio_desc1@99CC000, libmetal_uio_data@99D0000 ]
             mbox: ipi_2_to_ipi_5
-            timer: ttc2
+            timer: [ ttc2, ttc3 ]
             elfload: [ libmetal_elf@9968000 ]
 
     sram:
