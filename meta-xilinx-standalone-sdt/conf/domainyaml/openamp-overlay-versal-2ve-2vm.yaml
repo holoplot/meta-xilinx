@@ -7,7 +7,6 @@ reserved-memory:
     no-map: 1
     start: 0x9800100
     size: 0x5FF00
-    device_type: "memory"
   vdev0vring0@9860000:
     start: 0x9860000
     size: 0x4000
@@ -83,6 +82,7 @@ domains:
           el: 0x3  
     os,type: zephyr
     xlnx,ddr-boot: true
+    xlnx,zephyr,mems: [ ddrboot@9800100 ]
     domain-to-domain:
       compatible: openamp,domain-to-domain-v1
       rpmsg-relation:
