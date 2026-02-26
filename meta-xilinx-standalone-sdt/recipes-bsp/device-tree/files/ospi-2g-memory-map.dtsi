@@ -72,6 +72,7 @@
 				label = "User Scratchpad";
 				reg = <0xFa00000 0x5e0000>;
 			};
+			/* 0xFFE0000-0x10000000: Reserved for OSPI manifest (128KB) */
 		};
 	};
 };

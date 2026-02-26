@@ -26,6 +26,7 @@ MANIFEST_AGGREGATE_COMPONENTS:versal-net = "device-tree u-boot trusted-firmware-
 MANIFEST_AGGREGATE_COMPONENTS:versal-2ve-2vm = "device-tree u-boot trusted-firmware-a plm"
 
 MANIFEST_AGGREGATE_DEPLOY_NAME = "${BOOTBIN_BASE_NAME}.manifest.json"
+MANIFEST_AGGREGATE_LINK_NAME = "boot.bin.manifest.json"
 
 MANIFEST_AGGREGATE_DEPENDS:zynq = "device-tree virtual/bootloader fsbl"
 MANIFEST_AGGREGATE_DEPENDS:zynqmp = "device-tree virtual/bootloader fsbl pmufw virtual/arm-trusted-firmware"

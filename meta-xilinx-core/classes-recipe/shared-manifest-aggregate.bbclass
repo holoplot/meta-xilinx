@@ -4,6 +4,7 @@ MANIFEST_AGGREGATE_COMPONENTS ?= ""
 MANIFEST_AGGREGATE_DEPENDS ?= ""
 MANIFEST_AGGREGATE_OUTPUT ?= "${WORKDIR}/${PN}-aggregate.manifest.json"
 MANIFEST_AGGREGATE_DEPLOY_NAME ?= "${PN}.manifest.json"
+MANIFEST_AGGREGATE_LINK_NAME ?= ""
 
 DEPENDS += "${MANIFEST_AGGREGATE_DEPENDS}"
 
@@ -46,5 +47,8 @@ addtask manifest_aggregate after do_prepare_recipe_sysroot before do_configure
 do_deploy:append() {
     if [ -f "${MANIFEST_AGGREGATE_OUTPUT}" ]; then
         install -m 0644 "${MANIFEST_AGGREGATE_OUTPUT}" "${DEPLOYDIR}/${MANIFEST_AGGREGATE_DEPLOY_NAME}"
+        if [ -n "${MANIFEST_AGGREGATE_LINK_NAME}" ]; then
+            ln -sf "${MANIFEST_AGGREGATE_DEPLOY_NAME}" "${DEPLOYDIR}/${MANIFEST_AGGREGATE_LINK_NAME}"
+        fi
     fi
 }

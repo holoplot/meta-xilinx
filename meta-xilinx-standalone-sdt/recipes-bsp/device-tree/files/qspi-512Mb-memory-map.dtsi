@@ -69,8 +69,9 @@
 			};
 			partition@3600000 {
 			        label = "User Scratchpad";
-			        reg = <0x3600000 0xa00000>;
+			        reg = <0x3600000 0x9f0000>;
 			};
+			/* 0x3FF0000-0x4000000: Reserved for QSPI manifest (64KB) */
 		};
 	};
 };
