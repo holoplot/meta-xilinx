@@ -5,7 +5,13 @@ OVERRIDES .= ":qemuboot-xilinx"
 # Default machine targets for Xilinx QEMU (FDT Generic)
 QB_RNG=""
 
-QB_SYSTEM_NAME ?= "${@qemu_target_binary(d)}"
+DEFAULT_QB_SYSTEM_NAME = "qemu-system-aarch64-multiarch"
+DEFAULT_QB_SYSTEM_NAME:microblaze = "qemu-system-microblazeel"
+DEFAULT_QB_SYSTEM_NAME:microblaze-v:riscv32 = "qemu-system-riscv32"
+DEFAULT_QB_SYSTEM_NAME:microblaze-v:riscv64 = "qemu-system-riscv64"
+DEFAULT_QB_SYSTEM_NAME:zynq = "qemu-system-aarch64"
+QB_SYSTEM_NAME ?= "${DEFAULT_QB_SYSTEM_NAME}"
+
 QB_DEFAULT_FSTYPE ?= "${@qemu_rootfs_params(d,'fstype')}"
 QB_ROOTFS ?= "${@qemu_rootfs_params(d,'rootfs')}"
 QB_ROOTFS_OPT ?= "${@qemu_rootfs_params(d,'rootfs-opt')}"
@@ -32,21 +38,6 @@ QEMU_HW_SD_DRIVE_INDEX:zynq ?= "0"
 QEMU_HW_SD_DRIVE_INDEX:versal-net ?= "0"
 
 inherit_defer qemuboot
-
-def qemu_target_binary(data):
-    package_arch = data.getVar("PACKAGE_ARCH")
-    qemu_target_binary = (data.getVar("QEMU_TARGET_BINARY_%s" % package_arch) or "")
-    if qemu_target_binary:
-        return qemu_target_binary
-
-    target_arch = data.getVar("TARGET_ARCH")
-    if target_arch == "microblazeeb":
-        target_arch = "microblaze"
-    elif target_arch == "aarch64":
-        target_arch += "-multiarch"
-    elif target_arch == "arm":
-        target_arch = "aarch64"
-    return "qemu-system-%s" % target_arch
 
 def qemu_add_extra_args(data):
     initramfs_image = data.getVar('INITRAMFS_IMAGE') or ""
