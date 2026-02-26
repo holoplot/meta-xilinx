@@ -10,8 +10,9 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '
 SRC_URI = "${REPO};${BRANCHARG}"
 SRCREV = "2afe81dff5e7d8dc30497a896b18fb2ad0035b87"
 
-# Don't allow building for Zynq and Microblaze MACHINE unless it is supported.
+# Don't allow building for Microblaze MACHINE unless it is supported.
 COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE:zynq = ".*"
 COMPATIBLE_MACHINE:zynqmp = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
