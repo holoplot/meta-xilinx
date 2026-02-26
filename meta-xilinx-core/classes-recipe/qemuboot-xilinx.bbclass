@@ -19,8 +19,9 @@ QB_DTB ?= "${@qemu_default_dtb(d)}"
 
 # https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Boot-Mode-Pin-Settings
 # https://docs.amd.com/r/en-US/ug1085-zynq-ultrascale-trm/Boot-Modes
-# https://docs.amd.com/r/en-US/ug1304-versal-acap-ssdg/Boot-Device-Modes
-QEMU_HW_BOOT_MODE ?= "5"
+# https://docs.amd.com/r/en-US/am011-versal-acap-trm/Primary-Boot-Interfaces-Table
+# https://docs.amd.com/r/en-US/am026-versal-ai-edge-prime-gen2-trm/Primary-Boot-Interfaces-Table
+QEMU_HW_BOOT_MODE ?= "${HW_BOOT_MODE}"
 
 
 # ZynqMP or Versal SD and eMMC drive index.
@@ -112,15 +113,17 @@ def qemu_rootfs_params(data, param):
         # Ramdisk must be compiled into the kernel
         return ''
 
-def qemu_default_dtb(data):
-    if data.getVar("IMAGE_BOOT_FILES", True):
-        dtbs = data.getVar("IMAGE_BOOT_FILES", True).split(" ")
-        # IMAGE_BOOT_FILES has extra renaming info in the format '<source>;<target>'
-        # Note: Wildcard sources work here only because runqemu expands them at run time
-        dtbs = [f.split(";")[0] for f in dtbs]
-        dtbs = [f for f in dtbs if f.endswith(".dtb")]
-        if len(dtbs) != 0:
-            return dtbs[0]
+def qemu_default_dtb(d):
+    # device trees (device-tree only), these are first as they are likely desired over the kernel ones
+    if "device-tree" in (d.getVar("PREFERRED_PROVIDER_virtual/dtb") or ""):
+        return "system.dtb"
+
+    # device trees (kernel only)
+    if d.getVar("KERNEL_DEVICETREE"):
+        dtbs = d.getVar("KERNEL_DEVICETREE").split(" ")
+        dtbs = [os.path.basename(d) for d in dtbs]
+        return dtbs[0]
+
     return ""
 
 def qemu_default_serial(data):
