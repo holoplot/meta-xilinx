@@ -9,6 +9,8 @@
 #
 # Variables (used as defaults when not passed as parameters):
 #   BIF_FILE_PATH          - Output path for generated BIF file
+#   BIF_TOPLEVEL_ATTR      - Space-separated top-level attribute names
+#   BIF_TOPLEVEL_ATTR[a]   - Value for top-level attribute 'a' (emitted as: a = value)
 #   BIF_COMMON_ATTR        - Space-separated common attribute names
 #   BIF_COMMON_ATTR[name]  - Flags for common attribute
 #   BIF_OPTIONAL_DATA      - Semicolon-separated: "<filepath>, id=<id>;"
@@ -33,6 +35,29 @@ BOOTGEN_ARCH:zynqmp = "zynqmp"
 BOOTGEN_ARCH:versal = "versal"
 BOOTGEN_ARCH:versal-net = "versalnet"
 BOOTGEN_ARCH:versal-2ve-2vm = "versal_2ve_2vm"
+
+
+def bootgen_bif_write_toplevel_attrs(biffd, d, toplevel_attrs=None):
+    """
+    Write bare key = value top-level BIF attributes.
+
+    These are scalar attributes like id_code, extended_id_code, and id that
+    appear at the top of the BIF outside any image block. They are needed for
+    standalone images that don't include a base-pdi partition (which normally
+    provides these values to bootgen automatically).
+    """
+    if toplevel_attrs is None:
+        toplevel_attrs = (d.getVar("BIF_TOPLEVEL_ATTR") or "").split()
+    if not toplevel_attrs:
+        return
+
+    toplevel_flags = d.getVarFlags("BIF_TOPLEVEL_ATTR") or {}
+    for name in toplevel_attrs:
+        if name not in toplevel_flags:
+            bb.fatal("BIF_TOPLEVEL_ATTR[%s] not defined, but '%s' is listed "
+                     "in BIF_TOPLEVEL_ATTR" % (name, name))
+        value = d.expand(toplevel_flags[name])
+        biffd.write("\t%s = %s\n" % (name, value))
 
 def bootgen_bif_create_zynq(common_attrs, partitions, local_files, biffd, d):
     """Generate BIF content for Zynq/ZynqMP (flat partition list)."""
@@ -248,6 +273,8 @@ def bootgen_bif_generate(d, bif_path=None, workdir=None, partitions=None, option
     with open(bif_path, 'w') as biffd:
         biffd.write("the_ROM_image:\n")
         biffd.write("{\n")
+
+        bootgen_bif_write_toplevel_attrs(biffd, d)
 
         # Optional data (Versal version strings, user data) - use parameter or variable
         opt_data = optional_data if optional_data is not None else (d.getVar("BIF_OPTIONAL_DATA") or "")
