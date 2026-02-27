@@ -46,4 +46,5 @@ RDEPENDS:${PN}:append = " \
 	packagegroup-openamp-rpc-demo \
 	packagegroup-openamp-zephyr-test \
 	rpmsg-utils \
+	libmetal-demo-host \
 	"
