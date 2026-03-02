@@ -1,7 +1,7 @@
 SUMMARY = "Control Software for VCU"
 DESCRIPTION = "Control software libraries, test applications and headers provider for VCU encoder/decoded software API"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ac7c6b649ce8caa4f4c517aaa77c8b17"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=624e7970a65c3e70b309116d8fb6c3d7"
 
 # Recipe has been renamed
 PROVIDES += "libvcu-xlnx"
@@ -12,7 +12,7 @@ PV .= "+git"
 
 BRANCH ?= "master"
 REPO   ?= "git://github.com/Xilinx/vcu-ctrl-sw.git;protocol=https"
-SRCREV = "14911d42fdfaa7af847b56ef60d8b668f395e862"
+SRCREV = "ddb5221a3cd5875e8e8724dcf5df503d469ef16f"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
