@@ -1,5 +1,5 @@
 SRC_URI = "git://github.com/Xilinx/lopper.git;branch=master;protocol=https"
-SRCREV = "2440a0ce358031a5b2874b31e4dbf7adf50392b8"
+SRCREV = "01384ee2f4f54dac82f59723eb920db92b31fe13"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/lopper:"
 
