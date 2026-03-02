@@ -14,7 +14,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 BRANCH = "master"
 REPO = "git://github.com/Xilinx/vcu-modules.git;protocol=https"
-SRCREV = "432ac3d1578999a84ae96bb66c3ecdc0fe479867"
+SRCREV = "26caca602d17781980c4dbc5d78cc15b64289bdd"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = " \
