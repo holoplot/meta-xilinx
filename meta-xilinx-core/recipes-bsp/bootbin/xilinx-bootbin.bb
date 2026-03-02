@@ -194,3 +194,21 @@ IMAGE_NAME = "${BOOTBIN_BASE_NAME}"
 
 inherit ${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'qemuboot-xilinx', '', d)}
 do_deploy[postfuncs] += "${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'do_write_qemuboot_conf', '', d)}"
+
+# Avoid circular dependencies
+EXTRA_IMAGEDEPENDS:remove := "${PN}"
+EXTRA_IMAGEDEPENDS:remove = "virtual/cdo"
+EXTRA_IMAGEDEPENDS:remove = "virtual/boot-bin"
+python() {
+    def extraimage_getdepends(task):
+        deps = ""
+        for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
+            if ":" in dep:
+                deps += " %s " % (dep)
+            else:
+                deps += " %s:%s" % (dep, task)
+        return deps
+
+    deps = " " + extraimage_getdepends('do_populate_sysroot')
+    d.appendVarFlag('do_deploy', 'depends', deps)
+}
