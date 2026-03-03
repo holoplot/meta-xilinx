@@ -1,7 +1,7 @@
-From 96744f30edc573e4d06aaeb39105d6617091397e Mon Sep 17 00:00:00 2001
+From 1a11000062d9594fb2abab98e1a545ad6d69f19e Mon Sep 17 00:00:00 2001
 From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 Date: Tue, 18 Nov 2025 14:57:50 -0800
-Subject: [PATCH] libdrm: Add support for some YUV DRM formats
+Subject: [PATCH 6/6] libdrm: Add support for some YUV DRM formats
 
 Add support for 10 and 12 bpc YUV 444 DRM formats that were introduced in
 Linux version 6.17.
@@ -25,7 +25,7 @@ Upstream-Status: Pending
  4 files changed, 352 insertions(+), 106 deletions(-)
 
 diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-index 7e27bfd..83d4c26 100644
+index 7e27bfd9..83d4c260 100644
 --- a/include/drm/drm_fourcc.h
 +++ b/include/drm/drm_fourcc.h
 @@ -413,6 +413,42 @@ extern "C" {
@@ -72,7 +72,7 @@ index 7e27bfd..83d4c26 100644
  #define DRM_FORMAT_T5M8  fourcc_code('T', '5', 'M', '8') /* Y/CbCr 4:0:0 8-bit 32x4 tiles */
  #define DRM_FORMAT_T5MA  fourcc_code('T', '5', 'M', 'A') /* Y/CbCr 4:0:0 10-bit 32x4 tiles */
 diff --git a/tests/modetest/buffers.c b/tests/modetest/buffers.c
-index 264fe5d..b642e8c 100644
+index 264fe5db..b642e8cd 100644
 --- a/tests/modetest/buffers.c
 +++ b/tests/modetest/buffers.c
 @@ -161,6 +161,22 @@ bo_create(int fd, unsigned int format,
@@ -150,7 +150,7 @@ index 264fe5d..b642e8c 100644
  		handles[0] = bo->handle;
  		pitches[0] = bo->pitch;
 diff --git a/tests/util/format.c b/tests/util/format.c
-index 876eaf3..39cdf2e 100644
+index 876eaf30..39cdf2ee 100644
 --- a/tests/util/format.c
 +++ b/tests/util/format.c
 @@ -61,12 +61,25 @@ static const struct util_format_info format_info[] = {
@@ -180,7 +180,7 @@ index 876eaf3..39cdf2e 100644
  	/* RGB16 */
  	{ DRM_FORMAT_ARGB4444, "AR12", MAKE_RGB_INFO(4, 8, 4, 4, 4, 0, 4, 12) },
 diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index e01a311..e9da2e0 100644
+index e01a311e..e9da2e06 100644
 --- a/tests/util/pattern.c
 +++ b/tests/util/pattern.c
 @@ -23,6 +23,7 @@
@@ -608,5 +608,5 @@ index e01a311..e9da2e0 100644
  	case DRM_FORMAT_XRGB4444:
  	case DRM_FORMAT_ABGR4444:
 -- 
-2.25.1
+2.34.1
 
