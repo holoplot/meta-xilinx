@@ -1,7 +1,7 @@
 From 5352b3de904bccdd792865088f46fce69d11d291 Mon Sep 17 00:00:00 2001
 From: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
 Date: Wed, 27 Oct 2021 16:04:47 +0530
-Subject: [PATCH 4/6] modetest: Add YUV444 and X403 format support for modetest
+Subject: [PATCH 4/7] modetest: Add YUV444 and X403 format support for modetest
 
 Add YUV44 8-bit and X403 10-bit formats support to modetest
 for generating color bar pattern.

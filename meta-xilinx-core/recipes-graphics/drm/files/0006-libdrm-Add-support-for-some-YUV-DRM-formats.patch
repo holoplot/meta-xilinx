@@ -1,7 +1,7 @@
 From 1a11000062d9594fb2abab98e1a545ad6d69f19e Mon Sep 17 00:00:00 2001
 From: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
 Date: Tue, 18 Nov 2025 14:57:50 -0800
-Subject: [PATCH 6/6] libdrm: Add support for some YUV DRM formats
+Subject: [PATCH 6/7] libdrm: Add support for some YUV DRM formats
 
 Add support for 10 and 12 bpc YUV 444 DRM formats that were introduced in
 Linux version 6.17.

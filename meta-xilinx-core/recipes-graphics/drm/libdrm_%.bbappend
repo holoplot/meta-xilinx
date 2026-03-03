@@ -8,4 +8,5 @@ SRC_URI:append = " \
 	file://0004-modetest-Add-YUV444-and-X403-format-support-for-mode.patch \
 	file://0005-Update-libdrm-drm_fourcc.h-to-add-VCU2-tiled-formats.patch \
 	file://0006-libdrm-Add-support-for-some-YUV-DRM-formats.patch \
+	file://0007-modetest-Add-pattern-support-for-xilinx-tiled-format.patch \
 "

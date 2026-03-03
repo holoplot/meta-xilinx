@@ -1,7 +1,7 @@
 From 99c88a9f29c08b601c5a9d830b3c1d24dac4ce7d Mon Sep 17 00:00:00 2001
 From: Anil Kumar M <amamidal@xilinx.com>
 Date: Wed, 16 Sep 2020 22:42:47 +0530
-Subject: [PATCH 3/6] modetest: fix smpte colour pattern issue for XV20 and
+Subject: [PATCH 3/7] modetest: fix smpte colour pattern issue for XV20 and
  XV15 formats
 
 Fix smpte colour issue for XV15 and XV20 formats.

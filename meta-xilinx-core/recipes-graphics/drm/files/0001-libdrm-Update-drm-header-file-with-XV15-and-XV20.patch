@@ -1,7 +1,7 @@
 From 5a35ea655c68a10f10f58bd3b377e52189235b63 Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 1 Nov 2021 12:59:36 -0700
-Subject: [PATCH 1/6] libdrm: Update drm header file with XV15 and XV20
+Subject: [PATCH 1/7] libdrm: Update drm header file with XV15 and XV20
 
 This patch updates drm header file with YUV 420 and
 YUV422 10 bit formats.
