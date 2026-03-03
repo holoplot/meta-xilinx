@@ -5,8 +5,6 @@ DEPENDS += "dtc-native"
 
 inherit deploy
 
-LIC_FILES_CHKSUM = "file://Makefile;beginline=1;endline=27;md5=7348b6cbcae69912cb1dee68d6c68d99"
-
 PV .= "+git"
 
 REPO ?= "git://github.com/Xilinx/qemu-devicetrees.git;protocol=https"
