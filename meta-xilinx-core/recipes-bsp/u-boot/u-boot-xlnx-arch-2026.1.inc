@@ -2,7 +2,6 @@
 # generically applied to u-boot-tools-xlnx.
 SRC_URI:append:versal-2ve-2vm = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'optee', 'file://u-boot-optee.cfg', '', d)} \
-    file://0001-amd_versal_2ve_2vm-Add-ufs-distro-boot-command.patch \
     "
 
 SRC_URI_RISCV = "\
