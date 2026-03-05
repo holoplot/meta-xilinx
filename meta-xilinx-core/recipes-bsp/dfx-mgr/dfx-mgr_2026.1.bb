@@ -9,7 +9,7 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '
 SRC_URI = "${REPO};${BRANCHARG}"
 
 BRANCH = "master"
-SRCREV = "5c0042745740c1a9794519b0a8b8dd3918f63687"
+SRCREV = "29876c24cb39d1cfde7831e87c4989b5ff05606f"
 SOMAJOR = "2"
 SOMINOR = "0"
 SOVERSION = "${SOMAJOR}.${SOMINOR}"
