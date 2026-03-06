@@ -80,9 +80,6 @@ SRC_URI += "${@('file://' + d.getVar("BIF_FILE_PATH")) if d.getVar("BIF_FILE_PAT
 
 BOOTGEN_EXTRA_ARGS ?= ""
 
-QEMU_FLASH_TYPE ?= "undefined"
-QEMU_FLASH_SIZE ?= "256M"
-
 BIF_BITSTREAM_ATTR ?= "${@bb.utils.contains('MACHINE_FEATURES', 'fpga-overlay', '', 'bitstream', d)}"
 
 do_patch[noexec] = "1"
@@ -110,11 +107,6 @@ do_compile() {
     if [ ! -e ${B}/BOOT.bin ]; then
         bbfatal "bootgen failed. See log"
     fi
-
-    if [ "${QEMU_FLASH_TYPE}" = "qspi" -o "${QEMU_FLASH_TYPE}" = "ospi" ]; then
-        dd if=/dev/zero bs=${QEMU_FLASH_SIZE} count=1  > ${B}/qemu-${QEMU_FLASH_TYPE}.bin
-        dd if=${B}/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
-    fi
 }
 
 do_install() {
@@ -123,8 +115,6 @@ do_install() {
 }
 
 inherit image-artifact-names
-
-QEMU_FLASH_IMAGE_NAME ?= "qemu-${QEMU_FLASH_TYPE}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
 
 BOOTBIN_LINK_NAME ?= "BOOT-${MACHINE}"
 BOOTBIN_BASE_NAME ?= "BOOT-${MACHINE}${IMAGE_VERSION_SUFFIX}"
@@ -138,11 +128,6 @@ do_deploy() {
     install -d ${DEPLOYDIR}/boot.bin-extracted
     install -m 0644 ${B}/* ${DEPLOYDIR}/boot.bin-extracted/.
     rm -f ${DEPLOYDIR}/boot.bin-extracted/BOOT.bin
-
-    if [ "${QEMU_FLASH_TYPE}" = "qspi" -o "${QEMU_FLASH_TYPE}" = "ospi" ]; then
-        install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
-        ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
-    fi
 }
 
 do_deploy:append:versal () {
@@ -173,10 +158,14 @@ IMAGE_NAME = "${BOOTBIN_BASE_NAME}"
 inherit ${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'qemuboot-xilinx', '', d)}
 do_deploy[postfuncs] += "${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'do_write_qemuboot_conf', '', d)}"
 
+QEMU_FLASH_TYPE ??= "undefined"
+
 # Avoid circular dependencies
 EXTRA_IMAGEDEPENDS:remove := "${PN}"
 EXTRA_IMAGEDEPENDS:remove = "virtual/cdo"
 EXTRA_IMAGEDEPENDS:remove = "virtual/boot-bin"
+EXTRA_IMAGEDEPENDS:remove = "qemu-image-empty:do_image_complete"
+EXTRA_IMAGEDEPENDS:remove = "qemu-${QEMU_FLASH_TYPE}"
 python() {
     def extraimage_getdepends(task):
         deps = ""

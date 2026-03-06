@@ -25,6 +25,17 @@ QEMU_HW_SERIAL ??= ""
 QB_OPT_APPEND += "${QEMU_HW_SERIAL} -nodefaults"
 QB_SERIAL_OPT = ""
 
+# We need the flash type to specify other values, the machine is responsible
+# for setting this.
+QEMU_FLASH_TYPE ??= "undefined"
+
+# Define default flash filename used for QEMU
+QEMU_FLASH_FILE ?= "${@'qemu-${QEMU_FLASH_TYPE}' if d.getVar('QEMU_FLASH_TYPE') in [ 'qspi', 'ospi' ] else ''}"
+
+# Build qemu SPI and empty image as necessary
+EXTRA_IMAGEDEPENDS += "${@'qemu-image-empty:do_image_complete' if d.getVar('SOC_ON_DISK_BOOT_BIN') == '1' else ''}"
+EXTRA_IMAGEDEPENDS += "${@'qemu-${QEMU_FLASH_TYPE}:do_deploy' if d.getVar('QEMU_FLASH_TYPE') in [ 'qspi', 'ospi' ] else ''}"
+
 # Workaround to trigger runqemu to use -dtb to send the APU DTB
 # This is done to ensure that we can easily change APU DTB at runtime via
 # standard runqemu options.  (only used on multiarch systems)
