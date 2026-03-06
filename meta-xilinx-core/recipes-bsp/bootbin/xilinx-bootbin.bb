@@ -80,13 +80,8 @@ SRC_URI += "${@('file://' + d.getVar("BIF_FILE_PATH")) if d.getVar("BIF_FILE_PAT
 
 BOOTGEN_EXTRA_ARGS ?= ""
 
-QEMU_FLASH_TYPE_DEFAULT = "undefined"
-QEMU_FLASH_TYPE_DEFAULT:zynq = "qspi"
-QEMU_FLASH_TYPE_DEFAULT:zynqmp = "qspi"
-QEMU_FLASH_TYPE_DEFAULT:versal = "${@'ospi' if d.getVar("QEMU_HW_BOOT_MODE") == '8' else 'qspi'}"
-QEMU_FLASH_TYPE_DEFAULT:versal-net = "${@'ospi' if d.getVar("QEMU_HW_BOOT_MODE") == '8' else 'qspi'}"
-QEMU_FLASH_TYPE_DEFAULT:versal-2ve-2vm = "${@'ospi' if d.getVar("QEMU_HW_BOOT_MODE") == '8' else 'qspi'}"
-QEMU_FLASH_TYPE ?= "${QEMU_FLASH_TYPE_DEFAULT}"
+QEMU_FLASH_TYPE ?= "undefined"
+QEMU_FLASH_SIZE ?= "256M"
 
 BIF_BITSTREAM_ATTR ?= "${@bb.utils.contains('MACHINE_FEATURES', 'fpga-overlay', '', 'bitstream', d)}"
 
@@ -115,21 +110,11 @@ do_compile() {
     if [ ! -e ${B}/BOOT.bin ]; then
         bbfatal "bootgen failed. See log"
     fi
-}
 
-do_compile:append:versal() {
-    dd if=/dev/zero bs=256M count=1  > ${B}/qemu-${QEMU_FLASH_TYPE}.bin
-    dd if=${B}/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
-}
-
-do_compile:append:versal-net() {
-    dd if=/dev/zero bs=256M count=1  > ${B}/qemu-${QEMU_FLASH_TYPE}.bin
-    dd if=${B}/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
-}
-
-do_compile:append:versal-2ve-2vm() {
-    dd if=/dev/zero bs=256M count=1  > ${B}/qemu-${QEMU_FLASH_TYPE}.bin
-    dd if=${B}/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
+    if [ "${QEMU_FLASH_TYPE}" = "qspi" -o "${QEMU_FLASH_TYPE}" = "ospi" ]; then
+        dd if=/dev/zero bs=${QEMU_FLASH_SIZE} count=1  > ${B}/qemu-${QEMU_FLASH_TYPE}.bin
+        dd if=${B}/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
+    fi
 }
 
 do_install() {
@@ -153,39 +138,32 @@ do_deploy() {
     install -d ${DEPLOYDIR}/boot.bin-extracted
     install -m 0644 ${B}/* ${DEPLOYDIR}/boot.bin-extracted/.
     rm -f ${DEPLOYDIR}/boot.bin-extracted/BOOT.bin
+
+    if [ "${QEMU_FLASH_TYPE}" = "qspi" -o "${QEMU_FLASH_TYPE}" = "ospi" ]; then
+        install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
+        ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
+    fi
 }
 
 do_deploy:append:versal () {
-
     install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
     ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-
-    install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
-    ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
 }
 
 do_deploy:append:versal-net () {
     install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
     ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-
-    install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
-    ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
-
 }
 
 do_deploy:append:versal-2ve-2vm() {
-
     install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
     ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-
-    install -m 0644 ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${DEPLOYDIR}/${QEMU_FLASH_IMAGE_NAME}.bin
-    ln -sf ${QEMU_FLASH_IMAGE_NAME}.bin ${DEPLOYDIR}/qemu-${QEMU_FLASH_TYPE}-${MACHINE}.bin
 }
 
 FILES:${PN} += "/boot/BOOT.bin"
 SYSROOT_DIRS += "/boot"
 
-addtask do_deploy before do_build after do_compile
+addtask deploy before do_build after do_compile
 
 # We want to deploy this into the build directory and copy it later
 IMGDEPLOYDIR ??= "${DEPLOYDIR}"
