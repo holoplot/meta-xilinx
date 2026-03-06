@@ -14,6 +14,28 @@ LIC_FILES_CHKSUM = "file://docs/license.rst;md5=6ed7bace7b0bc63021c6eba7b524039e
 
 # mbedtls-3.4.1 is not enabled in this configuration
 
+# SCMI Server support (set TFA_SCMI_SERVER to 1 to activate)
+TFA_SCMI_SERVER ?= "0"
+
+# SCMI Server repository details
+SRCBRANCH_scmi-server = "master"
+SRC_URI_SCMI_SERVER ?= "git://github.com/Xilinx/scmi-server.git;name=scmi-server;protocol=https;destsuffix=scmi-server;branch=${SRCBRANCH_scmi-server}"
+SRCREV_scmi-server = "6a89e742b01d0f9388791b37535793dc080f4cdd"
+
+# Conditionally add SCMI server to sources
+SRC_URI:append = " ${@bb.utils.contains('TFA_SCMI_SERVER', '1', '${SRC_URI_SCMI_SERVER}', '', d)}"
+
+# Update license information (adjust license type as needed)
+LICENSE:append = "${@bb.utils.contains('TFA_SCMI_SERVER', '1', ' & BSD-3-Clause', '', d)}"
+LIC_FILES_CHKSUM += "${@bb.utils.contains('TFA_SCMI_SERVER', '1', 'file://../scmi-server/LICENSE;md5=8a98de6f98ae5501d035c335a47a2bae', '', d)}"
+
+# Update SRCREV format
+SRCREV_FORMAT:append = "${@bb.utils.contains('TFA_SCMI_SERVER', '1', '_scmi-server', '', d)}"
+
+# Pass SCMI server path to TF-A build
+EXTRA_OEMAKE += "${@bb.utils.contains('TFA_SCMI_SERVER', '1', 'CUSTOM_PKG_PATH=${WORKDIR}/scmi-server', '', d)}"
+
+
 # The following are Xilinx specific settings
 PROVIDES = "virtual/arm-trusted-firmware"
 
