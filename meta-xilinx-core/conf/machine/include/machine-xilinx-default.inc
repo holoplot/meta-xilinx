@@ -102,7 +102,7 @@ def get_verbose_boot_mode(d):
     return ''
 
 # Does this configuration require a boot.bin on the image?
-SOC_ON_DISK_BOOT_BIN ?= "${@'1' if (d.getVar('HW_BOOT_MODE') or '') in (d.getVar('SOC_DISK_BOOT_MODE_MAPPING') or '').split() else ''}"
+SOC_ON_DISK_BOOT_BIN ?= "${@'1' if (d.getVar('HW_BOOT_MODE') or '') in (d.getVar('SOC_DISK_BOOT_MODE_MAPPING') or '').split() and d.getVar('XILINX_WITH_ESW') else ''}"
 SOC_ON_DISK_BOOT_BIN[doc] = "When set to 1, the boot.bin should be added to the boot media."
 
 # This is generally distro boot and processed via bootimg-partition
@@ -111,6 +111,8 @@ IMAGE_BOOT_FILES ?= "${@'boot.bin ' if d.getVar('SOC_ON_DISK_BOOT_BIN') == '1' e
 # This is EFI boot bootimg-efi(-amd)
 IMAGE_EFI_BOOT_FILES ?= "${@'boot.bin' if d.getVar('SOC_ON_DISK_BOOT_BIN') == '1' else ''}"
 
+# These dependencies are SOC specific, and only apply if building with
+# XSCT or SDT modes
 SOC_EXTRA_IMAGEDEPENDS[microblaze] = "virtual/bitstream"
 SOC_EXTRA_IMAGEDEPENDS[microblaze-v] = ""
 SOC_EXTRA_IMAGEDEPENDS[zynq] = "virtual/boot-bin"
@@ -118,7 +120,7 @@ SOC_EXTRA_IMAGEDEPENDS[zynqmp] = "virtual/boot-bin"
 SOC_EXTRA_IMAGEDEPENDS[versal] = "virtual/boot-bin virtual/cdo"
 SOC_EXTRA_IMAGEDEPENDS[versal-net] = "virtual/boot-bin virtual/cdo"
 SOC_EXTRA_IMAGEDEPENDS[versal-2ve-2vm] = "virtual/boot-bin virtual/cdo"
-SOC_EXTRA_IMAGEDEPENDS = "${@d.getVarFlag('SOC_EXTRA_IMAGEDEPENDS', d.getVar('SOC_FAMILY') or '') or ''}"
+SOC_EXTRA_IMAGEDEPENDS = "${@d.getVarFlag('SOC_EXTRA_IMAGEDEPENDS', d.getVar('SOC_FAMILY') or '') or '' if d.getVar('XILINX_WITH_ESW') else ''}"
 
 EXTRA_IMAGEDEPENDS += "${SOC_EXTRA_IMAGEDEPENDS}"
 
