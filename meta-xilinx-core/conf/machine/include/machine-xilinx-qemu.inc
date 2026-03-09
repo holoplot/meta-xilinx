@@ -38,7 +38,8 @@ EXTRA_IMAGEDEPENDS += "${@'qemu-${QEMU_FLASH_TYPE}:do_deploy' if d.getVar('QEMU_
 
 # Workaround to trigger runqemu to use -dtb to send the APU DTB
 # This is done to ensure that we can easily change APU DTB at runtime via
-# standard runqemu options.  (only used on multiarch systems)
-# The file is not actually used, but it does have to exist.
-QB_DEFAULT_KERNEL:aarch64 = "BOOT-${MACHINE}.bin"
-QB_KERNEL_CMDLINE:aarch64 = "none"
+# standard runqemu options.
+# The file is not required by the wrapper, but if present is used
+# to verify that the used boot.bin is the expected on.
+QB_DEFAULT_KERNEL = "BOOT-${MACHINE}.bin"
+QB_KERNEL_CMDLINE = "none"
