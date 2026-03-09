@@ -351,6 +351,9 @@ do_compile[vardeps] += "SPI_COMPONENTS SPI_IMAGE_SIZE SPI_OUTPUT_SIZE SPI_VERSIO
     SPI_FLASH_TYPE SPI_ERASE_BLOCK_SIZE"
 do_compile[vardepsexclude] += "DATETIME"
 
+# Required by the image deployment
+IMGDEPLOYDIR ??= "${DEPLOYDIR}"
+
 do_deploy() {
     install -Dm 644 ${B}/${IMAGE_NAME}.bin ${DEPLOYDIR}/${IMAGE_NAME}.bin
     ln -sf ${IMAGE_NAME}.bin ${DEPLOYDIR}/${IMAGE_LINK_NAME}.bin
@@ -362,7 +365,7 @@ do_deploy() {
     ln -sf ${IMAGE_NAME}.manifest.json ${DEPLOYDIR}/${IMAGE_LINK_NAME}.manifest.json
 }
 
-addtask deploy after do_compile
+addtask deploy after do_compile before do_build
 
 do_compress() {
     gzip -f -9 -n -c --rsyncable ${B}/${IMAGE_NAME}.bin > ${B}/${IMAGE_NAME}.bin.gz
@@ -371,3 +374,26 @@ do_compress() {
 addtask compress after do_compile before do_deploy
 
 EXPORT_FUNCTIONS do_compile
+
+# Generate a qemuboot.conf file for this output
+inherit ${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'qemuboot-xilinx', '', d)}
+do_deploy[postfuncs] += "${@bb.utils.contains('IMAGE_CLASSES', 'qemuboot-xilinx', 'do_write_qemuboot_conf', '', d)}"
+
+# Need this for the flash_stripe.py tool
+DEPENDS += "qemu-xilinx-multiarch-helper-native"
+
+# Avoid circular dependencies
+EXTRA_IMAGEDEPENDS:remove := "${PN}"
+python() {
+    def extraimage_getdepends(task):
+        deps = ""
+        for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
+            if ":" in dep:
+                deps += " %s " % (dep)
+            else:
+                deps += " %s:%s" % (dep, task)
+        return deps
+
+    deps = " " + extraimage_getdepends('do_populate_sysroot')
+    d.appendVarFlag('do_deploy', 'depends', deps)
+}
