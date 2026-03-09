@@ -130,21 +130,6 @@ do_deploy() {
     rm -f ${DEPLOYDIR}/boot.bin-extracted/BOOT.bin
 }
 
-do_deploy:append:versal () {
-    install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
-    ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-}
-
-do_deploy:append:versal-net () {
-    install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
-    ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-}
-
-do_deploy:append:versal-2ve-2vm() {
-    install -m 0644 ${B}/BOOT_bh.bin ${DEPLOYDIR}/${BOOTBIN_BASE_NAME}_bh.bin
-    ln -sf ${BOOTBIN_BASE_NAME}_bh.bin ${DEPLOYDIR}/BOOT-${MACHINE}_bh.bin
-}
-
 FILES:${PN} += "/boot/BOOT.bin"
 SYSROOT_DIRS += "/boot"
 
