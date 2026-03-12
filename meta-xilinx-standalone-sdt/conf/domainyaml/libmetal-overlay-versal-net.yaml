@@ -7,30 +7,30 @@ reserved-memory:
     start: 0x9968000
     size: 0x60000
     no-map: 1
-  libmetal_desc0@99C8000:
-    start: 0x99C8000
+  libmetal_desc0@99c8000:
+    start: 0x99c8000
     size: 0x4000
     no-map: 1
-  libmetal_desc1@99CC000:
-    start: 0x99CC000
+  libmetal_desc1@99cc000:
+    start: 0x99cc000
     size: 0x4000
     no-map: 1
-  libmetal_data@99D0000:
-    start: 0x99D0000
+  libmetal_data@99d0000:
+    start: 0x99d0000
     size: 0x40000
     no-map: 1
 
 axi:
-  libmetal_uio_desc0@99C8000:
-    start: 0x99C8000
+  libmetal_uio_desc0@99c8000:
+    start: 0x99c8000
     size: 0x4000
     compatible: "uio"
-  libmetal_uio_desc1@99CC000:
-    start: 0x99CC000
+  libmetal_uio_desc1@99cc000:
+    start: 0x99cc000
     size: 0x4000
     compatible: "uio"
-  libmetal_uio_data@99D0000:
-    start: 0x99D0000
+  libmetal_uio_data@99d0000:
+    start: 0x99d0000
     size: 0x40000
     compatible: "uio"
 
@@ -58,7 +58,7 @@ domains:
         compatible: libmetal,ipc-v1
         relation0:
             remote: RPU_1_BM
-            carveouts: [ libmetal_uio_desc0@99C8000, libmetal_uio_desc1@99CC000, libmetal_uio_data@99D0000 ]
+            carveouts: [ libmetal_uio_desc0@99c8000, libmetal_uio_desc1@99cc000, libmetal_uio_data@99d0000 ]
             mbox: ipi_5_to_ipi_2
             timer: ttc2
 
@@ -79,7 +79,7 @@ domains:
         compatible: libmetal,ipc-v1
         relation0:
             host: APU_Linux
-            carveouts: [ libmetal_uio_desc0@99C8000, libmetal_uio_desc1@99CC000, libmetal_uio_data@99D0000 ]
+            carveouts: [ libmetal_uio_desc0@99c8000, libmetal_uio_desc1@99cc000, libmetal_uio_data@99d0000 ]
             mbox: ipi_2_to_ipi_5
             timer: [ ttc2, ttc3 ]
             elfload: [ libmetal_elf@9968000 ]
