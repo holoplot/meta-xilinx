@@ -34,21 +34,6 @@ domains:
           secure: false
           el: 0x3
     os,type: linux
-
-    memory:
-      - dev: linux_ddrmc0
-        start: '0x0'
-        size: '0x80000000'
-      - dev: linux_ddrmc1
-        start: '0x800000000'
-        size: '0x80000000'
-      - dev: linux_ddrmc2
-        start: '0x50000000000'
-        size: '0x100000000'
-      - dev: linux_ddrmc3
-        start: '0x60000000000'
-        size: '0x80000000'
-
     reserved-memory:
       - vdev0vring0@9860000
       - vdev0vring1@9864000
