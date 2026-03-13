@@ -25,7 +25,7 @@ domains:
             - "openamp,domain-v1"
         cpus:
             - cluster: cpus_a72
-              cpumask: 0x1
+              cpumask: 0xf
               mode:
                  secure: true
                  el: 0x3
