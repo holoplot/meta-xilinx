@@ -6,8 +6,8 @@ COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://edf.amd.com/sswreleases/isp-media-server/2025.2/10242025/isp-media-server_24102025.tar.gz"
-SRC_URI[sha256sum] = "c2a98bdb5d64f4cbb3d8a78f384902b7882c984a6808a36b68b66a1c43814d9c"
+SRC_URI = "https://edf.amd.com/sswreleases/isp-media-server/2026.1/03142026/isp-media-server_03142026.tar.gz"
+SRC_URI[sha256sum] = "c0f3107a9bff94d533982dcd681911814565fcdddbd365b27fbfa89e6b1fd2a7"
 
 RDEPENDS:${PN} += "kernel-module-isp"
 
