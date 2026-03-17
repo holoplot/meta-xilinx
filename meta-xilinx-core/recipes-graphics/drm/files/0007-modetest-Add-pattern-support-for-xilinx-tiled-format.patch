@@ -1,4 +1,4 @@
-From 88afa6960e8231eca07f5f90ef1b6e4f6206b8a8 Mon Sep 17 00:00:00 2001
+From 6690707b91a4581afea34f2b6827ec903c1a56f5 Mon Sep 17 00:00:00 2001
 From: Neel Gandhi <neel.gandhi@amd.com>
 Date: Sat, 10 Jan 2026 17:50:39 +0530
 Subject: [PATCH 7/7] modetest: Add pattern support for xilinx tiled formats in
@@ -304,7 +304,7 @@ index 39cdf2ee..69798a70 100644
  	{ DRM_FORMAT_Y10, "Y10 ", MAKE_YUV_INFO(YUV_YCbCr, 1, 1, 1) },
  #endif
 diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index e9da2e06..143d7308 100644
+index e9da2e06..2718869f 100644
 --- a/tests/util/pattern.c
 +++ b/tests/util/pattern.c
 @@ -289,6 +289,46 @@ static void fill_smpte_yuv_planar(const struct util_yuv_info *yuv,
@@ -1224,7 +1224,7 @@ index e9da2e06..143d7308 100644
 +							/* For 10-bit, write 2 pixels but need 4-pixel groups for packing
 +							 * Duplicate the 2 values to fill 4 positions for write_pixels_10bpp */
 +							/* Semi-planar: interleaved UV */
-+							write_pixels_10bpp(u_block, u0 << 2, u1 << 2, v0 << 2, v1 << 2);
++							write_pixels_10bpp(u_block, u0 << 2, v0 << 2, u1 << 2, v1 << 2);
 +							u_block += 5;
 +						} else {  /* 12-bit */
 +							/* Semi-planar: interleaved UV */
@@ -1270,8 +1270,8 @@ index e9da2e06..143d7308 100644
 +							u_block += 4;
 +						} else if (bitdepth == 10) {
 +							/* 10-bit: interleaved UV */
-+							write_pixels_10bpp(u_block, chroma[0].u << 2, chroma[1].u << 2,
-+								chroma[0].v << 2, chroma[1].v << 2);
++							write_pixels_10bpp(u_block, chroma[0].u << 2, chroma[0].v << 2,
++								chroma[1].u << 2, chroma[1].v << 2);
 +							u_block += 5;
 +						} else {  /* 12-bit */
 +							/* 12-bit: interleaved UV */
