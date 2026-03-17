@@ -1,4 +1,7 @@
-/* OSPI patitions for basecamp Image-recovery */
+/ {
+	/* Empty root node resets Lopper's label tracking to avoid false duplicate label errors */
+};
+/* OSPI partitions for basecamp Image-recovery */
 &ospi {
 	#address-cells = <1>;
 	#size-cells = <0>;
