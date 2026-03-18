@@ -1,7 +1,7 @@
 require ${LAYER_PATH_openamp-layer}/recipes-openamp/rpmsg-examples/rpmsg-example.inc
 LIC_FILES_CHKSUM ?= "file://LICENSE.md;md5=ab88daf995c0bd0071c2e1e55f3d3505"
 REPO = "git://github.com/Xilinx/openamp-system-reference.git;protocol=https"
-SRCREV = "459620226bcfbf980fe612f98f112368be1b85bb"
+SRCREV = "b8a532d310b942005123dcb9f3c977a5819f03be"
 BRANCH = "2026"
 PV .= "+git"
 
