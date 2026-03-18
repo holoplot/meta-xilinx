@@ -2,10 +2,6 @@
 # with some QB_* params adjusted to boot qemu for qemu-microblaze-v-32 and
 # qemu-microblaze-v-64 machines.
 
-# qemu-xilinx, in riscv64 mode may just exist when USB is initialized
-PREFERRED_PROVIDER_qemu-native = "qemu-native"
-PREFERRED_PROVIDER_qemu-system-native = "qemu-system-native"
-
 # qemuboot options, based on qemuriscv
 # Currently microblaze-v is only single thread
 #QB_SMP ?= "-smp 4"
