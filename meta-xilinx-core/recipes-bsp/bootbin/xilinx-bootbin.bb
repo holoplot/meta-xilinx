@@ -147,10 +147,10 @@ QEMU_FLASH_TYPE ??= "undefined"
 
 # Avoid circular dependencies
 EXTRA_IMAGEDEPENDS:remove := "${PN}"
-EXTRA_IMAGEDEPENDS:remove = "virtual/cdo"
+EXTRA_IMAGEDEPENDS:remove = "virtual/cdo extract-cdo"
 EXTRA_IMAGEDEPENDS:remove = "virtual/boot-bin"
 EXTRA_IMAGEDEPENDS:remove = "qemu-image-empty:do_image_complete"
-EXTRA_IMAGEDEPENDS:remove = "qemu-${QEMU_FLASH_TYPE}"
+EXTRA_IMAGEDEPENDS:remove := "qemu-${QEMU_FLASH_TYPE} qemu-${QEMU_FLASH_TYPE}:do_deploy"
 python() {
     def extraimage_getdepends(task):
         deps = ""
