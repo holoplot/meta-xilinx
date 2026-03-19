@@ -150,6 +150,7 @@ SRC_URI_ZEPHYR_TRUSTED_FIRMWARE_M ?= "git://github.com/zephyrproject-rtos/truste
 SRC_URI_ZEPHYR_UOSCORE_UEDHOC ?= "git://github.com/zephyrproject-rtos/uoscore-uedhoc;protocol=https"
 SRC_URI_ZEPHYR_ZCBOR ?= "git://github.com/zephyrproject-rtos/zcbor;protocol=https"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI_PATCHES ?= "\
     file://0001-4.3-x86-fix-efi-binary-generation-issue-in-cross-compila.patch;patchdir=zephyr \
 "
