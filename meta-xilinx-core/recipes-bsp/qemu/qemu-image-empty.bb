@@ -23,6 +23,9 @@ MACHINE_HWCODECS = ""
 inherit image
 
 WKS_FILE = "xilinx-empty-sd.wks"
+# Override WKS_FILES to prevent local.conf from substituting a different .wks
+# (e.g. Xen builds set WKS_FILES globally to xilinx-default-sd.wks)
+WKS_FILES = "${WKS_FILE}"
 
 IMAGE_ROOTFS_SIZE ?= "8192"
 
