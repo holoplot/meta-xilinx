@@ -309,3 +309,8 @@ ${S}/modules/lib/zcbor\;\
 
 ZEPHYR_BRANCH = "v4.3-branch"
 PV = "4.3.0+git${SRCPV}"
+
+# python3-jsonschema-native is required starting from Zephyr 4.3.0
+DEPENDS += "\
+    ${@'python3-jsonschema-native' if bb.utils.vercmp_string(d.getVar('PREFERRED_VERSION_zephyr-kernel'), '4.3.0') >= 0 else ''} \
+    "
