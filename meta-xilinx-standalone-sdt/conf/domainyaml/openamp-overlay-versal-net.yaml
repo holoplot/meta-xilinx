@@ -54,7 +54,7 @@ domains:
         relation0:
             remote: RPU_Zephyr
             carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
-            mbox: ipi_nobuf3_to_ipi_nobuf1
+            mbox: ipi_nobuf1_to_ipi_nobuf2
 
   RPU_Zephyr:
     compatible: openamp,domain-v1
@@ -74,7 +74,7 @@ domains:
         compatible: openamp,rpmsg-v1
         relation0:
           host: APU_Linux
-          mbox: ipi_nobuf1_to_ipi_nobuf3
+          mbox: ipi_nobuf2_to_ipi_nobuf1
           carveouts: [ vdev0vring0@9860000, vdev0vring1@9864000, vdev0buffer@9868000 ]
     sram:
       - dev: ddrboot@9800100
