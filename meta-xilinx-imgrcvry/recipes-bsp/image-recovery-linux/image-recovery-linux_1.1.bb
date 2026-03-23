@@ -3,4 +3,4 @@ require image-recovery-linux.inc
 PE = "1"
 
 BRANCH ?= "main"
-SRCREV ?= "855c5a674bbf564256f234bf729b54e31eb1c3ab"
+SRCREV ?= "2c0942e6c496f9427dbacf66b13f34a0cbb4ea12"
