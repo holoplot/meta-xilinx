@@ -107,6 +107,16 @@ UBOOT_SPL_FITIMAGE_IMAGE ?= "${UBOOT_SPL_FITIMAGE}-fitImage-${MACHINE}-${UBOOT_V
 UBOOT_SPL_FITIMAGE_BINARY ?= "${UBOOT_SPL_FITIMAGE}.${UBOOT_SPL_FITIMAGE_SUFFIX}"
 UBOOT_SPL_FITIMAGE_SYMLINK ?= "${UBOOT_SPL_FITIMAGE}-fitImage-${MACHINE}.${UBOOT_SPL_FITIMAGE_SUFFIX}"
 
+# Some U-Boot builds generate an SPL (Second Program Loader) ELF only when
+# SPL_REMAKE_ELF is enabled. This ELF is required for MicroBlaze-V use cases
+# such as SPI flash boot, JTAG boot, and QEMU, and can also be used for
+# debugging purposes.
+SPL_ELF_SUFFIX ?= "elf"
+SPL_ELF_DELIMITER  ?= "${@'.' if d.getVar("SPL_ELF_SUFFIX") else ''}"
+SPL_ELFNAME ?= "${@os.path.basename(d.getVar("SPL_BINARY")).removesuffix('.bin') + SPL_ELF_DELIMITER + SPL_ELF_SUFFIX if d.getVar("SPL_BINARY") else ''}"
+SPL_ELF_IMAGE ?= "${SPL_ELFNAME}-${MACHINE}-${UBOOT_VERSION}"
+SPL_ELF_SYMLINK ?= "${SPL_ELFNAME}-${MACHINE}"
+
 do_deploy:prepend:microblaze-v (){
     cd ${B}
 
@@ -115,5 +125,12 @@ do_deploy:prepend:microblaze-v (){
             install ${UBOOT_SPL_FITIMAGE_BINARY} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_IMAGE}
             ln -sf ${UBOOT_SPL_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_BINARY}
             ln -sf ${UBOOT_SPL_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_SPL_FITIMAGE_SYMLINK}
+    fi
+
+    # Deploy the SPL ELF file if it exists
+    if [ -f "spl/${SPL_ELFNAME}" ]; then
+        install spl/${SPL_ELFNAME} ${DEPLOYDIR}/${SPL_ELF_IMAGE}
+        ln -sf ${SPL_ELF_IMAGE} ${DEPLOYDIR}/${SPL_ELFNAME}
+        ln -sf ${SPL_ELF_IMAGE} ${DEPLOYDIR}/${SPL_ELF_SYMLINK}
     fi
 }
