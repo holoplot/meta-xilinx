@@ -16,6 +16,7 @@ SOVERSION = "${SOMAJOR}.${SOMINOR}"
 
 # Don't allow building for Zynq and Microblaze MACHINE unless it is supported.
 COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE:zynq = ".*"
 COMPATIBLE_MACHINE:zynqmp = ".*"
 COMPATIBLE_MACHINE:versal = ".*"
 COMPATIBLE_MACHINE:versal-net = ".*"
@@ -25,7 +26,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake update-rc.d systemd
 
-DEPENDS += " libwebsockets inotify-tools libdfx zocl libdrm systemd"
+DEPENDS += " libwebsockets inotify-tools libdfx libdrm systemd"
 RDEPENDS:${PN} += " freeipmi ${PN}-client"
 EXTRA_OECMAKE += " \
                -DCMAKE_SYSROOT:PATH=${RECIPE_SYSROOT} \
