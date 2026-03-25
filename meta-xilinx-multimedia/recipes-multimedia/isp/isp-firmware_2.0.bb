@@ -1,13 +1,13 @@
 SUMMARY = "Firmware for ISP"
 DESCRIPTION = "Firmware binaries provider for ISP"
 LICENSE="CLOSED"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ae254519d1cbab1bfd89ed89f6f6268d"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=cd33347a71202f7531fd3f82892a4a74"
 COMPATIBLE_HOST = ".*-linux"
 
 S = "${WORKDIR}"
 
-SRC_URI = "https://edf.amd.com/sswreleases/isp-firmware/2025.2/10162025/isp_fw_09302025.tar.gz"
-SRC_URI[sha256sum]="df603a08abf45b2b9e37dbd9c86c8c4a057f16a42ceb6bf972aeb8b4f3c58137"
+SRC_URI = "https://edf.amd.com/sswreleases/isp-firmware/2026.1/03252026/isp_fw_03242026.tar.gz"
+SRC_URI[sha256sum]="c4ef77a019f1f6f8d5e4c5e58ca3cc21d2e264c499983d53c5e64bcb10ffc2a3"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_compile[noexec] = "1"
