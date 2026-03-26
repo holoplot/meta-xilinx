@@ -41,7 +41,7 @@ do_compile() {
         dd if=${RECIPE_SYSROOT}/boot/BOOT.bin of=${B}/qemu-${QEMU_FLASH_TYPE}.bin bs=1 seek=0 conv=notrunc
 
         if [ "${QEMU_FLASH_STRIPE}" = "1" ]; then
-            flash_strip qemu-${B}/qemu-${QEMU_FLASH_TYPE}.bin ${B}/qemu-${QEMU_FLASH_TYPE}.bin_lo ${B}/qemu-${QEMU_FLASH_TYPE}.bin_hi
+            flash_strip ${B}/qemu-${QEMU_FLASH_TYPE}.bin ${B}/qemu-${QEMU_FLASH_TYPE}.bin_lo ${B}/qemu-${QEMU_FLASH_TYPE}.bin_hi
         fi
     fi
 }
