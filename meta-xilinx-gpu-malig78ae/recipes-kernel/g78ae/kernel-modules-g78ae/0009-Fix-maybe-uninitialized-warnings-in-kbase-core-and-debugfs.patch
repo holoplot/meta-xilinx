@@ -1,0 +1,56 @@
+From 22ea0cf7fef93e8f3bc4f00d9870f7364e296623 Mon Sep 17 00:00:00 2001
+From: Sarangam Manindra <Manindra.Sarangam@amd.com>
+Date: Thu, 26 Mar 2026 20:05:00 +0530
+Subject: [PATCH] midgard: fix maybe-uninitialized warnings in kbase core/debugfs
+
+With -Werror enabled, GCC may flag several stack variables as
+potentially uninitialized when passed to copy_from_user() through
+inlined object size checks.
+
+Initialize these local buffers/arrays defensively to avoid build breaks
+without changing runtime behavior.
+
+Upstream-Status: Pending
+Signed-off-by: Sarangam Manindra <Manindra.Sarangam@amd.com>
+---
+ drivers/gpu/arm/midgard/mali_kbase_core_linux.c   | 4 ++--
+ drivers/gpu/arm/midgard/mali_kbase_pbha_debugfs.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/arm/midgard/mali_kbase_core_linux.c b/drivers/gpu/arm/midgard/mali_kbase_core_linux.c
+index ffdef10..f8be4f9 100644
+--- a/drivers/gpu/arm/midgard/mali_kbase_core_linux.c
++++ b/drivers/gpu/arm/midgard/mali_kbase_core_linux.c
+@@ -1295,7 +1295,7 @@ static int kbase_api_sticky_resource_map(struct kbase_context *kctx,
+ {
+ 	int ret;
+ 	u64 i;
+-	u64 gpu_addr[BASE_EXT_RES_COUNT_MAX];
++	u64 gpu_addr[BASE_EXT_RES_COUNT_MAX] = { 0 };
+ 	size_t copy_size;
+ 
+ 	if (!map->count || map->count > BASE_EXT_RES_COUNT_MAX)
+@@ -4102,7 +4102,7 @@ static ssize_t kbasep_serialize_jobs_debugfs_write(struct file *file, const cha
+ {
+ 	struct seq_file *s = file->private_data;
+ 	struct kbase_device *kbdev = s->private;
+-	char buf[MAX_SERIALIZE_JOBS_NAME_LEN];
++	char buf[MAX_SERIALIZE_JOBS_NAME_LEN] = { 0 };
+ 
+ 	CSTD_UNUSED(ppos);
+ 
+diff --git a/drivers/gpu/arm/midgard/mali_kbase_pbha_debugfs.c b/drivers/gpu/arm/midgard/mali_kbase_pbha_debugfs.c
+index 4f8c54a..ecff33c 100644
+--- a/drivers/gpu/arm/midgard/mali_kbase_pbha_debugfs.c
++++ b/drivers/gpu/arm/midgard/mali_kbase_pbha_debugfs.c
+@@ -84,7 +84,7 @@ static ssize_t int_id_overrides_write(struct file *file, const char __user *ubu
+ {
+ 	struct seq_file *sfile = file->private_data;
+ 	struct kbase_device *kbdev = sfile->private;
+-	char raw_str[128];
++	char raw_str[128] = { 0 };
+ 	unsigned int id;
+ 	unsigned int r_val;
+ 	unsigned int w_val;
+-- 
+2.34.1
