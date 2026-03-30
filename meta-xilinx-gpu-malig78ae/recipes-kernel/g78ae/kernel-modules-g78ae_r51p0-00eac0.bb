@@ -16,17 +16,17 @@ SRC_URI = " \
 	file://0001-Fix-tab-alignment-in-mali-ptm.txt.patch \
 	file://0002-Making-arbiter-driver-compatible-with-6.12-kernel.patch \
 	file://0003-Making-gpu-driver-compatible-with-6.12-kernel.patch \
-        file://0004-Adding-support-for-fetching-GPU-clk-without-dvfs-ena.patch \
-        file://0005-Fix-translation-faults-by-using-dma_alloc_pages-for-.patch \
-        file://0006-Making-kernel-driver-compatible-with-6.18-kernel.patch \
-        file://0007-Making-arbiter-driver-compatible-with-6.18-kernel.patch \
+	file://0004-Adding-support-for-fetching-GPU-clk-without-dvfs-ena.patch \
+	file://0005-Fix-translation-faults-by-using-dma_alloc_pages-for-.patch \
+	file://0006-Making-kernel-driver-compatible-with-6.18-kernel.patch \
+	file://0007-Making-arbiter-driver-compatible-with-6.18-kernel.patch \
+	file://0008-Using-Upstream-For-MT-Unmapped-Area.patch \
 	file://0009-Fix-maybe-uninitialized-warnings-in-kbase-core-and-debugfs.patch \
 	file://0010-Fix-maybe-uninitialized-warning-in-kutf-irq-test.patch \
-        file://0008-Using-Upstream-For-MT-Unmapped-Area.patch \
-        file://load-mali-modules.sh \
-        file://99-mali-modules.rules \
-        file://mali_kbase.conf \
-        "
+	file://load-mali-modules.sh \
+	file://99-mali-modules.rules \
+	file://mali_kbase.conf \
+	"
 
 SRC_URI[kernel.sha256sum] = "614818481f2d0335e48f9b2bca0714e43555b0c6e3b02f8f111233ec1ef8cf37"
 SRC_URI[arbitration.sha256sum] = "9304774e8b64cda9bd2f76a388912286567ee54f2a2e15669b0f32933f5b9b80"
