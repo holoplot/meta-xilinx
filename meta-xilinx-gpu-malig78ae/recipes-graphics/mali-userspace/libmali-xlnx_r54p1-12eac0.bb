@@ -9,8 +9,8 @@ REQUIRED_DISTRO_FEATURES = "wayland"
 REQUIRED_MACHINE_FEATURES = "malig78ae"
 
 REPO ?= "git://github.com/Xilinx/g78ae-userspace-binaries.git;protocol=https"
-BRANCH ?= "r51p0-00eac0-1.rel04"
-SRCREV ?= "fed3f14270ee55a603683f314cdb02670127d02a"
+BRANCH ?= "r54p1-12eac0.rel01"
+SRCREV ?= "00af4d97ecc37274ea1d16d9d949675e59648e41"
 
 SRC_URI = "${REPO};branch=${BRANCH}"
 
