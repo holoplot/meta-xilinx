@@ -23,7 +23,7 @@ python xilinx_mirrors_prefetch() {
         ud = fetcher.ud[url]
 
         # Check if the fetch needs to be corrected.
-        if ud.method.need_update(ud, d):
+        if ud and ud.localpath and ud.method.need_update(ud, d):
             #bb.warn(f'Possibly out of date clone: {ud.clonedir}')
 
             if not mirrors:
