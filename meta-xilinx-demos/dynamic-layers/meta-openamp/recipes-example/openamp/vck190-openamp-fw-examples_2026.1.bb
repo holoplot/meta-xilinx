@@ -2,7 +2,7 @@ SUMMARY = "OpenAMP firmware examples demo payload processing"
 DESCRIPTION = "OpenAMP firmware examples demo payload processing"
 LICENSE = "CLOSED"
 
-SRC_URI = "https://edf.amd.com/sswreleases/rel-v2026.1/edf_files/2026.1/04010000/external/packagegroup-openamp-fw-examples/versal-vck190-multidomain_packagegroup-openamp-fw-examples_04010000.tar.gz"
-SRC_URI[sha256sum] = "b43b6c5c1be3e3294b2cac9671a55fb58dd75f6d7f19d3d9e9011e73ee5a0ec9"
+SRC_URI = "https://edf.amd.com/sswreleases/rel-v2026.1/edf_files/2026.1/04010216/external/packagegroup-openamp-fw-examples/versal-vck190-multidomain_packagegroup-openamp-fw-examples_04010216.tar.gz"
+SRC_URI[sha256sum] = "ec62696ade863b0cc87f11571761c9f4aee0826b7206f56cf602340e66db3f69"
 
 require conf/includes/openamp-fw-example.inc
