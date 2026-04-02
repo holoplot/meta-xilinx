@@ -66,8 +66,6 @@ FILES:${PN}-bin = "/boot/u-boot*.bin"
 SUMMARY:${PN}-elf = "${SUMMARY} - files in .elf format"
 FILES:${PN}-elf = "/boot/u-boot*.elf"
 
-require u-boot-xlnx-blob.inc
-
 UBOOTELF_NODTB_IMAGE ?= "u-boot-nodtb.elf"
 UBOOTELF_NODTB_BINARY ?= "u-boot"
 do_deploy:prepend() {
