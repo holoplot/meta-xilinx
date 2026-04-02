@@ -1,4 +1,4 @@
 BRANCH = "xlnx_rel_v2026.1"
-SRCREV = "4a8c4034b1429caa771982cec220af6812171ab7"
+SRCREV = "f52abd2ed5a4f3af4512f1b7d5a6512629e1e5aa"
 
 include image-builder.inc
