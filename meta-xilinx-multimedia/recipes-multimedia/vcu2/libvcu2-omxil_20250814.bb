@@ -8,7 +8,7 @@ PV .= "+git"
 
 BRANCH ?= "master"
 REPO   ?= "git://github.com/Xilinx/vcu2-omx-il.git;protocol=https"
-SRCREV = "c36569c754aeb8b3f60d3b3a5d333eb27efa5b29"
+SRCREV = "3a0eaf4e1c5856acedc95ffcfdde6269ccae0d37"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
