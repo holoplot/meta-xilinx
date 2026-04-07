@@ -10,7 +10,7 @@ REQUIRED_MACHINE_FEATURES = "malig78ae"
 
 REPO ?= "git://github.com/Xilinx/g78ae-userspace-binaries.git;protocol=https"
 BRANCH ?= "r54p1-12eac0.rel01"
-SRCREV ?= "00af4d97ecc37274ea1d16d9d949675e59648e41"
+SRCREV ?= "e351fab9da02397c710f58f20ab5d1c8a844f241"
 
 SRC_URI = "${REPO};branch=${BRANCH}"
 
