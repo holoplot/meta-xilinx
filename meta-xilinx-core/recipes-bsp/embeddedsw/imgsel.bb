@@ -20,7 +20,6 @@ COMPATIBLE_HOST = ".*"
 IMGSEL_DEPENDS ??= ""
 IMGSEL_MCDEPENDS ??= ""
 IMGSEL_DEPLOY_DIR ??= "${DEPLOY_DIR_IMAGE}"
-IMGSEL_DEPLOY_DIR[vardepsexclude] += "TOPDIR"
 IMGSEL_IMAGE_NAME ??= "image-selector-${MACHINE}"
 
 # Default is for the multilib case (without the extension .bin)
