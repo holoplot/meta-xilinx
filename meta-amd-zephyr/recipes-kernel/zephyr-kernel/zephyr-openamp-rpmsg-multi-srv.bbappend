@@ -17,5 +17,5 @@ ZEPHYR_SOC_FAMILY="${ZEPHYR_BOARD}"
 
 EXTRA_OECMAKE += " \
     -DOVERLAY_CONFIG="${S}/open-amp-sys-ref/examples/zephyr/rpmsg_multi_services/boards/${BOARD}.conf" \
-    -DGIC_SAFE_CONFIG=y \
+    -DCONFIG_GIC_SAFE_CONFIG=y \
     "
