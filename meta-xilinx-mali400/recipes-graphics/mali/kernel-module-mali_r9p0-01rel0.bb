@@ -36,6 +36,7 @@ SRC_URI = " \
 	file://0029-Fixed-buildpath-QA-warning.patch \
 	file://0030-Update-driver-to-make-it-compatible-with-6.12-kernel.patch \
 	file://0031-make-module-compatible-with-6.18-kernel-version.patch \
+	file://0032-Fix-GPU-subsystem-reboot-failure-with-6.18-kernel.patch \
 	"
 SRC_URI[md5sum] = "85ea110dd6675c70b7d01af87ec9633c"
 SRC_URI[sha256sum] = "7a67127341d17640c1fff5dad80258fb2a37c8a2121b81525fe2327e4532ce2b"
