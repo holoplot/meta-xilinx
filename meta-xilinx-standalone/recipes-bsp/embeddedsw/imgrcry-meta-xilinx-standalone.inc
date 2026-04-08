@@ -1,11 +1,7 @@
 # Default imgrcry configuration, using fsbl multiconfig
-IMGRCRY_DEPENDS ?= ""
-
-IMGRCRY_MC_TARGET ?=""
-IMGRCRY_MC_TARGET:zynqmp ?= "${MACHINE}-cortexa53-0-baremetal"
-
-IMGRCRY_MCDEPENDS ?= "mc::${IMGRCRY_MC_TARGET}:image-recovery:do_deploy"
-IMGRCRY_DEPLOY_DIR ?= "${TOPDIR}/tmp-${IMGRCRY_MC_TARGET}/deploy/images/${MACHINE}/"
+IMGRCRY_DEPENDS ?= "image-recovery-bootbin:do_deploy"
+IMGRCRY_MCDEPENDS ?= ""
+IMGRCRY_DEPLOY_DIR ?= "${TMPDIR}/deploy/images/${MACHINE}/"
 IMGRCRY_IMAGE_NAME ?= "image-recovery-${MACHINE}"
 
 def check_imgrcry_variables(d):
