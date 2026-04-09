@@ -1,17 +1,21 @@
 reserved-memory:
   libmetal_elf@9968000:
+    label: libmetal_elf
     start: 0x9968000
     size: 0x60000
     no-map: 1
   libmetal_desc0@99c8000:
+    label: libmetal_desc0
     start: 0x99c8000
     size: 0x4000
     no-map: 1
   libmetal_desc1@99cc000:
+    label: libmetal_desc1
     start: 0x99cc000
     size: 0x4000
     no-map: 1
   libmetal_data@99d0000:
+    label: libmetal_data
     start: 0x99d0000
     size: 0x40000
     no-map: 1
