@@ -4,22 +4,27 @@ reserved-memory:
   "#address-cells": 2
 
   ddrboot@9800100:
+    label: ddrboot
     no-map: 1
     start: 0x9800100
     size: 0x5FF00
   vdev0vring0@9860000:
+    label: vdev0vring0
     start: 0x9860000
     size: 0x4000
     no-map: 1
   vdev0vring1@9864000:
+    label: vdev0vring1
     start: 0x9864000
     size: 0x4000
     no-map: 1
   vdev0buffer@9868000:
+    label: vdev0buffer
     size: 0x40000
     start: 0x9868000
     no-map: 1
   rsctbl@9800000:
+    label: rsctbl
     start: 0x9800000
     size: 0x100
     no-map: 1
