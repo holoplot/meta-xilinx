@@ -9,9 +9,9 @@ LIC_FILES_CHKSUM = " \
 # driver/product/kernel/drivers/gpu/arm/arbitration/license_gplv2.txt
 # md5sum: 13e14ae1bd7ad5bff731bba4a31bb510
 
-BRANCH = "r54"
-SRCREV_kernel = "22d4ad50cee167a2b08e3862da9c5940ae778201"
-SRCREV_arbitration = "45c0b6ddf9826c959a9f0694bee9191bda2ad609"
+BRANCH = "r54p1-12eac0"
+SRCREV_kernel = "cf7466ba3a5a50293ff43fdd34f284151f05c0f5"
+SRCREV_arbitration = "6839acc38c663799466a51c1521ec7fb516e97df"
 SRCREV_FORMAT = "kernel_arbitration"
 
 SRC_URI = " \
