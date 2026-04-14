@@ -1,2 +1,2 @@
 SRC_URI = "git://github.com/Xilinx/qemu-bootbin-helper;protocol=https;branch=main"
-SRCREV = "c0055b75e2b90436c4112c640f27b5c4c14ed259"
+SRCREV = "42f46b90ab8a2b9b42f909abe9d73a8e5d550dc3"
