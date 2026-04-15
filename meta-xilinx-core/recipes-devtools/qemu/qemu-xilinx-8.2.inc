@@ -11,7 +11,7 @@ COMPATIBLE_HOST:arm = "null"
 QEMU_TARGETS = "aarch64 arm microblaze microblazeel riscv32 riscv64 x86_64"
 
 BRANCH = "master"
-SRCREV = "396d26ceaf555b4c98994d8d0f0b70ba072ffd9b"
+SRCREV = "0ec5c7fbb4a794bc6ade22fd163d20165eb42404"
 
 # qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/CVE-2019-12067
 CVE_STATUS[CVE-2019-12067] = "upstream-wontfix: \
