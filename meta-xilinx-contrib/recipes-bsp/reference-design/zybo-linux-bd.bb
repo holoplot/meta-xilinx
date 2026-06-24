@@ -18,7 +18,6 @@ SRCREV = "63ca49fe027da49f3b0ac636bd404fd31fbbd945"
 
 PV = "+git"
 
-S = "${WORKDIR}/git"
 
 HDF = "/Projects/${HW_BD}/hw_handoff/${HW_BD}_wrapper.hdf"
 

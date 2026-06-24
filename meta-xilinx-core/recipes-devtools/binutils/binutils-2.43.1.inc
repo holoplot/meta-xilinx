@@ -40,4 +40,3 @@ SRC_URI = "\
      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
      file://0015-CVE-2024-53589.patch \
 "
-S  = "${WORKDIR}/git"

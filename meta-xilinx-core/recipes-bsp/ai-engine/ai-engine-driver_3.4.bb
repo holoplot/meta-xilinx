@@ -6,7 +6,6 @@ require aie-rt-2023.inc
 SECTION	= "libs"
 
 AIEDIR ?= "${S}/driver"
-S = "${WORKDIR}/git"
 I = "${AIEDIR}/include"
 
 inherit features_check

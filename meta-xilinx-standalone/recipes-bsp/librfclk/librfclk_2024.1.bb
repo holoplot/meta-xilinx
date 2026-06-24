@@ -10,7 +10,6 @@ REQUIRED_MACHINE_FEATURES = "rfsoc"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-S = "${WORKDIR}/git"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
