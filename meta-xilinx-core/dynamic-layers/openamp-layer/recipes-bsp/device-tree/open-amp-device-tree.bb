@@ -33,7 +33,7 @@ PROVIDES:remove = "virtual/dtb"
 
 DEPENDS += "python3-dtc-native"
 
-S = "${WORKDIR}/source"
+S = "${UNPACKDIR}/source"
 
 # Set a default so something resolves
 SOC_FAMILY ??= "SOC_FAMILY"
